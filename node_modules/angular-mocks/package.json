@@ -1,0 +1,69 @@
+{
+  "name": "angular-mocks",
+  "version": "1.6.5",
+  "description": "AngularJS mocks for testing",
+  "main": "angular-mocks.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/angular.js.git"
+  },
+  "keywords": [
+    "angular",
+    "framework",
+    "browser",
+    "mocks",
+    "testing",
+    "client-side"
+  ],
+  "author": {
+    "name": "Angular Core Team",
+    "email": "angular-core+npm@google.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/angular.js/issues"
+  },
+  "homepage": "http://angularjs.org",
+  "jspm": {
+    "shim": {
+      "angular-mocks": {
+        "deps": [
+          "angular"
+        ]
+      }
+    }
+  },
+  "gitHead": "602d0fd8923cf5f7e84a878e11ca4937233733cb",
+  "_id": "angular-mocks@1.6.5",
+  "_shasum": "c62f8014cc6d3ed3fd1b383a634ca0009af3efee",
+  "_from": "angular-mocks@latest",
+  "_npmVersion": "3.10.10",
+  "_nodeVersion": "6.11.0",
+  "_npmUser": {
+    "name": "angularcore",
+    "email": "angular-core+npm@google.com"
+  },
+  "dist": {
+    "shasum": "c62f8014cc6d3ed3fd1b383a634ca0009af3efee",
+    "tarball": "https://registry.npmjs.org/angular-mocks/-/angular-mocks-1.6.5.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "angularcore",
+      "email": "angular-core+npm@google.com"
+    },
+    {
+      "name": "petebd",
+      "email": "pete@bacondarwin.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/angular-mocks-1.6.5.tgz_1499111624861_0.02306832862086594"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/angular-mocks/-/angular-mocks-1.6.5.tgz"
+}
