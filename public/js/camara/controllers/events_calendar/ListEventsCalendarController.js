@@ -16,7 +16,7 @@
       //messages control
       Utils.applyMessageControls($listEventsCalendarCtrl);
 
-      //function for template messages
+      //function for template messages.
       var _templateMessage = function (messageTemplate, config) {
          return Utils.templateMessage(messageTemplate, config);
       }
