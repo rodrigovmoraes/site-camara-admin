@@ -1,0 +1,138 @@
+<div class="page-header">
+   <h3>Banners</h3>
+</div>
+
+<div class="panel panel-default" role="toolbar" style="margin-bottom: 10px">
+   <div class="row">
+     <div class="col-md-12">
+         <div class="btn-group" role="group">
+            <a class="btn" data-nodrag ui-sref="banner.new">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Adicionar novo banner
+            </a>
+         </div>
+     </div>
+   </div>
+</div>
+
+<div class="row" ng-if="$listBannersCtrl.errorMessage">
+   <div class="col-md-12">
+      <div class="alert alert-danger" style="margin-bottom: 10px" role="alert">
+         {{$listBannersCtrl.errorMessage}}
+      </div>
+   </div>
+</div>
+
+<div class="row" ng-if="$listBannersCtrl.infoMessage">
+   <div class="col-md-12">
+      <div class="alert alert-info" style="margin-bottom: 10px" role="alert">
+         {{$listBannersCtrl.infoMessage}}
+      </div>
+   </div>
+</div>
+
+<div class="row" ng-if="!$listBannersCtrl.banners || $listBannersCtrl.banners.length === 0">
+   <div class="col-md-12">
+      <div class="alert alert-danger" style="margin-bottom: 10px" role="alert">
+         {{ $listBannersCtrl.notFoundMessage }}
+      </div>
+   </div>
+</div>
+
+<div class="panel panel-info" ng-repeat="banner in $listBannersCtrl.banners" ng-class="{ 'banner-highlight': banner.id === $listBannersCtrl.highlightBannerId }">
+
+  <div class="panel-heading">
+     Banner #{{banner.order}}
+     <a class="pull-right btn btn-xs" title="Remover item" ng-click="$listBannersCtrl.remove(banner)" data-nodrag="" style="color: red">
+        <span class="glyphicon glyphicon-remove"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Mover para baixo" ng-disabled="banner.last" ng-click="$listBannersCtrl.moveBannerDown(banner)" data-nodrag="">
+        <span class="glyphicon glyphicon-arrow-down"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Mover para cima" ng-disabled="banner.first" ng-click="$listBannersCtrl.moveBannerUp(banner)" data-nodrag="">
+        <span class="glyphicon glyphicon-arrow-up"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Alterar item" ui-sref="banner.edit({ bannerId: banner.id })" data-nodrag="">
+        <span class="glyphicon glyphicon-pencil"></span>
+     </a>
+  </div>
+  <div class="panel-body">
+     <div class="row">
+        <div class="col-md-12">
+           <!--type-->
+           <div class="row">
+              <div class="col-md-1">
+                <h4>Tipo</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i>{{$listBannersCtrl.accessDescription(banner.type)}}</i></h4>
+              </div>
+           </div>
+           <!--URL, for type link-->
+           <div class="row" ng-if="banner.type == 'link'">
+              <div class="col-md-1">
+                <h4>URL</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i><a ng-href="{{banner.access.url}}" target="_blank">{{banner.access.url}}</a></i></h4>
+              </div>
+           </div>
+           <!--Target, for type link-->
+           <div class="row" ng-if="banner.type == 'link'">
+              <div class="col-md-1">
+                <h4>Alvo</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i>{{$listBannersCtrl.targetDescription(banner.access.target)}}</i></h4>
+              </div>
+           </div>
+           <!--Youtube vídeo, for type youtube-->
+           <div class="row" ng-if="banner.type == 'youtube'">
+              <div class="col-md-1">
+                <h4>Vídeo</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i><a ng-href="{{$listBannersCtrl.youtubeUrlBase + banner.access.videoId}}" target="_blank">&ldquo;{{banner.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Youtube live channel, for type youtube_live-->
+           <div class="row" ng-if="banner.type == 'youtube_live'">
+              <div class="col-md-1">
+                <h4>Live</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i><a ng-href="{{$listBannersCtrl.youtubeLiveChannelUrlBase + banner.access.channelId}}" target="_blank">&ldquo;{{banner.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Flickr photoset, for type flickr-->
+           <div class="row" ng-if="banner.type == 'flickr'">
+              <div class="col-md-1">
+                <h4>Álbum</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i><a ng-href="{{$listBannersCtrl.flickrUrlBase + '/photos/' + banner.access.path + '/albums/' + banner.access.id }}" target="_blank">&ldquo;{{banner.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--News-->
+           <div class="row" ng-if="banner.type == 'news'">
+              <div class="col-md-1">
+                <h4>Notícia</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i><a ng-href="{{ $listBannersCtrl.newsUrlBase + banner.access.id }}" target="_blank">&ldquo;{{banner.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Page-->
+           <div class="row" ng-if="banner.type == 'page'">
+              <div class="col-md-1">
+                <h4>Página</h4>
+              </div>
+              <div class="col-md-11">
+                <h4><i><a ng-href="{{ $listBannersCtrl.pageUrlBase + banner.access.id }}" target="_blank">&ldquo;{{banner.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <h4>Imagem</h4>
+           <img class="img-responsive" width="2039" height="376" ng-src="{{banner.imageFileURL}}" alt="">
+        </div>
+     </div>
+  </div>
+</div>

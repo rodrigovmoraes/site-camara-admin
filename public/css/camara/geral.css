@@ -135,3 +135,44 @@ div#rolenode {
    margin: 20px;
    font-size: 12pt;
 }
+
+/*news*/
+.news-highlight {
+   background-color: #e5e5e5
+}
+
+.newsImageFloatRight {
+	 float: right;
+	 margin-right: 0px;
+	 margin-top: 5px;
+	 margin-left: 5px;
+	 margin-bottom: 5px;
+}
+
+.newsImageFloatLeft {
+	 float: left;
+	 margin-right: 5px;
+	 margin-top: 5px;
+	 margin-left: 0px;
+	 margin-bottom: 5px;
+}
+
+/*pages*/
+.mt-element-list .list-news.ext-1.mt-list-container ul>.mt-list-item>div.list-datetime.page-item-datetime,
+.mt-element-list .list-news.ext-1.mt-list-container ul>.mt-list-item>div.list-item-content.page-item-content {
+   padding-left: 0px;
+}
+
+.canvas-row-thumb canvas {
+  width: 100%;
+  height: auto;
+}
+
+/*banners*/
+.banner-highlight {
+   background-color: #e5e5e5
+}
+
+.video-banner-highlight {
+   background-color: #e5e5e5
+}

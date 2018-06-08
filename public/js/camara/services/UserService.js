@@ -41,7 +41,7 @@
          return HttpDispatcherService.put('/user', { 'user':  user}).then(function(result) {
                                              return result.data;
                                          }).catch(function(error) {
-                                             throw error
+                                            throw error
                                          });
       }
 

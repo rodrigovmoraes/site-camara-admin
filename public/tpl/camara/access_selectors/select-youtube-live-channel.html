@@ -1,0 +1,109 @@
+<div class="modal-body" id="modal-body">
+     <div class="portlet box green portlet-in-modal">
+        <div class="portlet-title">
+           <div class="caption">
+               Seleção de canal do Youtube para transmissão ao vivo
+           </div>
+           <div class="tools">
+               <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+           </div>
+        </div>
+        <div class="portlet-body form">
+
+           <div class="mt-element-list">
+               <div class="mt-list-container list-news ext-1">
+                  <ul>
+                       <li class="mt-list-item">
+                           <form class="form-inline" role="form">
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <i class="fa fa-search"></i>
+                                       <input type="keywords" size="59" ng-model="$modalCtrl.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chaves">
+                                    </div>
+                               </div>
+
+                               <div class="form-group" style="padding-right: 7px">
+                                  <div class="input-group">
+                                    <span class="input-group-btn">
+                                       <button type="button" title="Pesquisar canais" class="btn btn-default" ng-click="$modalCtrl.search()"><i class="glyphicon glyphicon-search"></i></button>
+                                    </span>
+                                 </div>
+                               </div>
+                           </form>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.notFoundMessage">
+                          <div class="alert alert-warning alert-no-margin" role="alert">
+                             {{ $modalCtrl.notFoundMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.infoMessage">
+                          <div class="alert alert-info alert-no-margin" role="alert">
+                             {{ $modalCtrl.infoMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.errorMessage">
+                          <div class="alert alert-danger alert-no-margin" role="alert">
+                             {{ $modalCtrl.errorMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-repeat="channel in $modalCtrl.channels" ng-class="{ 'video-banner-highlight': $modalCtrl.selectedChannel && channel.channelId === $modalCtrl.selectedChannel.channelId }">
+                           <div class="list-icon-container">
+                              <a href="javascript:;" ng-click="$modalCtrl.selectChannel(channel)">
+                                 <i class="fa fa-angle-right"></i>
+                              </a>
+                           </div>
+
+                           <div class="list-thumb">
+                               <a href="javascript:;" ng-click="$modalCtrl.selectChannel(channel)">
+                                   <img alt="" ng-src="{{ channel.thumbnailUrl }}">
+                               </a>
+                           </div>
+
+                           <div class="list-datetime bold uppercase">
+                              <i class="fa fa-clock-o font-black"></i>
+                              <span class="font-black">Publicação: {{ channel.publishedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                              <a class="btn btn-xs" title="Visualizar transmissão" target="_blank" ng-href="{{ $modalCtrl.youtubeLiveChannelUrlBase + channel.channelId }}">
+                                 <span class="glyphicon glyphicon-new-window"></span>
+                              </a>
+                              <a class="btn btn-xs" title="Transmissão ativa no momento" target="_blank" href="#" ng-if="channel.live">
+                                 <span class="glyphicon glyphicon-signal" style="color: green"></span>
+                              </a>
+                           </div>
+
+                           <div class="list-item-content">
+                               <h3 class="uppercase">
+                                   <a href="javascript:;" ng-click="$modalCtrl.selectChannel(channel)">{{ channel.title }}</a>
+                               </h3>
+                               <p>{{ channel.description }}</p>
+                           </div>
+                       </li>
+                  </ul>
+               </div>
+           </div>
+
+           <div class="row" ng-if="$modalCtrl.channels && $modalCtrl.channels.length > 0">
+              <nav aria-label="paginação">
+                 <ul class="pager">
+                    <li ng-class="{ 'disabled': !$modalCtrl.searchResult.prevPageToken }">
+                       <a href="#" ng-click="$modalCtrl.searchToPage($modalCtrl.searchResult.prevPageToken)" title="Página anterior">Página anterior</a>
+                    </li>
+                    <li ng-class="{ 'disabled': !$modalCtrl.searchResult.nextPageToken }">
+                       <a href="#" ng-click="$modalCtrl.searchToPage($modalCtrl.searchResult.nextPageToken)" title="Próxima página">Próxima página</a>
+                    </li>
+                 </ul>
+              </nav>
+           </div>
+
+           <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                       <button type="button" class="btn green" ng-click="$modalCtrl.ok()">
+                       <i class="fa fa-check"></i> Ok</button>
+                       <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                    </div>
+                </div>
+           </div>
+
+        </div>
+     </div>
+</div>

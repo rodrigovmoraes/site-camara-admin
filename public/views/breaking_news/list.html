@@ -1,0 +1,174 @@
+<div class="page-header">
+   <h3>Destaques Rotativos</h3>
+</div>
+
+<div class="panel panel-default" role="toolbar" style="margin-bottom: 10px">
+   <div class="row">
+     <div class="col-md-12">
+         <div class="btn-group" role="group">
+            <a class="btn" data-nodrag ui-sref="breakingNews.new">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Adicionar novo destaque
+            </a>
+         </div>
+     </div>
+   </div>
+</div>
+
+<div class="row" ng-if="$listBreakingNewsCtrl.errorMessage">
+   <div class="col-md-12">
+      <div class="alert alert-danger" style="margin-bottom: 10px" role="alert">
+         {{$listBreakingNewsCtrl.errorMessage}}
+      </div>
+   </div>
+</div>
+
+<div class="row" ng-if="$listBreakingNewsCtrl.infoMessage">
+   <div class="col-md-12">
+      <div class="alert alert-info" style="margin-bottom: 10px" role="alert">
+         {{$listBreakingNewsCtrl.infoMessage}}
+      </div>
+   </div>
+</div>
+
+<div class="row" ng-if="!$listBreakingNewsCtrl.breakingNewsItems || $listBreakingNewsCtrl.breakingNewsItems.length === 0">
+   <div class="col-md-12">
+      <div class="alert alert-danger" style="margin-bottom: 10px" role="alert">
+         {{ $listBreakingNewsCtrl.notFoundMessage }}
+      </div>
+   </div>
+</div>
+
+<div class="panel panel-info" ng-repeat="breakingNewsItem in $listBreakingNewsCtrl.breakingNewsItems" ng-class="{ 'banner-highlight': breakingNewsItem.id === $listBreakingNewsCtrl.highlightBreakingNewsItemId }">
+
+  <div class="panel-heading">
+     Destaque #{{breakingNewsItem.order}}
+     <a class="pull-right btn btn-xs" title="Remover item" ng-click="$listBreakingNewsCtrl.remove(breakingNewsItem)" data-nodrag="" style="color: red">
+        <span class="glyphicon glyphicon-remove"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Mover para baixo" ng-disabled="breakingNewsItem.last" ng-click="$listBreakingNewsCtrl.moveBreakingNewsItemDown(breakingNewsItem)" data-nodrag="">
+        <span class="glyphicon glyphicon-arrow-down"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Mover para cima" ng-disabled="breakingNewsItem.first" ng-click="$listBreakingNewsCtrl.moveBreakingNewsItemUp(breakingNewsItem)" data-nodrag="">
+        <span class="glyphicon glyphicon-arrow-up"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Alterar item" ui-sref="breakingNews.edit({ breakingNewsItemId: breakingNewsItem.id })" data-nodrag="">
+        <span class="glyphicon glyphicon-pencil"></span>
+     </a>
+  </div>
+  <div class="panel-body">
+     <div class="row">
+        <div class="col-md-12">
+           <!--headline-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Título cabeçalho</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{breakingNewsItem.headline}}</i></h4>
+              </div>
+           </div>
+           <!--title-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Ícone cabeçalho</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><span style="font-size: 150%" ng-class="breakingNewsItem.headlineIcon"></span></h4>
+              </div>
+           </div>
+           <!--title-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Título</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{breakingNewsItem.title}}</i></h4>
+              </div>
+           </div>
+           <!--title-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Data</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{ breakingNewsItem.date | date: 'dd/MM/yyyy' }}</i></h4>
+              </div>
+           </div>
+           <!--type-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Tipo</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{$listBreakingNewsCtrl.accessDescription(breakingNewsItem.type)}}</i></h4>
+              </div>
+           </div>
+           <!--URL, for type link-->
+           <div class="row" ng-if="breakingNewsItem.type == 'link'">
+              <div class="col-md-2">
+                <h4>URL</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{breakingNewsItem.access.url}}" target="_blank">{{breakingNewsItem.access.url}}</a></i></h4>
+              </div>
+           </div>
+           <!--Target, for type link-->
+           <div class="row" ng-if="breakingNewsItem.type == 'link'">
+              <div class="col-md-2">
+                <h4>Alvo</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{$listBreakingNewsCtrl.targetDescription(breakingNewsItem.access.target)}}</i></h4>
+              </div>
+           </div>
+           <!--Youtube vídeo, for type youtube-->
+           <div class="row" ng-if="breakingNewsItem.type == 'youtube'">
+              <div class="col-md-2">
+                <h4>Vídeo</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{$listBreakingNewsCtrl.youtubeUrlBase + breakingNewsItem.access.videoId}}" target="_blank">&ldquo;{{breakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Youtube live channel, for type youtube_live-->
+           <div class="row" ng-if="breakingNewsItem.type == 'youtube_live'">
+              <div class="col-md-2">
+                <h4>Live</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{$listBreakingNewsCtrl.youtubeLiveChannelUrlBase + breakingNewsItem.access.channelId}}" target="_blank">&ldquo;{{breakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Flickr photoset, for type flickr-->
+           <div class="row" ng-if="breakingNewsItem.type == 'flickr'">
+              <div class="col-md-2">
+                <h4>Álbum</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{$listBreakingNewsCtrl.flickrUrlBase + '/photos/' + breakingNewsItem.access.path + '/albums/' + breakingNewsItem.access.id }}" target="_blank">&ldquo;{{breakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--News-->
+           <div class="row" ng-if="breakingNewsItem.type == 'news'">
+              <div class="col-md-2">
+                <h4>Notícia</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{ $listBreakingNewsCtrl.newsUrlBase + breakingNewsItem.access.id }}" target="_blank">&ldquo;{{breakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Page-->
+           <div class="row" ng-if="breakingNewsItem.type == 'page'">
+              <div class="col-md-2">
+                <h4>Página</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{ $listBreakingNewsCtrl.pageUrlBase + breakingNewsItem.access.id }}" target="_blank">&ldquo;{{breakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <h4>Imagem</h4>
+           <img class="img-responsive" width="720" height="438" ng-src="{{breakingNewsItem.imageFileURL}}" alt="">
+        </div>
+     </div>
+  </div>
+</div>

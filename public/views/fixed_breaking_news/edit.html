@@ -1,0 +1,184 @@
+<div ui-view class="fade-in-up">
+   <!-- BEGIN EDIT FIXED BREAKING NEWS -->
+   <div class="portlet box green portlet-in-modal">
+      <div class="portlet-title">
+          <div class="caption">
+             <i class="fa fa-plus"></i>Editar Destaque Fixo #{{$editFBreakingNewsItemCtrl.order}}
+          </div>
+      </div>
+      <div class="portlet-body form">
+          <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editFBreakingNewsItemCtrl.errorMessage">
+             {{ $editFBreakingNewsItemCtrl.errorMessage }}
+          </div>
+          <!-- BEGIN FORM-->
+          <form action="#" name="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+              <div class="form-group">
+               <label class="control-label col-md-3">Título cabeçalho</label>
+               <div class="col-md-9">
+                    <input type="text" class="form-control" name="headline" required="true" maxlength="150" ng-model="$editFBreakingNewsItemCtrl.headline">
+                    <div class="alert alert-danger" role="alert" ng-if="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.headline.$error.required && ($editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.headline.$touched || $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted)">
+                        O título de cabeçalho do destaque não pode ser vazio.
+                    </div>
+                    <span class="help-block">
+                       O título de cabeçalho é um texto que
+                       será apresentado em uma faixa superior no item de
+                       destaque fixo na página principal
+                       do Portal da Câmara. É sugerido que seja utilizado
+                       um título que represente o tipo de destaque que está
+                       sendo cadastrado, algo como "Sessão Ordinária",
+                       "Sessão Solene", "Exposição de Fotos", "TV ao Vivo",
+                       "Ações do Legislativo", etc.
+                    </span>
+               </div>
+              </div>
+
+              <div class="form-group">
+               <label class="control-label col-md-3">Ícone de cabeçalho</label>
+               <div class="col-md-9">
+                    <ui-select name="headlineIcon" required="true" ng-model="$editFBreakingNewsItemCtrl.selectedHeadlineIcon" theme="bootstrap">
+                        <ui-select-match placeholder="Escolha o ícone desejado...">
+                           <span ng-class="$select.selected" style="font-size: 125%">&nbsp;&nbsp;{{ $select.selected }}</span></ui-select-match>
+                        <ui-select-choices repeat="icon in $editFBreakingNewsItemCtrl.headlineIcons | filter: $select.search">
+                          <div>
+                             <span ng-class="icon" style="font-size: 125%" ng-bind-html="'&nbsp;&nbsp;' + (icon | highlight: $select.search)"></span>
+                          </div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <div class="alert alert-danger" role="alert" ng-if="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.headlineIcon.$error.required && ($editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.headlineIcon.$touched || $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted)">
+                        Selecione um ícone para o título de cabeçalho.
+                    </div>
+                    <span class="help-block">
+                       Selecione um ícone que melhor represente
+                       o tipo de destaque que está sendo cadastrado.
+                       O ícone será apresentado ao lado do título de cabeçalho.
+                    </span>
+               </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-md-3">Título</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" name="title" required="true" maxlength="150" ng-model="$editFBreakingNewsItemCtrl.title">
+                    <div class="alert alert-danger" role="alert" ng-if="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.title.$error.required && ($editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.title.$touched || $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted)">
+                        O título do destaque não pode ser vazio.
+                    </div>
+                    <span class="help-block">Digite o título do destaque.</span>
+                </div>
+              </div>
+
+              <div class="form-body">
+                <div class="form-group">
+                  <label class="control-label col-md-3">Data</label>
+                  <div class="col-md-9">
+                     <input type="date" id="date" name="date" ng-model="$editFBreakingNewsItemCtrl.date" placeholder="yyyy-MM-dd" required/>
+                     <div class="alert alert-danger" role="alert" ng-if="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.date.$error.date && ($editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.date.$touched || $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted)">
+                        Data inválida.
+                     </div>
+                     <div class="alert alert-danger" role="alert" ng-if="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.date.$error.required && ($editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.date.$touched || $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted)">
+                        Digite uma data.
+                     </div>
+                     <span class="help-block">
+                        Digite uma data que represente este destaque e que irá aparecer no rodapé
+                        do item de destaque fixo.
+                     </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-body">
+                   <div class="form-group">
+                      <label class="control-label col-md-3">Imagem</label>
+                      <div class="col-md-9">
+                         <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$editFBreakingNewsItemCtrl.uploadBreakingNewsItemImageErrorMessage">
+                            {{ $editFBreakingNewsItemCtrl.uploadBreakingNewsItemImageErrorMessage }}
+                         </div>
+                         <table class="table" ng-if="$editFBreakingNewsItemCtrl.uploader.queue.length > 0">
+                              <thead>
+                                  <tr>
+                                      <th width="50%">Nome</th>
+                                      <th ng-show="$editFBreakingNewsItemCtrl.uploader.isHTML5">Tamanho</th>
+                                      <th>Estado</th>
+                                      <th>Ações</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="item in $editFBreakingNewsItemCtrl.uploader.queue">
+                                      <td>
+                                          <strong>{{ item.file.name }}</strong>
+                                      </td>
+                                      <td ng-show="$editFBreakingNewsItemCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                                      <td class="text-center">
+                                          <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                          <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                          <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                      </td>
+                                      <td nowrap>
+                                          <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                              <span class="glyphicon glyphicon-ban-circle"></span> Cancelar envio
+                                          </button>
+                                          <button type="button" class="btn btn-danger btn-xs" ng-click="$editFBreakingNewsItemCtrl.removeFileItem(item)">
+                                              <span class="glyphicon glyphicon-trash"></span> Remover
+                                          </button>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+
+                          <div>
+                              <span class="help-block" style="margin-bottom: 10px">Selecione uma imagem por meio do botão abaixo.</span>
+                              <div ng-if="$editFBreakingNewsItemCtrl.uploader.queue.length > 0">
+                                  Progresso do envio:
+                                  <div class="progress" style="">
+                                      <div class="progress-bar" role="progressbar" ng-style="{ 'width': $editFBreakingNewsItemCtrl.uploader.progress + '%' }"></div>
+                                  </div>
+                              </div>
+                              <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                              <input type="file" name="fbreakingNewsItemImageFile" nv-file-select="" uploader="$editFBreakingNewsItemCtrl.uploader"/><br/>
+                              <div class="alert alert-danger" role="alert" ng-if="!$editFBreakingNewsItemCtrl.fbreakingNewsItemImageFilename && $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted">
+                                 Selecione uma imagem.
+                              </div>
+                              <strong>
+                                 A imagem será redimensionada para uma largura de {{ $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidth }} pixels
+                                 e uma altura de {{ $editFBreakingNewsItemCtrl.fbreakingNewsItemImageHeight }} pixels.
+                                 Se a imagem não obedecer a proporção de {{ $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidthRatio }} x {{ $editFBreakingNewsItemCtrl.fbreakingNewsItemImageHeightRatio }} (largura x altura) ela poderá ficar distorcida.
+                              </strong>
+                          </div>
+                      </div>
+                   </div>
+
+                   <div class="form-group" ng-repeat="item in $editFBreakingNewsItemCtrl.uploader.queue">
+                      <label class="control-label col-md-3">&nbsp;</label>
+                      <div class="col-md-9">
+                        <!-- Image preview -->
+                        <div class="canvas-row-thumb" ng-show="$editFBreakingNewsItemCtrl.uploader.isHTML5" ng-thumb="{ file: item._file, height: $editFBreakingNewsItemCtrl.fbreakingNewsItemImageHeight, width: $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidth }" ng-style="{ width : $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidth, heigth: $editFBreakingNewsItemCtrl.fbreakingNewsItemImageHeight }"></div>
+                      </div>
+                   </div>
+                   <div class="form-group" ng-if="(!$editFBreakingNewsItemCtrl.uploader.queue || $editFBreakingNewsItemCtrl.uploader.queue.length === 0) && $editFBreakingNewsItemCtrl.fbreakingNewsItemImageURL">
+                      <label class="control-label col-md-3">&nbsp;</label>
+                       <div class="col-md-9">
+                          <!-- Image preview -->
+                          <img class="img-responsive" ng-style="{ width : $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidth, heigth: $editFBreakingNewsItemCtrl.fbreakingNewsItemImageHeight }" ng-src="{{$editFBreakingNewsItemCtrl.fbreakingNewsItemImageURL}}" alt="">
+                       </div>
+                   </div>
+
+                   <access-selector form="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm" obj-description-prefix="no" obj-description="destaque fixo" obj="$editFBreakingNewsItemCtrl.fbreakingNewsItem" get-access="$editFBreakingNewsItemCtrl.getAccessCallback(obj, valid)" check-access-input="$editFBreakingNewsItemCtrl.setIsAccessInputValidCallback(valid)"></access-selector>
+              </div>
+
+              <div class="form-actions">
+                  <div class="row">
+                      <div class="col-md-12 text-center">
+                          <button type="button" class="btn green" ng-click="$editFBreakingNewsItemCtrl.save()" ng-disabled="$editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.$submitted && !$editFBreakingNewsItemCtrl.isValid()">
+                              <i class="fa fa-check">&nbsp;</i>Inserir
+                          </button>
+                          <button type="button" class="btn default" ui-sref="fixedBreakingNews.list">Fechar</button>
+                      </div>
+                  </div>
+              </div>
+
+          </form>
+          <!-- END FORM-->
+      </div>
+   </div>
+   <!-- END EDIT FIXED BREAKING NEWS -->
+</div>

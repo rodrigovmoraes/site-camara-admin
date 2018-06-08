@@ -1,0 +1,92 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">Gerenciamento do Menu do Módulo de Administração do Portal</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <!-- Nested node template -->
+                           <script type="text/ng-template" id="menu_item_renderer.html">
+                             <div ui-tree-handle class="tree-node tree-node-content">
+                                  <a class="btn btn-success btn-xs" ng-if="menuItem.menuItems && menuItem.menuItems.length > 0" data-nodrag ng-click="$ctrl.toggle(this)">
+                                     <span  class="glyphicon" ng-class="{ 'glyphicon-chevron-right': $ctrl.isCollapsed(menuItem),'glyphicon-chevron-down': !$ctrl.isCollapsed(menuItem) }">
+                                     </span>
+                                  </a>
+
+                                  <i ng-class="menuItem.icon"></i>
+
+                                  <span ng-if="menuItem.sref">{{ menuItem.title }} <i>&lt;{{ menuItem.sref }}&gt;</i></span>
+                                  <span ng-if="!menuItem.sref">{{ menuItem.title }}</span>
+                                  <a class="pull-right btn btn-xs" title="Remover item" data-nodrag ng-click="$ctrl.removeMenuItem(this)" style="color: red">
+                                     <span class="glyphicon glyphicon-remove"></span>
+                                  </a>
+                                  <a class="pull-right btn btn-xs" title="Adicionar item" data-nodrag ng-click="$ctrl.newSubMenuItem(menuItem)" style="margin-right: 8px;">
+                                     <span class="glyphicon glyphicon-plus"></span>
+                                  </a>
+                                  <a class="pull-right btn btn-xs" title="Alterar item" data-nodrag ng-click="$ctrl.editMenuItem(menuItem)" style="margin-right: 8px;">
+                                     <span class="glyphicon glyphicon-pencil"></span>
+                                  </a>
+                             </div>
+
+                             <ol ui-tree-nodes="" ng-model="menuItem.menuItems" ng-class="{ hidden: $ctrl.isCollapsed(menuItem) }">
+                               <li ng-repeat="menuItem in menuItem.menuItems" ui-tree-node ng-include="'menu_item_renderer.html'">
+                               </li>
+                             </ol>
+                           </script>
+                           <!--END: Nested node template -->
+
+                           <div class="row">
+                             <div class="col-sm-6">
+                                <div class="panel panel-default" role="toolbar" style="text-align: right; margin-bottom: 0px; margin-right: 10px">
+                                   <div class="btn-group" role="group">
+                                         <a class="btn" data-nodrag ui-sref="menuAdmin.new">
+                                           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Criar Item
+                                         </a>
+
+                                         <a class="btn" data-nodrag ng-click="$ctrl.collapseAll()">
+                                           <span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>&nbsp;Colapsar
+                                         </a>
+
+                                        <a class="btn" data-nodrag ng-click="$ctrl.expandAll()">
+                                           <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>&nbsp;Expandir
+                                        </a>
+                                   </div>
+                                </div>
+                                <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$ctrl.errorMessage" style="margin-right: 10px">
+                                  {{$ctrl.errorMessage}}
+                                </div>
+                                <div class="alert alert-warning alert-no-margin" role="alert" ng-if="$ctrl.warnMessage" style="margin-right: 10px">
+                                  {{$ctrl.warnMessage}}
+                                </div>
+                                <div class="alert alert-info alert-no-margin" role="alert" ng-if="$ctrl.message"  style="margin-right: 10px">
+                                  {{$ctrl.message}}
+                                </div>
+                             </div>
+                           </div>
+
+                           <div class="row">
+                             <div class="col-sm-6">
+                               <div ui-tree="$ctrl.treeOptions" id="tree-root">
+                                 <ol ui-tree-nodes ng-model="$ctrl.menuItemsTree">
+                                   <li ng-repeat="menuItem in $ctrl.menuItemsTree" ui-tree-node ng-include="'menu_item_renderer.html'"></li>
+                                 </ol>
+                               </div>
+                             </div>
+                           </div>
+
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

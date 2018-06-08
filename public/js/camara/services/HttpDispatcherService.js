@@ -20,20 +20,21 @@
          if(httpConfig.headers === undefined) {
             httpConfig.headers = {};
          }
-         httpConfig.headers.Authorization = 'Bearer '+ AuthenticationService.getToken();
+         httpConfig.headers.Authorization = 'Bearer ' + AuthenticationService.getToken();
          return httpConfig;
       }
 
       //map errors received from the server to appropriate error message
       var _handleError = function(error) {
-         if(!error.data || !error.data.message){
+         if(!error.data || !error.data.message) {
            //network error
            error.message = messages.serverCommunicationError;
-        }else {
+        } else {
            if (error.status == 401) {
               error.message = messages.security.accessDenied;
               AuthenticationService.logout();
-              $state.go('login', { 'page': $state.current.name, 'errorMessage':  error.message});
+              $state.go('login', { 'page': $state.current.name,
+                                   'errorMessage':  error.message });
            } else {
               error.message = error.data.message;
            }
@@ -42,7 +43,7 @@
       }
 
       //handle get http request
-      httpDispatcher.get = function(url, httpConfig){
+      httpDispatcher.get = function(url, httpConfig) {
          if(httpConfig === undefined) {
             httpConfig = {};
          }
@@ -54,37 +55,37 @@
       };
 
       //handle post http request
-      httpDispatcher.post = function(url, data, httpConfig){
+      httpDispatcher.post = function(url, data, httpConfig) {
          if(httpConfig === undefined) {
             httpConfig = {};
          }
          return  $http
                     .post(settings.baseUrlSiteCamaraApi  + url, data, _addAuthorization(httpConfig))
-                    .catch(function(error){
+                    .catch(function(error) {
                        _handleError(error);
                     });
       };
 
       //handle put http request
-      httpDispatcher.put = function(url, data, httpConfig){
+      httpDispatcher.put = function(url, data, httpConfig) {
          if(httpConfig === undefined) {
             httpConfig = {};
          }
          return  $http
                      .put(settings.baseUrlSiteCamaraApi  + url, data, _addAuthorization(httpConfig))
-                     .catch(function(error){
+                     .catch(function(error) {
                        _handleError(error);
                      });
       };
 
       //handle delete http request
-      httpDispatcher.delete = function(url, httpConfig){
+      httpDispatcher.delete = function(url, httpConfig) {
          if(httpConfig === undefined) {
             httpConfig = {};
          }
          return  $http
                   .delete(settings.baseUrlSiteCamaraApi  + url, _addAuthorization(httpConfig))
-                  .catch(function(error){
+                  .catch(function(error) {
                      _handleError(error);
                   });
       };

@@ -61,6 +61,7 @@
          controller.clearMessage = function() {
             controller.errorMessage = "";
             controller.warnMessage = "";
+            controller.infoMessage = "";
             controller.message = "";
          }
 
@@ -99,6 +100,54 @@
             });
          }
          return r;
+      }
+
+      //get the ratio based on the image size
+      Utils.getImageRatio = function(width, height) {
+         var _mdc = function (x, y) {
+              if (y == 0) {
+                return x;
+              } else {
+                return _mdc(y, x % y);
+              }
+          }
+
+          var __mdc = _mdc(width, height)
+
+          return {
+             width: width / __mdc,
+             height: height / __mdc
+          }
+      }
+
+      //check if the string has
+      //just one token (separated by space)
+      Utils.hasJustOneToken = function(strValue) {
+         if(strValue) {
+            return _.split(strValue, ' ').length === 1;
+         } else {
+            return false;
+         }
+      }
+
+      Utils.isHex = function(strValue) {
+         var value = parseInt(strValue, 16);
+         return (value.toString(16).toLowerCase() === strValue.toLowerCase())
+      }
+
+      //check if the string has the mongo id format
+      Utils.isMongoId = function(strValue) {
+         if(Utils.hasJustOneToken(strValue) && strValue.length === 24) {
+            var i;
+            for(i = 0; i < strValue.length; i++) {
+               if(!Utils.isHex(strValue.charAt(i))) {
+                  return false;
+               }
+            }
+            return true;
+         } else {
+            return false;
+         }
       }
 
    }

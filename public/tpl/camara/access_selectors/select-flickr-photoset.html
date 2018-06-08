@@ -1,0 +1,144 @@
+<div class="modal-body" id="modal-body">
+     <div class="portlet box green portlet-in-modal">
+        <div class="portlet-title">
+           <div class="caption">
+               Seleção de álbum do Flickr
+             </div>
+           <div class="tools">
+               <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+           </div>
+        </div>
+        <div class="portlet-body form">
+
+           <div class="mt-element-list">
+               <div class="mt-list-container list-news ext-1">
+                  <ul>
+                       <li class="mt-list-item">
+                           <form class="form-inline" role="form">
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <i class="fa fa-search"></i>
+                                       <input type="keywords" size="45" ng-model="$modalCtrl.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chaves">
+                                    </div>
+                               </div>
+
+                               <div class="form-group">
+                                  <div class="input-group">
+
+                                     <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="publicaoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          <span>Perfil</span>
+                                          <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                          <li ng-repeat="profile in $modalCtrl.profiles">
+                                             <a href="#" ng-click="$modalCtrl.selectProfile(profile)">
+                                                {{ profile.description }}
+                                                <i class="fa fa-check"  ng-if="$modalCtrl.selectedProfile && $modalCtrl.selectedProfile.userId === profile.userId"></i>
+                                             </a>
+                                          </li>
+                                        </ul>
+                                     </div>
+
+                                  </div>
+                               </div>
+
+                               <div class="form-group" style="padding-right: 7px">
+                                  <div class="input-group">
+                                    <span class="input-group-btn">
+                                       <button type="button" title="Pesquisar álbuns" class="btn btn-default" ng-click="$modalCtrl.search()">
+                                          <i class="glyphicon glyphicon-search"></i>
+                                       </button>
+                                    </span>
+                                 </div>
+                               </div>
+
+                               <div class="form-group" ng-if="$modalCtrl.selectedProfile">
+                                  <div class="input-group input-icon">
+                                       <span class="help-block">Perfil: {{ $modalCtrl.selectedProfile.description }}</span>
+                                  </div>
+                               </div>
+                           </form>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.loading">
+                          <div class="progress progress-striped active">
+                            <div class="progress-bar"  role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                              <span>Aguarde, carregando ...</span>
+                            </div>
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.notFoundMessage">
+                          <div class="alert alert-warning alert-no-margin" role="alert">
+                             {{ $modalCtrl.notFoundMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.infoMessage">
+                          <div class="alert alert-info alert-no-margin" role="alert">
+                             {{ $modalCtrl.infoMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.errorMessage">
+                          <div class="alert alert-danger alert-no-margin" role="alert">
+                             {{ $modalCtrl.errorMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-repeat="photoset in $modalCtrl.photosets" ng-class="{ 'video-banner-highlight': $modalCtrl.selectedPhotoset && photoset.id === $modalCtrl.selectedPhotoset.id }">
+                           <div class="list-icon-container">
+                              <a href="javascript:;" ng-click="$modalCtrl.selectPhotoset(photoset)">
+                                 <i class="fa fa-angle-right"></i>
+                              </a>
+                           </div>
+
+                           <div class="list-thumb">
+                              <a href="javascript:;" ng-click="$modalCtrl.selectPhotoset(photoset)">
+                                 <img alt="" ng-src="{{ photoset.thumbnailUrl }}">
+                              </a>
+                           </div>
+
+                           <div class="list-datetime bold uppercase">
+                              <i class="fa fa-clock-o font-black"></i>
+                              <span class="font-black">Criação: {{ photoset.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                              <a class="btn btn-xs" title="Visualizar álbum" target="_blank" ng-href="{{$modalCtrl.flickrUrlBase + '/photos/' + photoset.path + '/albums/' + photoset.id }}">
+                                 <span class="glyphicon glyphicon-new-window"></span>
+                              </a>
+                           </div>
+
+                           <div class="list-item-content">
+                               <h3 class="uppercase">
+                                   <a href="javascript:;" ng-click="$modalCtrl.selectPhotoset(photoset)">
+                                      {{ photoset.title }}
+                                   </a>
+                               </h3>
+                               <p>{{ photoset.description }}</p>
+                           </div>
+                       </li>
+                  </ul>
+               </div>
+           </div>
+
+           <div class="row" ng-if="$modalCtrl.photosets && $modalCtrl.photosets.length > 0">
+              <nav aria-label="paginação">
+                 <ul class="pager">
+                    <li ng-class="{ 'disabled': !$modalCtrl.searchResult || $modalCtrl.pager.page === 1 }">
+                       <a href="#" ng-click="$modalCtrl.searchPrev()" title="Página anterior">Página anterior</a>
+                    </li>
+                    <li ng-class="{ 'disabled':  !$modalCtrl.searchResult || ( $modalCtrl.pager.page * $modalCtrl.pager.itemsPerPage >= $modalCtrl.searchResult.result.length ) }">
+                       <a href="#" ng-click="$modalCtrl.searchNext()" title="Próxima página">Próxima página</a>
+                    </li>
+                 </ul>
+              </nav>
+           </div>
+
+           <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                       <button type="button" class="btn green" ng-click="$modalCtrl.ok()">
+                       <i class="fa fa-check"></i>Ok</button>
+                       <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                    </div>
+                </div>
+           </div>
+
+        </div>
+     </div>
+</div>

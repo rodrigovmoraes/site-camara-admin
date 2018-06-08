@@ -1,0 +1,103 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN LIST PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento de Eventos</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+               <div class="table-toolbar">
+                  <div class="mt-element-list">
+                      <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                          <div class="list-head-title-container">
+                              <h3 class="list-title">Calendário de Eventos</h3>
+                          </div>
+                      </div>
+                      <div class="mt-list-container list-news ext-1">
+                          <ul>
+                              <li class="mt-list-item">
+                                 <form class="form-inline" role="form">
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="Logar no Google Calendar" class="btn btn-default" ng-click="$listEventsCalendarCtrl.googleApiLogin()" ng-if="!isGoogleApiSignedIn">Google Login</button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                       <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="logout do Google Calendar" class="btn btn-default" ng-click="$listEventsCalendarCtrl.googleApiLogout()" ng-if="isGoogleApiSignedIn">Google Logout</button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                       <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="Calendário Visão Mensal" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('month','camaraCalendar')">Mensal</button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                       <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="Calendário Visão Semanal" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('agendaWeek','camaraCalendar')">Semanal</button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                       <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="Calendário Visão Diária" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('agendaDay','camaraCalendar')">Diário</button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                       <div class="form-group">
+                                          <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Ir para o dia" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listEventsCalendarCtrl.chooseDayInput.date" is-open="$listEventsCalendarCtrl.chooseDayInput.isOpen" datepicker-append-to-body="true" datepicker-options="$listEventsCalendarCtrl.chooseDayInput.dateOptions" close-text="Close" />
+                                            <span class="input-group-btn">
+                                               <button type="button" class="btn btn-default" ng-click="$listEventsCalendarCtrl.chooseDayInput.openChooseDay();"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                       <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="Ir para o dia" class="btn btn-default" ng-click="$listEventsCalendarCtrl.goTo('camaraCalendar')"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                                            </span>
+                                         </div>
+                                       </div>
+                                 </form>
+                               </li>
+                              <li class="mt-list-item" ng-if="$listEventsCalendarCtrl.alertMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $listEventsCalendarCtrl.alertMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listEventsCalendarCtrl.infoMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $listEventsCalendarCtrl.infoMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listEventsCalendarCtrl.errorMessage">
+                                 <div class="alert alert-danger alert-no-margin" role="alert">
+                                    {{ $listEventsCalendarCtrl.errorMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item">
+                                 <div ui-calendar="$listEventsCalendarCtrl.uiConfig.calendar" calendar="camaraCalendar" class="span8 calendar" ng-model="$listEventsCalendarCtrl.eventSources"></div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END LIST PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

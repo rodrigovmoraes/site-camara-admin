@@ -1,0 +1,100 @@
+<!-- BEGIN NEW MENU ITEM CONTENT -->
+<div class="modal-body" id="modal-body">
+   <div class="portlet box green portlet-in-modal">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="fa fa-plus"></i>Novo Subitem de Menu em '{{ $modalCtrl.parentMenuItem.title }}'
+           </div>
+          <div class="tools">
+              <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+          </div>
+      </div>
+      <div class="portlet-body form">
+          <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+             {{ $modalCtrl.errorMessage }}
+          </div>
+          <!-- BEGIN FORM-->
+          <form action="#" name="newMenuItemForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+              <div class="form-body">
+                  <div class="form-group">
+                      <label class="control-label col-md-3">Título</label>
+                      <div class="col-md-9">
+                           <input type="text" class="form-control" name="title" required="true" maxlength="50" ng-model="$modalCtrl.title">
+                           <div class="alert alert-danger" role="alert" ng-if="newMenuItemForm.title.$error.required && (newMenuItemForm.title.$touched || newMenuItemForm.$submitted)">
+                              O título do item de menu não pode ser vazio.
+                           </div>
+                           <span class="help-block">Digite o título do item de menu.</span>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-body">
+                  <div class="form-group">
+                      <label class="control-label col-md-3">Sref</label>
+                      <div class="col-md-9">
+                           <input type="text" class="form-control" name="sref" maxlength="50" ng-model="$modalCtrl.sref">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label class="control-label col-md-3">Permissão</label>
+                  <div class="col-md-9">
+                     <div class="input-group">
+                        <ui-select ng-model="$modalCtrl.selectedRole" theme="bootstrap">
+                             <ui-select-match placeholder="Digite a permissão desejada ...">{{ $select.selected.name }}</ui-select-match>
+                             <ui-select-choices repeat="role in $modalCtrl.roles | filter: $select.search">
+                                <div ng-bind-html="role.name | highlight: $select.search"></div>
+                             </ui-select-choices>
+                        </ui-select>
+                        <span class="input-group-btn">
+                          <button type="button" ng-click="$modalCtrl.selectedRole = null" class="btn btn-default" title="Apagar valor">
+                            <span class="glyphicon glyphicon-trash"></span>
+                          </button>
+                        </span>
+                     </div>
+                     <span class="help-block">
+                        Entre com a permissão desejada para ser
+                        associada com este item de menu. Este item de
+                        menu será exibido apenas para
+                        usuários que possuem a permissão selecionada.
+                     </span>
+                  </div>
+              </div>
+
+              <div class="form-body">
+                  <div class="form-group">
+                      <label class="control-label col-md-3">Ícone</label>
+                      <div class="col-md-9">
+                           <ui-select name="icon" required="true" ng-model="$modalCtrl.selectedIcon" theme="bootstrap">
+                                <ui-select-match placeholder="Escolha o ícone desejado..."><span ng-class="$select.selected">&nbsp;&nbsp;{{ $select.selected }}</span></ui-select-match>
+                                <ui-select-choices repeat="icon in $modalCtrl.menuItemsIcons | filter: $select.search">
+                                  <div>
+                                     <span ng-class="icon" ng-bind-html="'&nbsp;&nbsp;' + (icon | highlight: $select.search)"></span>
+                                  </div>
+                                </ui-select-choices>
+                           </ui-select>
+                           <div class="alert alert-danger" role="alert" ng-if="newMenuItemForm.icon.$error.required && (newMenuItemForm.icon.$touched || newMenuItemForm.$submitted)">
+                              Escolha um ícone.
+                           </div>
+                           <span class="help-block">Escolha o ícone que representará este item no menu.</span>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-actions">
+                  <div class="row">
+                      <div class="col-md-12 text-center">
+                          <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="newMenuItemForm.$submitted && !$modalCtrl.isValid()">
+                              <i class="fa fa-check"></i> Ok</button>
+                          <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
+          <!-- END FORM-->
+      </div>
+   </div>
+</div>
+<!-- END NEW MENU ITEM CONTENT -->

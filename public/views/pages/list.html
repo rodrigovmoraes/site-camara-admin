@@ -1,0 +1,111 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN LIST PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento de Páginas</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+               <div class="table-toolbar">
+                  <div class="mt-element-list">
+                      <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                          <div class="list-head-title-container">
+                              <h3 class="list-title">Lista de Páginas</h3>
+                          </div>
+                          <div class="list-count pull-right bg-red">{{ $listPagesCtrl.pager.totalItems ? $listPagesCtrl.pager.totalItems : "" }}</div>
+                      </div>
+                      <div class="mt-list-container list-news ext-1">
+                          <ul>
+
+                             <li class="mt-list-item">
+
+                                <form class="form-inline" role="form">
+                                      <div class="form-group" style="padding-right: 7px">
+                                         <div class="input-group">
+                                           <span class="input-group-btn">
+                                              <button type="button" title="Criar nova página" class="btn btn-default" ui-sref="page.new"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="keywords" ng-model="$listPagesCtrl.filter.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chave">
+                                           </div>
+                                      </div>
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Criação: inicial" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listPagesCtrl.filter.date1" is-open="$listPagesCtrl.filter.date1IsOpen" datepicker-append-to-body="true" datepicker-options="$listPagesCtrl.filter.dateOptions" close-text="Close" />
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listPagesCtrl.filter.openDate1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Criação: final" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listPagesCtrl.filter.date2" is-open="$listPagesCtrl.filter.date2IsOpen" datepicker-append-to-body="true" datepicker-options="$listPagesCtrl.filter.dateOptions" close-text="Close" />
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listPagesCtrl.filter.openDate2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+
+                                </form>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listPagesCtrl.infoMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $listPagesCtrl.infoMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listPagesCtrl.errorMessage">
+                                 <div class="alert alert-danger alert-no-margin" role="alert">
+                                    {{ $listPagesCtrl.errorMessage }}
+                                 </div>
+                              </li>
+                              <li ng-repeat="page in $listPagesCtrl.pages" class="mt-list-item" ng-class="{ 'news-highlight': page._id === $listPagesCtrl.highlightPageId }">
+                                  <div class="list-icon-container">
+                                     <a href="javascript:;" ui-sref="page.edit({ pageId: page._id })">
+                                        <i class="fa fa-angle-right"></i>
+                                     </a>
+                                  </div>
+
+                                  <div class="list-item-content page-item-content">
+                                      <h3 class="uppercase">
+                                          <a href="javascript:;" ui-sref="page.edit({ pageId: page._id })" ng-bind-html="page.title | highlight: $listPagesCtrl.filter.keywords"></a>
+                                      </h3>
+                                      <p ng-if="page.headline" ng-bind-html="page.headline | highlight: $listPagesCtrl.filter.keywords"></p>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-clock-o font-black" ng-if="page.creationDate"></i><span class="font-black">Criação: {{ page.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-clock-o font-red" ng-if="page.changedDate" style="margin-left: 15px"></i><span class="font-red" ng-if="page.changedDate">Edição: {{ page.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                  </div>
+
+                              </li>
+                              <li class="mt-list-item" ng-if="!$listPagesCtrl.pager.totalItems">
+                                 <div class="alert alert-danger" role="alert">
+                                    {{ $listPagesCtrl.notFoundMessage }}
+                                 </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div ng-if="$listPagesCtrl.pager.totalItems">
+                     <ul uib-pagination id="newsListPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" ng-change="$listPagesCtrl.pager.pageChanged()" total-items="$listPagesCtrl.pager.totalItems" items-per-page="$listPagesCtrl.pager.itemsPerPage" ng-model="$listPagesCtrl.pager.currentPage" max-size="$listPagesCtrl.pager.maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+                     <div style="margin-top: 5px" class="pull-right">
+                        {{ $listPagesCtrl.pager.totalItems }}  items, página {{ $listPagesCtrl.pager.currentPage }} de {{ $listPagesCtrl.pager.totalPages }}
+                     </div>
+                  </div>
+
+
+               </div>
+            </div>
+        </div>
+        <!-- END LIST PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

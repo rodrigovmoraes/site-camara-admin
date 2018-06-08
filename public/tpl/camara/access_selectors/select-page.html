@@ -1,0 +1,100 @@
+<div class="modal-body" id="modal-body">
+     <div class="portlet box green portlet-in-modal">
+        <div class="portlet-title">
+           <div class="caption">
+               Seleção de página do Portal da Câmara
+           </div>
+           <div class="tools">
+               <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+           </div>
+        </div>
+        <div class="portlet-body form">
+
+           <div class="mt-element-list">
+               <div class="mt-list-container list-news ext-1">
+                  <ul>
+                       <li class="mt-list-item">
+                           <form class="form-inline" role="form">
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <i class="fa fa-search"></i>
+                                       <input type="keywords" size="59" ng-model="$modalCtrl.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chaves">
+                                    </div>
+                               </div>
+
+                               <div class="form-group" style="padding-right: 7px">
+                                  <div class="input-group">
+                                    <span class="input-group-btn">
+                                       <button type="button" title="Pesquisar páginas" class="btn btn-default" ng-click="$modalCtrl.search()"><i class="glyphicon glyphicon-search"></i></button>
+                                    </span>
+                                 </div>
+                               </div>
+
+                           </form>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.notFoundMessage">
+                          <div class="alert alert-warning alert-no-margin" role="alert">
+                             {{ $modalCtrl.notFoundMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.infoMessage">
+                          <div class="alert alert-info alert-no-margin" role="alert">
+                             {{ $modalCtrl.infoMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.errorMessage">
+                          <div class="alert alert-danger alert-no-margin" role="alert">
+                             {{ $modalCtrl.errorMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-repeat="page in $modalCtrl.pages" ng-class="{ 'video-banner-highlight': $modalCtrl.selectedPage && page.id === $modalCtrl.selectedPage.id }">
+                           <div class="list-icon-container">
+                              <a href="javascript:;" ng-click="$modalCtrl.selectPage(page)">
+                                 <i class="fa fa-angle-right"></i>
+                              </a>
+                           </div>
+
+                           <div class="list-datetime page-item-datetime bold uppercase">
+                              <i class="fa fa-clock-o font-black"></i>
+                              <span class="font-black">Criação: {{ page.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                              <a class="btn btn-xs" title="Visualizar página" target="_blank" ng-href="{{ $modalCtrl.pageUrlBase + page.id }}">
+                                 <span class="glyphicon glyphicon-new-window"></span>
+                              </a>
+                           </div>
+
+                           <div class="list-item-content page-item-content">
+                               <h3 class="uppercase">
+                                   <a href="javascript:;" ng-click="$modalCtrl.selectPage(page)">{{ page.title }}</a>
+                               </h3>
+                           </div>
+                       </li>
+                  </ul>
+               </div>
+           </div>
+
+           <div class="row" ng-if="$modalCtrl.pages && $modalCtrl.pages.length > 0">
+              <nav aria-label="paginação">
+                 <ul class="pager">
+                    <li ng-class="{ 'disabled': !$modalCtrl.pages || $modalCtrl.pager.page === 1 }">
+                       <a href="#" ng-click="$modalCtrl.searchPrev()" title="Página anterior">Página anterior</a>
+                    </li>
+                    <li ng-class="{ 'disabled':  !$modalCtrl.pages || ( $modalCtrl.pager.page * $modalCtrl.pager.itemsPerPage >= $modalCtrl.pager.total ) }">
+                       <a href="#" ng-click="$modalCtrl.searchNext()" title="Próxima página">Próxima página</a>
+                    </li>
+                 </ul>
+              </nav>
+           </div>
+
+           <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                       <button type="button" class="btn green" ng-click="$modalCtrl.ok()">
+                       <i class="fa fa-check"></i> Ok</button>
+                       <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                    </div>
+                </div>
+           </div>
+
+        </div>
+     </div>
+</div>

@@ -1,0 +1,61 @@
+<!-- BEGIN NEW MENU ITEM CONTENT -->
+<div class="modal-body" id="modal-body">
+   <div class="portlet box green portlet-in-modal">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="fa fa-plus"></i>Novo Subitem de Menu em '{{ $modalCtrl.parentMenuItem.title }}'
+           </div>
+          <div class="tools">
+              <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+          </div>
+      </div>
+      <div class="portlet-body form">
+          <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+             {{ $modalCtrl.errorMessage }}
+          </div>
+          <!-- BEGIN FORM-->
+          <form action="#" name="$modalCtrl.newMenuItemForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+              <div class="form-body">
+                  <div class="form-group">
+                      <label class="control-label col-md-3">Título</label>
+                      <div class="col-md-9">
+                           <input type="text" class="form-control" name="title" required="true" maxlength="50" ng-model="$modalCtrl.title">
+                           <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.newMenuItemForm.title.$error.required && ($modalCtrl.newMenuItemForm.title.$touched || $modalCtrl.newMenuItemForm.$submitted)">
+                              O título do item de menu não pode ser vazio.
+                           </div>
+                           <span class="help-block">Digite o título deste item de menu.</span>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label class="control-label col-md-3">Acesso</label>
+                      <div class="col-md-9">
+                        <label class="radio-inline"><input type="radio" ng-model="$modalCtrl.accessConfig" ng-value="true">Configurar acesso</label>
+                        <label class="radio-inline"><input type="radio" ng-model="$modalCtrl.accessConfig" ng-value="false">Sem acesso</label>
+                        <span class="help-block">
+                           Um item de menu menu poderá acionar algum recurso, como uma página web ou um vídeo no Youtube.
+                           Se este item de menu será utilizado somente para adicionar outros itens abaixo dele,
+                           selecione a opção "Sem acesso", caso contrário, se este item de menu será utilizado para acessar algum recurso na web, escolha a opção "Configurar acesso".
+                        </span>
+                      </div>
+                  </div>
+
+                  <access-selector ng-if="$modalCtrl.accessConfig" form="$modalCtrl.newMenuItemForm" obj-description-prefix="no" obj-description="item de menu" get-access="$modalCtrl.getAccessCallback(obj, valid)" check-access-input="$modalCtrl.setIsAccessInputValidCallback(valid)"></access-selector>
+              </div>
+
+              <div class="form-actions">
+                  <div class="row">
+                      <div class="col-md-12 text-center">
+                          <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="$modalCtrl.newMenuItemForm.$submitted && !$modalCtrl.isValid()">
+                              <i class="fa fa-check"></i> Ok</button>
+                          <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
+          <!-- END FORM-->
+      </div>
+   </div>
+</div>
+<!-- END NEW MENU ITEM CONTENT -->

@@ -1,9 +1,9 @@
 (function() {
    'use strict';
 
-   angular.module('SiteCamaraAdminApp').directive('camaraGridDateFilter', function(){
+   angular.module('SiteCamaraAdminApp').directive('camaraGridDateFilter', function() {
       return {
-         templateUrl: 'tpl/camara/directives/camaraGridDateFilter.html',
+         templateUrl: 'tpl/camara/directives/camara-grid-date-filter.html',
          controller: 'CamaraGridDateFilterController',
          controllerAs: 'camaraGridDateFilterController',
          bindToController: true,

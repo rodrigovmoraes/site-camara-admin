@@ -1,0 +1,108 @@
+<div ui-view class="fade-in-up">
+   <!-- BEGIN NEW BANNER -->
+   <div class="portlet box green portlet-in-modal">
+      <div class="portlet-title">
+          <div class="caption">
+             <i class="fa fa-plus"></i>Banner #{{$editBannerCtrl.order}}
+          </div>
+      </div>
+      <div class="portlet-body form">
+          <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editBannerCtrl.errorMessage">
+             {{ $editBannerCtrl.errorMessage }}
+          </div>
+          <!-- BEGIN FORM-->
+          <form action="#" name="$editBannerCtrl.editBannerForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+              <div class="form-body">
+                   <div class="form-group">
+                      <label class="control-label col-md-3">Banner</label>
+                      <div class="col-md-9">
+                         <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$editBannerCtrl.uploadBannerImageErrorMessage">
+                            {{ $editBannerCtrl.uploadBannerImageErrorMessage }}
+                         </div>
+                         <table class="table" ng-if="$editBannerCtrl.uploader.queue.length > 0">
+                              <thead>
+                                  <tr>
+                                      <th width="50%">Nome</th>
+                                      <th ng-show="$editBannerCtrl.uploader.isHTML5">Tamanho</th>
+                                      <th>Estado</th>
+                                      <th>Ações</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr ng-repeat="item in $editBannerCtrl.uploader.queue">
+                                      <td>
+                                          <strong>{{ item.file.name }}</strong>
+                                      </td>
+                                      <td ng-show="$editBannerCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                                      <td class="text-center">
+                                          <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                          <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                          <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                      </td>
+                                      <td nowrap>
+                                          <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                              <span class="glyphicon glyphicon-ban-circle"></span> Cancelar envio
+                                          </button>
+                                          <button type="button" class="btn btn-danger btn-xs" ng-click="$editBannerCtrl.removeFileItem(item)">
+                                              <span class="glyphicon glyphicon-trash"></span> Remover
+                                          </button>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+
+                         <div>
+                              <span class="help-block" style="margin-bottom: 10px">Caso deseja adicionar um novo banner, selecione uma imagem abaixo.</span>
+                              <div ng-if="$editBannerCtrl.uploader.queue.length > 0">
+                                  Progresso do envio:
+                                  <div class="progress" style="">
+                                      <div class="progress-bar" role="progressbar" ng-style="{ 'width': $editBannerCtrl.uploader.progress + '%' }"></div>
+                                  </div>
+                              </div>
+                              <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                              <input type="file" name="bannerImageFile" nv-file-select="" uploader="$editBannerCtrl.uploader"/><br/>
+                              <div class="alert alert-danger" role="alert" ng-if="!$editBannerCtrl.bannerImageFilename && $editBannerCtrl.editBannerForm.$submitted">
+                                 Selecione uma imagem.
+                              </div>
+                              <strong>
+                                 A imagem será redimensionada para uma largura de {{ $editBannerCtrl.bannerWidth }} pixels
+                                 e uma altura de {{ $editBannerCtrl.bannerHeight }} pixels.
+                                 Se a imagem não obedecer a proporção de {{ $editBannerCtrl.bannerWidthRatio }} x {{ $editBannerCtrl.bannerHeightRatio }} (largura x altura) ela poderá ficar distorcida.
+                              </strong>
+                          </div>
+                       </div>
+                   </div>
+                   <div class="form-group" ng-repeat="item in $editBannerCtrl.uploader.queue">
+                      <div class="col-md-12">
+                        <!-- Image preview -->
+                        <div class="canvas-row-thumb" ng-show="$editBannerCtrl.uploader.isHTML5" ng-thumb="{ file: item._file, height: $editBannerCtrl.bannerHeight, width:  $editBannerCtrl.bannerWidth }"></div>
+                      </div>
+                   </div>
+                   <div class="form-group" ng-if="(!$editBannerCtrl.uploader.queue || $editBannerCtrl.uploader.queue.length === 0) && $editBannerCtrl.bannerImageURL">
+                       <div class="col-md-12">
+                          <!-- Image preview -->
+                          <img class="img-responsive" width="2039" height="376" ng-src="{{$editBannerCtrl.bannerImageURL}}" alt="">
+                       </div>
+                   </div>
+
+                   <access-selector form="$editBannerCtrl.editBannerForm" obj-description-prefix="no" obj-description="banner" obj="$editBannerCtrl.banner" get-access="$editBannerCtrl.getAccessCallback(obj, valid)" check-access-input="$editBannerCtrl.setIsAccessInputValidCallback(valid)"></access-selector>
+              </div>
+
+              <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn green" ng-click="$editBannerCtrl.save()" ng-disabled="$editBannerCtrl.editBannerForm.$submitted && !$editBannerCtrl.isValid()">
+                            <i class="fa fa-check">&nbsp;</i>Inserir
+                        </button>
+                        <button type="button" class="btn default" ui-sref="banner.list">Fechar</button>
+                    </div>
+                </div>
+              </div>
+
+          </form>
+          <!-- END FORM-->
+      </div>
+   </div>
+   <!-- END NEW BANNER -->
+</div>

@@ -1,15 +1,15 @@
-<a ui-sref="{{item.sref}}" ng-if="!item.hasChild">
+<a ui-sref="{{ item.sref ? item.sref : 'blank'}}" ng-if="!item.menuItems || item.menuItems.length == 0">
    <!-- without children //-->
   <i ng-class="item.icon"></i>
   <span class="title">{{ item.title }}</span>
 </a>
 <!-- with children //-->
-<a href="#" class="nav-link nav-toggle" ng-if="item.hasChild">
+<a href="#" class="nav-link nav-toggle" ng-if="item.menuItems && item.menuItems.length > 0">
    <i ng-class="item.icon"></i>
    <span class="title">{{ item.title }}</span>
    <span class="arrow"></span>
 </a>
-<ul class="sub-menu" ng-if="item.hasChild">
+<ul class="sub-menu" ng-if="item.menuItems && item.menuItems.length > 0">
    <li data-ng-include="'tpl/camara/includes/sidebar-menuitem.html'" class="nav-item" ng-repeat="item in item.menuItems">
    </li>
 </ul>

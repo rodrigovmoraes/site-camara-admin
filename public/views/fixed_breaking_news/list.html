@@ -1,0 +1,170 @@
+<div class="page-header">
+   <h3>Destaques Fixos</h3>
+</div>
+
+<div class="row" ng-if="$listFBreakingNewsCtrl.errorMessage">
+   <div class="col-md-12">
+      <div class="alert alert-danger" style="margin-bottom: 10px" role="alert">
+         {{$listFBreakingNewsCtrl.errorMessage}}
+      </div>
+   </div>
+</div>
+
+<div class="row" ng-if="$listFBreakingNewsCtrl.infoMessage">
+   <div class="col-md-12">
+      <div class="alert alert-info" style="margin-bottom: 10px" role="alert">
+         {{$listFBreakingNewsCtrl.infoMessage}}
+      </div>
+   </div>
+</div>
+
+<div class="row" ng-if="!$listFBreakingNewsCtrl.fbreakingNewsItems || $listFBreakingNewsCtrl.fbreakingNewsItems.length === 0">
+   <div class="col-md-12">
+      <div class="alert alert-danger" style="margin-bottom: 10px" role="alert">
+         {{ $listFBreakingNewsCtrl.notFoundMessage }}
+      </div>
+   </div>
+</div>
+
+<div class="panel panel-info" ng-repeat="fbreakingNewsItem in $listFBreakingNewsCtrl.fbreakingNewsItems" ng-class="{ 'banner-highlight': fbreakingNewsItem.id === $listFBreakingNewsCtrl.highlightBreakingNewsItemId }">
+
+  <div class="panel-heading">
+     Destaque #{{fbreakingNewsItem.order}}
+     <a class="pull-right btn btn-xs" title="Remover item" ng-if="!fbreakingNewsItem.deleted" ng-click="$listFBreakingNewsCtrl.remove(fbreakingNewsItem)" data-nodrag="" style="color: red">
+        <span class="glyphicon glyphicon-remove"></span>
+     </a>
+     <a class="pull-right btn btn-xs" title="Alterar item" ui-sref="fixedBreakingNews.edit({ fbreakingNewsItemId: fbreakingNewsItem.id })" data-nodrag="">
+        <span class="glyphicon glyphicon-pencil"></span>
+     </a>
+  </div>
+
+  <div class="panel-body" ng-if="fbreakingNewsItem.deleted">
+     <div class="row">
+        <div class="col-md-12">
+           <img class="img-responsive" ng-if="fbreakingNewsItem.order == 1" width="205" height="434" ng-style="{ width : $listFBreakingNewsCtrl.width1, heigth: $listFBreakingNewsCtrl.height1 }" src="/images/fixed_breaking_news/deleted_fixed_breaking_news_1.jpg" alt="">
+           <img class="img-responsive" ng-if="fbreakingNewsItem.order == 2" width="349" height="212" ng-style="{ width : $listFBreakingNewsCtrl.width2, heigth: $listFBreakingNewsCtrl.height2 }" src="/images/fixed_breaking_news/deleted_fixed_breaking_news_2_3.jpg" alt="">
+           <img class="img-responsive" ng-if="fbreakingNewsItem.order == 3" width="349" height="212" ng-style="{ width : $listFBreakingNewsCtrl.width3, heigth: $listFBreakingNewsCtrl.height3 }" src="/images/fixed_breaking_news/deleted_fixed_breaking_news_2_3.jpg" alt="">
+        </div>
+     </div>
+  </div>
+
+  <div class="panel-body" ng-if="!fbreakingNewsItem.deleted">
+     <div class="row">
+        <div class="col-md-12">
+           <!--headline-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Título cabeçalho</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{fbreakingNewsItem.headline}}</i></h4>
+              </div>
+           </div>
+           <!--title-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Ícone cabeçalho</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><span style="font-size: 150%" ng-class="fbreakingNewsItem.headlineIcon"></span></h4>
+              </div>
+           </div>
+           <!--title-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Título</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{fbreakingNewsItem.title}}</i></h4>
+              </div>
+           </div>
+           <!--title-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Data</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{ fbreakingNewsItem.date | date: 'dd/MM/yyyy' }}</i></h4>
+              </div>
+           </div>
+           <!--type-->
+           <div class="row">
+              <div class="col-md-2">
+                <h4>Tipo</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{$listFBreakingNewsCtrl.accessDescription(fbreakingNewsItem.type)}}</i></h4>
+              </div>
+           </div>
+           <!--URL, for type link-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'link'">
+              <div class="col-md-2">
+                <h4>URL</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{fbreakingNewsItem.access.url}}" target="_blank">{{fbreakingNewsItem.access.url}}</a></i></h4>
+              </div>
+           </div>
+           <!--Target, for type link-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'link'">
+              <div class="col-md-2">
+                <h4>Alvo</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i>{{$listFBreakingNewsCtrl.targetDescription(fbreakingNewsItem.access.target)}}</i></h4>
+              </div>
+           </div>
+
+           <!--Youtube vídeo, for type youtube-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'youtube'">
+              <div class="col-md-2">
+                <h4>Vídeo</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{$listFBreakingNewsCtrl.youtubeUrlBase + fbreakingNewsItem.access.videoId}}" target="_blank">&ldquo;{{fbreakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Youtube live channel, for type youtube_live-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'youtube_live'">
+              <div class="col-md-2">
+                <h4>Live</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{$listFBreakingNewsCtrl.youtubeLiveChannelUrlBase + fbreakingNewsItem.access.channelId}}" target="_blank">&ldquo;{{fbreakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Flickr photoset, for type flickr-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'flickr'">
+              <div class="col-md-2">
+                <h4>Álbum</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{$listFBreakingNewsCtrl.flickrUrlBase + '/photos/' + fbreakingNewsItem.access.path + '/albums/' + fbreakingNewsItem.access.id }}" target="_blank">&ldquo;{{fbreakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--News-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'news'">
+              <div class="col-md-2">
+                <h4>Notícia</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{ $listFBreakingNewsCtrl.newsUrlBase + fbreakingNewsItem.access.id }}" target="_blank">&ldquo;{{fbreakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <!--Page-->
+           <div class="row" ng-if="fbreakingNewsItem.type == 'page'">
+              <div class="col-md-2">
+                <h4>Página</h4>
+              </div>
+              <div class="col-md-10">
+                <h4><i><a ng-href="{{ $listFBreakingNewsCtrl.pageUrlBase + fbreakingNewsItem.access.id }}" target="_blank">&ldquo;{{fbreakingNewsItem.access.title}}&rdquo;</a></i></h4>
+              </div>
+           </div>
+           <h4>Imagem</h4>
+           <img class="img-responsive" ng-if="fbreakingNewsItem.order == 1" width="334" height="512" ng-style="{ width : $listFBreakingNewsCtrl.width1, heigth: $listFBreakingNewsCtrl.height1 }" ng-src="{{fbreakingNewsItem.imageFileURL}}" alt="">
+           <img class="img-responsive" ng-if="fbreakingNewsItem.order == 2" width="449" height="292" ng-style="{ width : $listFBreakingNewsCtrl.width2, heigth: $listFBreakingNewsCtrl.height2 }" ng-src="{{fbreakingNewsItem.imageFileURL}}" alt="">
+           <img class="img-responsive" ng-if="fbreakingNewsItem.order == 3" width="449" height="292" ng-style="{ width : $listFBreakingNewsCtrl.width3, heigth: $listFBreakingNewsCtrl.height3 }" ng-src="{{fbreakingNewsItem.imageFileURL}}" alt="">
+        </div>
+     </div>
+  </div>
+</div>

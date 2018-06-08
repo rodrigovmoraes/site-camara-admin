@@ -4,15 +4,34 @@
       angular.module("SiteCamaraAdminApp").controller('SidebarController', SidebarController);
 
       /* Setup Layout Part - Sidebar */
-      SidebarController.$inject = ['$state', 'SidebarMenuService']
-      function SidebarController($state, SidebarMenuService) {
+      SidebarController.$inject = [ '$state',
+                                    '$rootScope',
+                                    'MenuAdminService',
+                                    'AuthenticationService']
+      function SidebarController( $state,
+                                  $rootScope,
+                                  MenuAdminService,
+                                  AuthenticationService) {
           var sidebarController =  this;
-          var items = SidebarMenuService.getItems();
 
-          sidebarController.firsItem = items.menuItems[0];
-          sidebarController.items = items.menuItems.slice(1);
+          sidebarController.refresh = function() {
+             return MenuAdminService.getUserMenuAdminTree().then(function(result) {
+               var items = result.menuAdminTree;
+               sidebarController.firsItem = items[0];
+               sidebarController.items = items.slice(1);
+            });
+          }
+
+          if(AuthenticationService.isLoggedIn()) {
+             sidebarController.refresh();
+          }
+
+          $rootScope.$on('metronicReloadSidebar', function(event, args) {
+              sidebarController.refresh();
+          });
+
           sidebarController.finishLoading = function() {
-            Layout.initSidebar($state); // init sidebar
+             Layout.initSidebar($state); // init sidebar
           }
       }
 

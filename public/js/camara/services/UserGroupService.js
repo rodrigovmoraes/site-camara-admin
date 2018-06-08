@@ -43,8 +43,8 @@
                                          });
       }
 
-      userGroupService.deepDeleteGroup = function (userGroupId) {
-         return HttpDispatcherService.delete( '/userGroup/deep/' + userGroupId)
+      userGroupService.deleteDeeplyGroup = function (userGroupId) {
+         return HttpDispatcherService.delete( '/userGroup/deeply/' + userGroupId)
                                      .then(function(result) {
                                           return result.data;
                                      }).catch(function(error) {

@@ -1,0 +1,174 @@
+<!-- BEGIN NEW NEWS -->
+<div class="portlet box green portlet-in-modal">
+   <div class="portlet-title">
+       <div class="caption">
+          <i class="fa fa-plus"></i>Edição de Notícia
+       </div>
+       <div class="tools">
+          <a href="" class="remove" data-original-title="" title="" ng-click="$editNewsItemCtrl.close()"></a>
+       </div>
+   </div>
+   <div class="portlet-body form">
+       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editNewsItemCtrl.errorMessage">
+          {{ $editNewsItemCtrl.errorMessage }}
+       </div>
+       <!-- BEGIN FORM-->
+       <form action="#" name="editNewsItemForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+          <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Título</label>
+                   <div class="col-md-9">
+                        <input type="text" class="form-control" name="title" required="true" maxlength="150" ng-model="$editNewsItemCtrl.title">
+                        <div class="alert alert-danger" role="alert" ng-if="editNewsItemForm.title.$error.required && (editNewsItemForm.title.$touched || editNewsItemForm.$submitted)">
+                           O título da notícia não pode ser vazio.
+                        </div>
+                        <span class="help-block">Digite o título da notícia.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                  <label class="control-label col-md-3">Publicar ?</label>
+                  <div class="col-md-9">
+                     <toggle-switch ng-model="$editNewsItemCtrl.publish" on-label="Sim" off-label="Não">
+                     </toggle-switch>
+                     <span class="help-block">
+                        Caso desejar, selecione "Não" para retirar esta notícia de publicação.
+                     </span>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+             <div class="form-group">
+               <label class="control-label col-md-3">Data da Publicação</label>
+               <div class="col-md-9">
+                   <div class="input-group">
+                      <input type="datetime-local" id="publicationDate" name="publicationDate" ng-required="$editNewsItemCtrl.publicationDateEnabled" ng-disabled="!$editNewsItemCtrl.publicationDateEnabled" ng-model="$editNewsItemCtrl.publicationDate" placeholder="yyyy-MM-dd HH:mm" style="height: 34px"/>
+                      <button type="button" ng-disabled="!$editNewsItemCtrl.publicationDateEnabled" ng-click="$editNewsItemCtrl.publicationDate = $editNewsItemCtrl.oldPublicationDate" class="btn btn-default" title="Restaurar original" style="position: relative; top: -2px;">
+                       <span class="glyphicon glyphicon-arrow-left"></span>
+                      </button>
+                      <button type="button" ng-disabled="!$editNewsItemCtrl.publicationDateEnabled" ng-click="$editNewsItemCtrl.publicationDate = $editNewsItemCtrl.getNow()" class="btn btn-default" title="Data e horário atual" style="position: relative; top: -2px; left: -8px">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </button>
+                   </div>
+                   <div class="alert alert-danger" role="alert" ng-if="editNewsItemForm.publicationDate.$error.datetimelocal && (editNewsItemForm.publicationDate.$touched || editNewsItemForm.$submitted)">
+                      Data inválida, preencha as horas e os minutos.
+                   </div>
+                   <div class="alert alert-danger" role="alert" ng-if="editNewsItemForm.publicationDate.$error.required && (editNewsItemForm.publicationDate.$touched || editNewsItemForm.$submitted)">
+                      Digite uma data.
+                   </div>
+               </div>
+             </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Thumbnail Atual</label>
+                   <div class="col-md-9">
+                      <img ng-src="{{ $editNewsItemCtrl.thumbnailUrl }}" ng-style="{ height: $editNewsItemCtrl.thumbnailHeight, width:  $editNewsItemCtrl.thumbnailWidth }" alt="" class="img-thumbnail">
+                   </div>
+                </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Trocar Thumbnail</label>
+                   <div class="col-md-9">
+                      <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$editNewsItemCtrl.uploadThumbnailErrorMessage">
+                         {{ $editNewsItemCtrl.uploadThumbnailErrorMessage }}
+                      </div>
+                       <table class="table" ng-if="$editNewsItemCtrl.uploader.queue.length > 0">
+                           <thead>
+                               <tr>
+                                   <th width="50%">Nome</th>
+                                   <th ng-show="$editNewsItemCtrl.uploader.isHTML5">Tamanho</th>
+                                   <th>Estado</th>
+                                   <th>Ações</th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr ng-repeat="item in $editNewsItemCtrl.uploader.queue">
+                                   <td>
+                                       <strong>{{ item.file.name }}</strong>
+                                       <!-- Image preview -->
+                                       <!--auto height-->
+                                       <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
+                                       <!--auto width-->
+                                       <div ng-show="$editNewsItemCtrl.uploader.isHTML5" ng-thumb="{ file: item._file, height: $editNewsItemCtrl.thumbnailHeight, width:  $editNewsItemCtrl.thumbnailWidth }"></div>
+                                       <!--fixed width and height -->
+                                       <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                                   </td>
+                                   <td ng-show="$editNewsItemCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                                   <td class="text-center">
+                                       <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                       <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                       <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                   </td>
+                                   <td nowrap>
+                                       <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                           <span class="glyphicon glyphicon-ban-circle"></span> Cancelar envio
+                                       </button>
+                                       <button type="button" class="btn btn-danger btn-xs" ng-click="$editNewsItemCtrl.removeFileItem(item)">
+                                           <span class="glyphicon glyphicon-trash"></span> Remover
+                                       </button>
+                                   </td>
+                               </tr>
+                           </tbody>
+                       </table>
+
+                       <div>
+                           <span class="help-block" style="margin-bottom: 10px">Caso deseja trocar o thumbnail atual, selecione uma imagem abaixo.</span>
+                           <div ng-if="$editNewsItemCtrl.uploader.queue.length > 0">
+                               Progresso do envio:
+                               <div class="progress" style="">
+                                   <div class="progress-bar" role="progressbar" ng-style="{ 'width': $editNewsItemCtrl.uploader.progress + '%' }"></div>
+                               </div>
+                           </div>
+                           <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                           <input type="file" name="thumbnailFile" nv-file-select="" uploader="$editNewsItemCtrl.uploader"/><br/>
+                           <div class="alert alert-danger" role="alert" ng-if="!$editNewsItemCtrl.thumbnailFilename && editNewsItemForm.$submitted">
+                              Selecione uma imagem.
+                           </div>
+                           <strong>
+                              A imagem será redimensionada para uma largura de {{ $editNewsItemCtrl.thumbnailWidth }} pixels
+                              e uma altura de {{ $editNewsItemCtrl.thumbnailHeight }} pixels.
+                              Se a imagem não obedecer a proporção de {{ $editNewsItemCtrl.thumbnailWidthRatio }} x {{ $editNewsItemCtrl.thumbnailHeightRatio }} (largura x altura) ela poderá ficar distorcida.
+                           </strong>
+                       </div>
+                    </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Chamada</label>
+                   <div class="col-md-9">
+                        <input type="text" class="form-control" name="headline" maxlength="150" ng-model="$editNewsItemCtrl.headline">
+                        <span class="help-block">Digite a chamada da notícia.</span>
+                   </div>
+               </div>
+           </div>
+
+           <textarea froala="$editNewsItemCtrl.froalaOptions" ng-model="$editNewsItemCtrl.body"></textarea>
+
+           <div class="form-actions">
+               <div class="row">
+                   <div class="col-md-12 text-center">
+                       <button type="button" class="btn green" ng-click="$editNewsItemCtrl.save()" ng-disabled="editNewsItemForm.$submitted && !$editNewsItemCtrl.isValid()">
+                           <i class="fa fa-check">&nbsp;</i>Salvar
+                        </button>
+                        <button type="button" class="btn red" ng-click="$editNewsItemCtrl.remove()" ng-disabled="editNewsItemForm.$submitted && !$editNewsItemCtrl.isValid()">
+                           <i class="fa fa-trash">&nbsp;</i>Remover
+                        </button>
+                       <button type="button" class="btn default" ng-click="$editNewsItemCtrl.close()">Fechar</button>
+                   </div>
+               </div>
+           </div>
+       </form>
+       <!-- END FORM-->
+   </div>
+</div>
+<!-- END NEW NEWS -->

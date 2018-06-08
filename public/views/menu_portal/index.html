@@ -1,0 +1,29 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="dashboard">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Datatables</a>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Advanced Datatables - {{ $ctrl.usersCount }}</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true"> Actions
+                <i class="fa fa-angle-down"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<h3 class="page-title">
+   Administração do Portal da Câmara
+</h3>
+<!-- END PAGE HEADER-->
+
+<div ui-view class="fade-in-up"></div>

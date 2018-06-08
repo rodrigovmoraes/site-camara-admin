@@ -1,0 +1,50 @@
+<!-- BEGIN EDIT PAGE -->
+<div class="portlet box green portlet-in-modal">
+   <div class="portlet-title">
+       <div class="caption">
+          <i class="fa fa-plus"></i>Edição de Página
+       </div>
+       <div class="tools">
+          <a href="" class="remove" data-original-title="" title="" ng-click="$editPageCtrl.close()"></a>
+       </div>
+   </div>
+   <div class="portlet-body form">
+       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editPageCtrl.errorMessage">
+          {{ $editPageCtrl.errorMessage }}
+       </div>
+       <!-- BEGIN FORM-->
+       <form action="#" name="editPageForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+          <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Título</label>
+                   <div class="col-md-9">
+                        <input type="text" class="form-control" name="title" required="true" maxlength="150" ng-model="$editPageCtrl.title">
+                        <div class="alert alert-danger" role="alert" ng-if="editPageForm.title.$error.required && (editPageForm.title.$touched || editPageForm.$submitted)">
+                           O título da página não pode ser vazio.
+                        </div>
+                        <span class="help-block">Digite o título da página.</span>
+                   </div>
+               </div>
+           </div>
+
+           <textarea froala="$editPageCtrl.froalaOptions" ng-model="$editPageCtrl.body"></textarea>
+
+           <div class="form-actions">
+               <div class="row">
+                   <div class="col-md-12 text-center">
+                       <button type="button" class="btn green" ng-click="$editPageCtrl.save()" ng-disabled="editPageForm.$submitted && !$editPageCtrl.isValid()">
+                           <i class="fa fa-check">&nbsp;</i>Salvar
+                        </button>
+                        <button type="button" class="btn red" ng-click="$editPageCtrl.remove()" ng-disabled="editPageForm.$submitted && !$editPageCtrl.isValid()">
+                           <i class="fa fa-trash">&nbsp;</i>Remover
+                        </button>
+                       <button type="button" class="btn default" ng-click="$editPageCtrl.close()">Fechar</button>
+                   </div>
+               </div>
+           </div>
+       </form>
+       <!-- END FORM-->
+   </div>
+</div>
+<!-- END EDIT PAGE -->

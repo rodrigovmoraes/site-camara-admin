@@ -1,0 +1,149 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN LIST PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento de Notícias</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+               <div class="table-toolbar">
+                  <div class="mt-element-list">
+                      <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                          <div class="list-head-title-container">
+                              <h3 class="list-title">Lista de Notícias</h3>
+                          </div>
+                          <div class="list-count pull-right bg-red">{{ $listNewsItemsCtrl.pager.totalItems ? $listNewsItemsCtrl.pager.totalItems : "" }}</div>
+                      </div>
+                      <div class="mt-list-container list-news ext-1">
+                          <ul>
+
+                             <li class="mt-list-item">
+
+                                <form class="form-inline" role="form">
+                                      <div class="form-group" style="padding-right: 7px">
+                                         <div class="input-group">
+                                           <span class="input-group-btn">
+                                              <button type="button" title="Criar nova notícia" class="btn btn-default" ui-sref="newsItem.new"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="keywords" ng-model="$listNewsItemsCtrl.filter.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chave">
+                                           </div>
+                                      </div>
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Publicação: inicial" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listNewsItemsCtrl.filter.date1" is-open="$listNewsItemsCtrl.filter.date1IsOpen" datepicker-append-to-body="true" datepicker-options="$listNewsItemsCtrl.filter.dateOptions" close-text="Close" />
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listNewsItemsCtrl.filter.openDate1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Publicação: final" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listNewsItemsCtrl.filter.date2" is-open="$listNewsItemsCtrl.filter.date2IsOpen" datepicker-append-to-body="true" datepicker-options="$listNewsItemsCtrl.filter.dateOptions" close-text="Close" />
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listNewsItemsCtrl.filter.openDate2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                         <div class="input-group">
+
+                                            <div class="dropdown">
+                                               <button class="btn btn-default dropdown-toggle" type="button" id="publicaoFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span ng-if="!$listNewsItemsCtrl.filter.publicationDescription">Publicação</span>
+                                                 <span ng-if="$listNewsItemsCtrl.filter.publicationDescription">Publicação: {{$listNewsItemsCtrl.filter.publicationDescription}}</span>
+                                                 <span class="caret"></span>
+                                               </button>
+                                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                 <li ng-class="{active: $listNewsItemsCtrl.filter.publication === 'ALL'}">
+                                                    <a href="#" ng-click="$listNewsItemsCtrl.returnAllNews()">Todos <i class="fa fa-check"  ng-if="$listNewsItemsCtrl.filter.publication === 'ALL'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listNewsItemsCtrl.filter.publication === 'PUBLISHED'}">
+                                                    <a href="#" ng-click="$listNewsItemsCtrl.returnNewsAlreadyPublished()">Publicados <i class="fa fa-check" ng-if="$listNewsItemsCtrl.filter.publication === 'PUBLISHED'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listNewsItemsCtrl.filter.publication === 'TO_BE_PUBLISHED'}">
+                                                    <a href="#" ng-click="$listNewsItemsCtrl.returnNewsToBePublished()">A serem publicados <i class="fa fa-check" ng-if="$listNewsItemsCtrl.filter.publication === 'TO_BE_PUBLISHED'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listNewsItemsCtrl.filter.publication === 'NOT_TO_BE_PUBLISHED'}">
+                                                    <a href="#" ng-click="$listNewsItemsCtrl.returnNewsNotToBePublished()">Sem publicação <i class="fa fa-check" ng-if="$listNewsItemsCtrl.filter.publication === 'NOT_TO_BE_PUBLISHED'"></i></a>
+                                                 </li>
+                                               </ul>
+                                             </div>
+
+                                         </div>
+                                      </div>
+
+
+                                </form>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listNewsItemsCtrl.infoMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $listNewsItemsCtrl.infoMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listNewsItemsCtrl.errorMessage">
+                                 <div class="alert alert-danger alert-no-margin" role="alert">
+                                    {{ $listNewsItemsCtrl.errorMessage }}
+                                 </div>
+                              </li>
+                              <li ng-repeat="newsItem in $listNewsItemsCtrl.news" class="mt-list-item" ng-class="{ 'news-highlight': newsItem.id === $listNewsItemsCtrl.highlightNewsItemId }">
+                                  <div class="list-icon-container">
+                                     <a href="javascript:;" ui-sref="newsItem.edit({ newsItemId: newsItem.id })">
+                                        <i class="fa fa-angle-right"></i>
+                                     </a>
+                                  </div>
+                                  <div class="list-thumb">
+                                      <a href="javascript:;" ui-sref="newsItem.edit({ newsItemId: newsItem.id })">
+                                          <img ng-style="{ height: $listNewsItemsCtrl.thumbnailHeight, width: $listNewsItemsCtrl.thumbnailWidth }" alt="" ng-src="{{ newsItem.thumbnailUrl }}">
+                                      </a>
+                                  </div>
+
+                                  <div class="list-datetime bold uppercase">
+                                     <i class="fa fa-clock-o font-blue" ng-if="newsItem.publish && newsItem.publicationDate"></i><span class="font-blue" ng-if="newsItem.publish && newsItem.publicationDate">Publicação: {{ newsItem.publicationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-exclamation-circle font-yellow" ng-if="newsItem.publish && newsItem.timeRemaining" style="margin-left: 15px"></i>
+                                     <span class="font-yellow" ng-if="newsItem.publish && newsItem.timeRemaining">Em</span>
+                                     <span class="font-yellow" ng-if="newsItem.publish && newsItem.timeRemaining && newsItem.timeRemaining.days"> {{ newsItem.timeRemaining.days }} dia(s)</span>
+                                     <span class="font-yellow" ng-if="newsItem.publish && newsItem.timeRemaining && newsItem.timeRemaining.hours"> {{ newsItem.timeRemaining.hours }} hora(s)</span>
+                                     <span class="font-yellow" ng-if="newsItem.publish && newsItem.timeRemaining && newsItem.timeRemaining.minutes"> {{ newsItem.timeRemaining.minutes }} minuto(s)</span>
+                                     <i class="fa fa-exclamation-circle font-yellow" ng-if="!newsItem.publish"></i><span class="font-yellow" ng-if="!newsItem.publish">Publicação: não publicado</span>
+                                     <i class="fa fa-clock-o font-black" ng-if="newsItem.creationDate" style="margin-left: 15px"></i><span class="font-black">Criação: {{ newsItem.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-clock-o font-red" ng-if="newsItem.changedDate" style="margin-left: 15px"></i><span class="font-red" ng-if="newsItem.changedDate">Edição: {{ newsItem.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                  </div>
+
+                                  <div class="list-item-content">
+                                      <h3 class="uppercase">
+                                          <a href="javascript:;" ui-sref="newsItem.edit({ newsItemId: newsItem.id })" ng-bind-html="newsItem.title | highlight: $listNewsItemsCtrl.filter.keywords"></a>
+                                      </h3>
+                                      <p ng-if="newsItem.headline" ng-bind-html="newsItem.headline | highlight: $listNewsItemsCtrl.filter.keywords"></p>
+                                  </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="!$listNewsItemsCtrl.pager.totalItems">
+                                 <div class="alert alert-danger" role="alert">
+                                    {{ $listNewsItemsCtrl.notFoundMessage }}
+                                 </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div ng-if="$listNewsItemsCtrl.pager.totalItems">
+                     <ul uib-pagination id="newsListPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" ng-change="$listNewsItemsCtrl.pager.pageChanged()" total-items="$listNewsItemsCtrl.pager.totalItems" items-per-page="$listNewsItemsCtrl.pager.itemsPerPage" ng-model="$listNewsItemsCtrl.pager.currentPage" max-size="$listNewsItemsCtrl.pager.maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+                     <div style="margin-top: 5px" class="pull-right">
+                        {{ $listNewsItemsCtrl.pager.totalItems }}  items, página {{ $listNewsItemsCtrl.pager.currentPage }} de {{ $listNewsItemsCtrl.pager.totalPages }}
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END LIST PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

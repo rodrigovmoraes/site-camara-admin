@@ -1,0 +1,363 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="dashboard">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Datatables</a>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Advanced Datatables - {{ $ctrl.usersCount }}</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true"> Actions
+                <i class="fa fa-angle-down"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<h3 class="page-title">
+   Administração do Portal da Câmara
+</h3>
+<!-- END PAGE HEADER-->
+
+<!-- BEGIN NEW ROOT GROUP MODAL CONTENT -->
+<script type="text/ng-template" id="newRootGroupModalContent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Novo grupo
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN FORM-->
+                   <form action="#" name="newRootGroupForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Nome do grupo</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="50" required="true" ng-model="$modalCtrl.name" name="name" id="name"  ui-validate='{ uniqueGroupName : $modalCtrl.uniqueGroupNameValidator }'>
+                                    <div class="alert alert-danger" role="alert" ng-if="newRootGroupForm.name.$error.required && (newRootGroupForm.name.$touched || newRootGroupForm.$submitted)">
+                                       Digite o nome do grupo.
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" ng-if="newRootGroupForm.name.$error.uniqueGroupName && (newRootGroupForm.name.$touched || newRootGroupForm.$submitted)">
+                                       Já existe um grupo com este nome.
+                                    </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-actions">
+                           <div class="row">
+                               <div class="col-md-12 text-center">
+                                   <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="newRootGroupForm.$submitted && !$modalCtrl.isValid()">
+                                       <i class="fa fa-check"></i> Ok</button>
+                                   <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+                   <!-- END FORM-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END NEW ROOT GROUP MODAL CONTENT -->
+
+<!-- BEGIN SHOW USERS MODAL CONTENT -->
+<script type="text/ng-template" id="showUsersModalContent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Usuários no grupo {{ $modalCtrl.groupCompleteName }}
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN VIEW COMPONENTS-->
+                   <div id="usersGrid" ui-grid-auto-resize ui-grid="$modalCtrl.instanceGrid" class="grid" ng-style="$modalCtrl.resizeUsersGrid()"></div>
+                   <!-- END VIEW COMPONENTS-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END SHOW USERS MODAL CONTENT -->
+
+<!-- BEGIN EDIT GROUP MODAL CONTENT -->
+<script type="text/ng-template" id="editGroupNameModalContent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Alterar nome do grupo {{ $modalCtrl.groupCompleteName }}
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN FORM-->
+                   <form action="#" name="editGroupNameForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Nome do grupo</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="50" required="true" ng-model="$modalCtrl.name" name="name" id="name"  ui-validate='{ uniqueGroupName : $modalCtrl.uniqueGroupNameValidator }'>
+                                    <div class="alert alert-danger" role="alert" ng-if="editGroupNameForm.name.$error.required && (editGroupNameForm.name.$touched || editGroupNameForm.$submitted)">
+                                       Digite o nome do grupo.
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" ng-if="editGroupNameForm.name.$error.uniqueGroupName && (editGroupNameForm.name.$touched || editGroupNameForm.$submitted)">
+                                       Já existe um subgrupo com este nome dentro deste grupo.
+                                    </div>
+                                    <span class="help-block">Digite um novo nome para este grupo.</span>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-actions">
+                           <div class="row">
+                               <div class="col-md-12 text-center">
+                                   <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="editGroupNameForm.$submitted && !$modalCtrl.isValid()">
+                                       <i class="fa fa-check"></i> Ok</button>
+                                   <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+                   <!-- END FORM-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END EDIT GROUP MODAL CONTENT -->
+
+<!-- BEGIN NEW SUBGROUP MODAL CONTENT -->
+<script type="text/ng-template" id="newSubgroupModalContent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Novo subgrupo no grupo {{ $modalCtrl.parentGroupCompleteName }}
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN FORM-->
+                   <form action="#" name="newSubgroupForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Nome do subgrupo</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="50" required="true" ng-model="$modalCtrl.name" name="name" id="name"  ui-validate='{ uniqueGroupName : $modalCtrl.uniqueGroupNameValidator }'>
+                                    <div class="alert alert-danger" role="alert" ng-if="newSubgroupForm.name.$error.required && (newSubgroupForm.name.$touched || newSubgroupForm.$submitted)">
+                                       Digite o nome do subgrupo.
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" ng-if="newSubgroupForm.name.$error.uniqueGroupName && (newSubgroupForm.name.$touched || newSubgroupForm.$submitted)">
+                                       Já existe um subgrupo com este nome dentro deste grupo.
+                                    </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-actions">
+                           <div class="row">
+                               <div class="col-md-12 text-center">
+                                   <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="newSubgroupForm.$submitted && !$modalCtrl.isValid()">
+                                       <i class="fa fa-check"></i> Ok</button>
+                                   <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+                   <!-- END FORM-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END NEW SUBGROUP MODAL CONTENT -->
+
+<!-- BEGIN ADD ROLE MODAL CONTENT -->
+<script type="text/ng-template" id="addRoleModalContent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Adição de permissões no grupo {{ $modalCtrl.parentGroupCompleteName }}
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN FORM-->
+                   <form action="#" name="addRoleToGroupForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Permissões</label>
+                               <div class="col-md-9">
+                                  <ui-select multiple="true" ng-model="$modalCtrl.selectedRoles" theme="bootstrap">
+                                       <ui-select-match placeholder="Digite a permissão desejada ...">{{ $item.name }}</ui-select-match>
+                                       <ui-select-choices repeat="role in $modalCtrl.roles | filter: $select.search">
+                                         <div ng-bind-html="role.name | highlight: $select.search"></div>
+                                       </ui-select-choices>
+                                  </ui-select>
+                                  <span class="help-block">Entre com as permissões desejadas para serem adicionadas no grupo.</span>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-actions">
+                           <div class="row">
+                               <div class="col-md-12 text-center">
+                                   <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="newSubgroupForm.$submitted && !$modalCtrl.isValid()">
+                                       <i class="fa fa-check"></i> Ok</button>
+                                   <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+                   <!-- END FORM-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END ADD ROLE MODAL CONTENT -->
+
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">Gerenciamento dos Grupos e suas Permissões</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <!-- Nested role template -->
+                           <script type="text/ng-template" id="role_renderer.html">
+                             <div id="rolenode" ui-tree-handle class="tree-node tree-node-content rolenode">
+                                  <span  class="glyphicon glyphicon-lock">
+                                  </span>
+                                  {{ role.name }}
+                                  <a class="pull-right btn btn-xs" title="Remover" data-nodrag ng-click="$ctrl.removeRole(this)" style="color: red">
+                                     <span class="glyphicon glyphicon-remove"></span>
+                                  </a>
+                             </div>
+                           </script>
+                           <!-- END: Nested role template -->
+                           <!-- Nested node template -->
+                           <script type="text/ng-template" id="userGroupTree_renderer.html">
+                             <div ui-tree-handle class="tree-node tree-node-content">
+                                  <a class="btn btn-success btn-xs" ng-if="userGroup.children && userGroup.children.length > 0 || userGroup.roles && userGroup.roles.length > 0" data-nodrag ng-click="$ctrl.toggle(this)">
+                                     <span  class="glyphicon" ng-class="{ 'glyphicon-chevron-right': $ctrl.isCollapsed(userGroup),'glyphicon-chevron-down': !$ctrl.isCollapsed(userGroup) }">
+                                     </span>
+                                  </a>
+                                  <span  class="glyphicon glyphicon-list-alt">
+                                  </span>
+                                  {{ userGroup.name }}
+                                  <a class="pull-right btn btn-xs" title="Remover grupo" data-nodrag ng-click="$ctrl.removeGroup(this)" style="color: red">
+                                     <span class="glyphicon glyphicon-remove"></span>
+                                  </a>
+                                  <a class="pull-right btn btn-xs" title="Adicionar permissão" data-nodrag ng-click="$ctrl.addRole(this)" style="margin-right: 8px;">
+                                     <span class="glyphicon glyphicon-lock"></span>
+                                  </a>
+                                  <a class="pull-right btn btn-xs"  title="Adicionar subgrupo" data-nodrag ng-click="$ctrl.newSubgroup(this)" style="margin-right: 8px;">
+                                     <span class="glyphicon glyphicon-plus"></span>
+                                  </a>
+                                  <a class="pull-right btn btn-xs"  title="Visualizar usuários" data-nodrag ng-click="$ctrl.showUsers(this)" style="margin-right: 8px;">
+                                     <span class="glyphicon glyphicon-user"></span>
+                                  </a>
+                                  <a class="pull-right btn btn-xs" title="Alterar nome do grupo" data-nodrag ng-click="$ctrl.editGroupName(this)" style="margin-right: 8px;">
+                                     <span class="glyphicon glyphicon-pencil"></span>
+                                  </a>
+                             </div>
+
+                             <ol ui-tree-nodes="" ng-model="userGroup.children" ng-class="{ hidden: $ctrl.isCollapsed(userGroup) }">
+                               <li ng-repeat="userGroup in userGroup.children" ui-tree-node ng-include="'userGroupTree_renderer.html'">
+                               </li>
+                             </ol>
+
+                             <ol ui-tree-nodes="" ng-model="userGroup.roles" ng-class="{ hidden: $ctrl.isCollapsed(userGroup) }">
+                               <li ng-repeat="role in userGroup.roles" ui-tree-node ng-include="'role_renderer.html'">
+                               </li>
+                             </ol>
+                           </script>
+                           <!--END: Nested node template -->
+
+                           <div class="row">
+                             <div class="col-sm-6">
+                                <div class="panel panel-default" role="toolbar" style="text-align: right; margin-bottom: 0px; margin-right: 10px">
+                                   <div class="btn-group" role="group">
+                                         <a class="btn" data-nodrag ng-click="$ctrl.newRootGroup()">
+                                           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Criar Grupo
+                                         </a>
+
+                                         <a class="btn" data-nodrag ng-click="$ctrl.collapseAll()">
+                                           <span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>&nbsp;Colapsar
+                                         </a>
+
+                                        <a class="btn" data-nodrag ng-click="$ctrl.expandAll()">
+                                           <span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>&nbsp;Expandir
+                                        </a>
+                                     </div>
+                                </div>
+                                <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$ctrl.errorMessage" style="margin-right: 10px">
+                                  {{$ctrl.errorMessage}}
+                                </div>
+                                <div class="alert alert-warning alert-no-margin" role="alert" ng-if="$ctrl.warnMessage" style="margin-right: 10px">
+                                  {{$ctrl.warnMessage}}
+                                </div>
+                                <div class="alert alert-info alert-no-margin" role="alert" ng-if="$ctrl.message"  style="margin-right: 10px">
+                                  {{$ctrl.message}}
+                                </div>
+                             </div>
+                           </div>
+
+                           <div class="row">
+                             <div class="col-sm-6">
+                               <div ui-tree id="tree-root">
+                                 <ol ui-tree-nodes ng-model="$ctrl.userGroupsTree">
+                                   <li ng-repeat="userGroup in $ctrl.userGroupsTree" ui-tree-node ng-include="'userGroupTree_renderer.html'"></li>
+                                 </ol>
+                               </div>
+                             </div>
+                           </div>
+
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

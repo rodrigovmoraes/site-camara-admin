@@ -1,8 +1,6 @@
 (function() {
 "use strict";
 
-   //register the service as SidebarMenuServiceReal,
-   //because the SidebarMenuService name will be used for the provider
    angular.module('SiteCamaraAdminApp').service('AuthenticationService', AuthenticationService);
 
    AuthenticationService.$inject = ['$window', '$http', 'settings', 'messages'];
@@ -66,11 +64,19 @@
          }
       }
 
-      authenticationService.checkAccess = function(toState) {
-         //TODO We have to check if the current user is logged and if he has
-         //the role to desired state
-         //(The role system has not been implemented yet)
-         return authenticationService.isLoggedIn();
+      authenticationService.checkAccess = function(role) {
+         return $http
+                  .get(settings.baseUrlSiteCamaraApi  + '/checkAccess/' + role,
+                       { headers: {
+                           Authorization: 'Bearer ' + authenticationService.getToken()
+                         }
+                       }
+                  ).then(function(result) {
+                     return result.data.ok;
+                  }).catch(function(error) {
+                     console.log(error);
+                     return false;
+                  });
       }
 
       authenticationService.revalidateSession = function() {
@@ -78,7 +84,7 @@
       };
 
       authenticationService.currentUser = function() {
-        if(isLoggedIn()){
+        if(isLoggedIn()) {
           var token = getToken();
           var payload = JSON.parse($window.atob(token.split('.')[1]));
           return {

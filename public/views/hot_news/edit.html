@@ -1,0 +1,48 @@
+<div ui-view class="fade-in-up">
+   <!-- BEGIN NEW BANNER -->
+   <div class="portlet box green portlet-in-modal">
+      <div class="portlet-title">
+          <div class="caption">
+             <i class="fa fa-plus"></i>Destaque de Cabeçalho #{{$editHotNewsItemCtrl.order}}
+          </div>
+      </div>
+      <div class="portlet-body form">
+          <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editHotNewsItemCtrl.errorMessage">
+             {{ $editHotNewsItemCtrl.errorMessage }}
+          </div>
+          <!-- BEGIN FORM-->
+          <form action="#" name="$editHotNewsItemCtrl.editHotNewsItemForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+              <div class="form-body">
+
+                 <div class="form-group">
+                   <label class="control-label col-md-3">Título</label>
+                   <div class="col-md-9">
+                        <input type="text" class="form-control" name="title" required="true" maxlength="150" ng-model="$editHotNewsItemCtrl.title">
+                        <div class="alert alert-danger" role="alert" ng-if="$editHotNewsItemCtrl.editHotNewsItemForm.title.$error.required && ($editHotNewsItemCtrl.editHotNewsItemForm.title.$touched || $editHotNewsItemCtrl.editHotNewsItemForm.$submitted)">
+                           O título do destaque não pode ser vazio.
+                        </div>
+                        <span class="help-block">Digite o título do destaque.</span>
+                   </div>
+                 </div>
+
+                   <access-selector form="$editHotNewsItemCtrl.editHotNewsItemForm" obj-description-prefix="no" obj-description="banner" obj="$editHotNewsItemCtrl.hotNewsItem" get-access="$editHotNewsItemCtrl.getAccessCallback(obj, valid)" check-access-input="$editHotNewsItemCtrl.setIsAccessInputValidCallback(valid)"></access-selector>
+              </div>
+
+              <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn green" ng-click="$editHotNewsItemCtrl.save()" ng-disabled="$editHotNewsItemCtrl.editHotNewsItemForm.$submitted && !$editHotNewsItemCtrl.isValid()">
+                            <i class="fa fa-check">&nbsp;</i>Inserir
+                        </button>
+                        <button type="button" class="btn default" ui-sref="hotNews.list">Fechar</button>
+                    </div>
+                </div>
+              </div>
+
+          </form>
+          <!-- END FORM-->
+      </div>
+   </div>
+   <!-- END NEW BANNER -->
+</div>

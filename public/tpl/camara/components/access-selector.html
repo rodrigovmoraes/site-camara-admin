@@ -1,0 +1,338 @@
+<div class="form-group">
+   <label class="control-label col-md-3">Tipo</label>
+   <div class="col-md-5">
+
+     <ui-select name="associationType" required="true" ng-model="$ctrl.selectedAssociationType" theme="bootstrap">
+          <ui-select-match placeholder="Digite o tipo de associação desejado ...">{{ $select.selected.description }}</ui-select-match>
+          <ui-select-choices repeat="associationType in $ctrl.associationTypes | filter: $select.search">
+             <div ng-bind-html="associationType.description | highlight: $select.search"></div>
+          </ui-select-choices>
+     </ui-select>
+
+     <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.associationType.$error.required && ($ctrl.form.associationType.$touched || $ctrl.form.$submitted)">
+        Selecione um tipo de associação.
+     </div>
+
+     <span class="help-block">
+        Selecione o tipo de associação, o qual define o tipo de recurso que
+        será aberto quando o internauta clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}. Há quatro tipos de associação:
+        <ul>
+           <li><i>link comum</i>, para abrir uma página na <i>web</i>;</li>
+           <li><i>notícia</i>, para abrir uma notícia existente no portal da Câmara;</li>
+           <li><i>página</i>, para abrir uma página fixa existente no portal da Câmara (p.ex. "História da Câmara");</li>
+           <li><i>youtube</i>, para abrir um vídeo no <i>Youtube</i>;</li>
+           <li><i>youtube_live</i>, para abrir uma transmissão <i>live</i> de um canal no <i>Youtube</i>;</li>
+           <li><i>flickr</i>, para abrir um álbum no <i>Flickr</i>.</li>
+        </ul>
+     </span>
+   </div>
+</div>
+<div class="form-group" ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'link'">
+   <label class="control-label col-md-3">URL</label>
+   <div class="col-md-5">
+     <input type="text" class="form-control" name="url" required="true" maxlength="250" ng-model="$ctrl.url">
+     <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.url.$error.required && ($ctrl.form.url.$touched || $ctrl.form.$submitted)">
+        Digite a <i>URL</i>.
+     </div>
+     <span class="help-block">
+        Digite o endereço da página <i>web</i> que é para ser aberta ao clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}.
+     </span>
+   </div>
+</div>
+<div class="form-group"  ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'link'">
+   <label class="control-label col-md-3">Alvo</label>
+   <div class="col-md-5">
+     <ui-select name="target" required="true" ng-model="$ctrl.selectedLinkTarget" theme="bootstrap">
+          <ui-select-match placeholder="Digite o alvo desejado do link ...">{{ $select.selected.description }}</ui-select-match>
+          <ui-select-choices repeat="linkTarget in $ctrl.linkTargets | filter: $select.search">
+             <div ng-bind-html="linkTarget.description | highlight: $select.search"></div>
+          </ui-select-choices>
+     </ui-select>
+     <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.target.$error.required && ($ctrl.form.target.$touched || $ctrl.form.$submitted)">
+        Selecione ou digite o nome de um alvo para o <i>link</i>.
+     </div>
+     <input type="text" name="targetName" ng-if="$ctrl.selectedLinkTarget != null && $ctrl.selectedLinkTarget.tag === 'specific'" placeholder="Digite o nome da janela ..." class="form-control" required="true" maxlength="250" ng-model="$ctrl.targetName">
+     <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.targetName.$error.required && ($ctrl.form.targetName.$touched || $ctrl.form.$submitted)">
+        Digite o nome da janela.
+     </div>
+     <span class="help-block">
+        Selecione a opção se a página <i>web</i> deve ser aberta <i>em uma nova janela</i>,
+        <i>na mesma janela</i> ou <i>em uma janela específica</i>.
+        Se for selecionado para abrir <i>em uma janela específica</i>, entre com o nome da janela.
+     </span>
+   </div>
+</div>
+
+<div class="form-group" ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'youtube'">
+ <label class="control-label col-md-3">Vídeo do Youtube</label>
+ <div class="col-md-9">
+   <button type="button" class="btn green" ng-click="$ctrl.openSelectYoutubeVideo()">
+      <i class="fa fa-check">&nbsp;</i>Youtube
+   </button>
+   <span class="help-block">
+      Clique no botão acima para selecionar o vídeo que é
+      para ser aberto ao clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}.
+   </span>
+   <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.$submitted && !$ctrl.checkYoutubeInput()">
+      Selecione um vídeo do youtube.
+   </div>
+   <div class="mt-element-list" ng-if="$ctrl.youtube">
+     <div class="mt-list-head list-simple font-white bg-grey-gallery">
+          <div class="list-head-title-container">
+              <h5 class="list-title">Vídeo selecionado</h5>
+          </div>
+     </div>
+     <div class="mt-list-container list-news ext-1">
+        <ul>
+             <li class="mt-list-item">
+
+                 <div class="list-thumb">
+                     <a ng-href="{{ $ctrl.youtubeUrlBase + $ctrl.youtube.videoId }}" target="_blank">
+                        <img alt="" ng-src="{{ $ctrl.youtube.thumbnailUrl }}">
+                     </a>
+                 </div>
+
+                 <div class="list-datetime bold uppercase">
+                    <i class="fa fa-clock-o font-black"></i><span class="font-black">Publicação: {{ $ctrl.youtube.publishedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                    <a class="btn btn-xs" title="Visualizar" ng-href="{{ $ctrl.youtubeUrlBase + $ctrl.youtube.videoId }}" target="_blank">
+                       <span class="glyphicon glyphicon-new-window"></span>
+                    </a>
+                    <a class="btn btn-xs" title="Remover item" data-nodrag="" ng-click="$ctrl.youtube = null;" style="color: red">
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                 </div>
+
+                 <div class="list-item-content">
+                     <h3 class="uppercase">
+                        <a ng-href="{{ $ctrl.youtubeUrlBase + $ctrl.youtube.videoId }}" target="_blank">{{ $ctrl.youtube.title }}</a>
+                     </h3>
+                     <p>{{ $ctrl.youtube.description }}</p>
+                 </div>
+             </li>
+        </ul>
+     </div>
+   </div>
+ </div>
+</div>
+
+<div class="form-group" ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'youtube_live'">
+ <label class="control-label col-md-3">Canal para transmissão <i>live</i> no Youtube</label>
+ <div class="col-md-9">
+   <button type="button" class="btn green" ng-click="$ctrl.openSelectYoutubeLiveChannel()">
+      <i class="fa fa-check">&nbsp;</i>Youtube Live
+   </button>
+   <span class="help-block">
+      Clique no botão acima para selecionar o canal com transmissão <i>live</i> que é
+      para ser aberta ao clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}.
+   </span>
+   <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.$submitted && !$ctrl.checkYoutubeLiveInput()">
+      Selecione um canal do Youtube.
+   </div>
+   <div class="mt-element-list" ng-if="$ctrl.youtubeLive">
+     <div class="mt-list-head list-simple font-white bg-grey-gallery">
+          <div class="list-head-title-container">
+              <h5 class="list-title">Canal selecionado</h5>
+          </div>
+     </div>
+     <div class="mt-list-container list-news ext-1">
+        <ul>
+             <li class="mt-list-item">
+
+                 <div class="list-thumb">
+                     <a ng-href="{{ $ctrl.youtubeLiveChannelUrlBase + $ctrl.youtubeLive.channelId }}" target="_blank">
+                        <img alt="" ng-src="{{ $ctrl.youtubeLive.thumbnailUrl }}">
+                     </a>
+                 </div>
+
+                 <div class="list-datetime bold uppercase">
+                    <i class="fa fa-clock-o font-black"></i><span class="font-black">Publicação: {{ $ctrl.youtubeLive.publishedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+                    <a class="btn btn-xs" title="Visualizar" ng-href="{{ $ctrl.youtubeLiveChannelUrlBase + $ctrl.youtubeLive.channelId }}" target="_blank">
+                       <span class="glyphicon glyphicon-new-window"></span>
+                    </a>
+                    <a class="btn btn-xs" title="Remover item" data-nodrag="" ng-click="$ctrl.youtubeLive = null;" style="color: red">
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                 </div>
+
+                 <div class="list-item-content">
+                     <h3 class="uppercase">
+                        <a ng-href="{{ $ctrl.youtubeLiveChannelUrlBase + $ctrl.youtubeLive.channelId }}" target="_blank">{{ $ctrl.youtubeLive.title }}</a>
+                     </h3>
+                     <p>{{ $ctrl.youtubeLive.description }}</p>
+                 </div>
+             </li>
+        </ul>
+     </div>
+   </div>
+ </div>
+</div>
+
+<div class="form-group" ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'flickr'">
+ <label class="control-label col-md-3">Álbum do Flickr</label>
+ <div class="col-md-9">
+    <button type="button" class="btn green" ng-click="$ctrl.openSelectFlickrPhotoset()">
+        <i class="fa fa-check">&nbsp;</i>Flickr
+    </button>
+   <span class="help-block">
+      Clique no botão acima para selecionar o álbum que
+      é para ser aberto ao clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}.
+   </span>
+   <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.$submitted && !$ctrl.checkFlickrInput()">
+      Selecione um álbum do Flickr.
+   </div>
+   <div class="mt-element-list" ng-if="$ctrl.flickr">
+     <div class="mt-list-head list-simple font-white bg-grey-gallery">
+          <div class="list-head-title-container">
+              <h5 class="list-title">Álbum selecionado</h5>
+          </div>
+     </div>
+     <div class="mt-list-container list-news ext-1">
+      <ul>
+           <li class="mt-list-item">
+
+              <div class="list-thumb">
+                   <a ng-href="{{$ctrl.flickrUrlBase + '/photos/' + $ctrl.flickr.path + '/albums/' + $ctrl.flickr.id }}" target="_blank">
+                      <img alt="" ng-src="{{ $ctrl.flickr.thumbnailUrl }}">
+                   </a>
+              </div>
+
+              <div class="list-datetime bold uppercase">
+                  <i class="fa fa-clock-o font-black"></i><span class="font-black">Criação: {{ $ctrl.flickr.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                  <a class="btn btn-xs" title="Visualizar" ng-href="{{$ctrl.flickrUrlBase + '/photos/' + $ctrl.flickr.path + '/albums/' + $ctrl.flickr.id }}" target="_blank">
+                     <span class="glyphicon glyphicon-new-window"></span>
+                  </a>
+                  <a class="btn btn-xs" title="Remover item" data-nodrag="" ng-click="$ctrl.flickr = null;" style="color: red">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+              </div>
+
+              <div class="list-item-content">
+                   <h3 class="uppercase">
+                       <a ng-href="{{$ctrl.flickrUrlBase + '/photos/' + $ctrl.flickr.path + '/albums/' + $ctrl.flickr.id }}" target="_blank">{{ $ctrl.flickr.title }}</a>
+                   </h3>
+                   <p>{{ $ctrl.flickr.description }}</p>
+              </div>
+           </li>
+      </ul>
+     </div>
+   </div>
+ </div>
+</div>
+
+<div class="form-group"  ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'flickr'">
+   <label class="control-label col-md-3">Modo de exibição</label>
+   <div class="col-md-9">
+      <label class="radio-inline"><input name="thumbnailsShowMode" type="radio" ng-model="$ctrl.flickrThumbnailsShowMode" value="m" ng-required="!$modalCtrl.flickr.thumbnailsShowMode">3 fotos</label>
+      <label class="radio-inline"><input name="thumbnailsShowMode" type="radio" ng-model="$ctrl.flickrThumbnailsShowMode" value="b" ng-required="!$modalCtrl.flickr.thumbnailsShowMode">1 foto</label>
+      <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.thumbnailsShowMode.$error.required && $ctrl.form.$submitted">
+        Selecione um modo de exibição.
+      </div>
+      <span class="help-block">
+         Selecione o modo de exibição das fotos no álbum.
+         Duas versões estão disponíveis.
+         Na primeira versão, são exibidas três fotos por vez,
+         enquanto na segunda é exibida uma foto, para esta versão a foto
+         é exibida em dimensões maiores que na primeira versão.
+      </span>
+   </div>
+</div>
+
+<div class="form-group" ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'news'">
+ <label class="control-label col-md-3">Notícia da Câmara</label>
+ <div class="col-md-9">
+    <button type="button" class="btn green" ng-click="$ctrl.openSelectNews()">
+        <i class="fa fa-check">&nbsp;</i>Selecionar Notícia
+    </button>
+   <span class="help-block">
+      Clique no botão acima para selecionar a notícia que
+      é para ser aberta ao clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}.
+   </span>
+   <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.$submitted && !$ctrl.checkNewsInput()">
+      Selecione uma notícia.
+   </div>
+   <div class="mt-element-list" ng-if="$ctrl.news">
+     <div class="mt-list-head list-simple font-white bg-grey-gallery">
+          <div class="list-head-title-container">
+              <h5 class="list-title">Notícia selecionada</h5>
+          </div>
+     </div>
+     <div class="mt-list-container list-news ext-1">
+      <ul>
+           <li class="mt-list-item">
+
+              <div class="list-thumb">
+                   <a ng-href="{{ $ctrl.newsUrlBase + $ctrl.news.id }}" target="_blank">
+                      <img alt="" ng-src="{{ $ctrl.news.thumbnailUrl }}">
+                   </a>
+              </div>
+
+              <div class="list-datetime bold uppercase">
+                  <i class="fa fa-clock-o font-black"></i>
+                  <span class="font-black">Publicação: {{ $ctrl.news.publicationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                  <a class="btn btn-xs" title="Visualizar" ng-href="{{ $ctrl.newsUrlBase + $ctrl.news.id }}" target="_blank">
+                     <span class="glyphicon glyphicon-new-window"></span>
+                  </a>
+                  <a class="btn btn-xs" title="Remover item" data-nodrag="" ng-click="$ctrl.news = null;" style="color: red">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+              </div>
+
+              <div class="list-item-content">
+                   <h3 class="uppercase">
+                       <a ng-href="{{ $ctrl.newsUrlBase + $ctrl.news.id }}" target="_blank">{{ $ctrl.news.title }}</a>
+                   </h3>
+              </div>
+           </li>
+      </ul>
+
+     </div>
+   </div>
+ </div>
+</div>
+
+<div class="form-group" ng-if="$ctrl.selectedAssociationType && $ctrl.selectedAssociationType.tag === 'page'">
+ <label class="control-label col-md-3">Página</label>
+ <div class="col-md-9">
+    <button type="button" class="btn green" ng-click="$ctrl.openSelectPage()">
+        <i class="fa fa-check">&nbsp;</i>Selecionar Página
+    </button>
+   <span class="help-block">
+      Clique no botão acima para selecionar a página do Portal da Câmara que
+      é para ser aberta ao clicar {{$ctrl.objDescriptionPrefix}} {{$ctrl.objDescription}}.
+   </span>
+   <div class="alert alert-danger" role="alert" ng-if="$ctrl.form.$submitted && !$ctrl.checkPageInput()">
+      Selecione uma página.
+   </div>
+   <div class="mt-element-list" ng-if="$ctrl.page">
+     <div class="mt-list-head list-simple font-white bg-grey-gallery">
+          <div class="list-head-title-container">
+              <h5 class="list-title">Página selecionada</h5>
+          </div>
+     </div>
+     <div class="mt-list-container list-news ext-1">
+      <ul>
+           <li class="mt-list-item">
+
+              <div class="list-datetime page-item-datetime bold uppercase">
+                  <i class="fa fa-clock-o font-black"></i>
+                  <span class="font-black">Criação: {{ $ctrl.page.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                  <a class="btn btn-xs" title="Visualizar" ng-href="{{ $ctrl.pageUrlBase + $ctrl.page.id }}" target="_blank">
+                     <span class="glyphicon glyphicon-new-window"></span>
+                  </a>
+                  <a class="btn btn-xs" title="Remover item" data-nodrag="" ng-click="$ctrl.page = null;" style="color: red">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </a>
+              </div>
+
+              <div class="list-item-content page-item-content">
+                   <h3 class="uppercase">
+                       <a ng-href="{{ $ctrl.pageUrlBase + $ctrl.page.id }}" target="_blank">{{ $ctrl.page.title }}</a>
+                   </h3>
+              </div>
+           </li>
+      </ul>
+
+     </div>
+   </div>
+ </div>
+</div>
