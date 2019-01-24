@@ -13,7 +13,7 @@
                                settings, $uibModal ) {
       var $newPageCtrl = this;
 
-      //filter options used in the list of the news
+      //filter options used in the list of the pages
       var _filterOptions = PagesService.getFilterOptions();
 
       //messages control
@@ -38,7 +38,23 @@
 
       $newPageCtrl.froalaOptions = {
         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
-        placeholderText: messages.enterPageText
+        placeholderText: messages.enterPageText,
+        imageStyles: {
+         newsImageFloatRight: 'Float Right',
+         newsImageFloatLeft: 'Float Left'
+        },
+        fileUploadParam: 'file',
+        fileUploadMethod: 'PUT',
+        fileUploadURL: PagesService.getUploadWysiwygFileAttachmentURL(),
+        fileMaxSize: 1024 * 1024 * 100, //100MB
+        imageUploadMethod: 'PUT',
+        imageUploadParam: 'file',
+        imageUploadURL:  PagesService.getUploadWysiwygFileImageAttachmentURL(),
+        imageMaxSize: 1024 * 1024 * 10, //10MB
+        videoUploadMethod: 'PUT',
+        videoUploadParam: 'file',
+        videoUploadURL:  PagesService.getUploadWysiwygFileVideoAttachmentURL(),
+        videoMaxSize: 1024 * 1024 * 100 //10MB
       };
 
       $newPageCtrl.isValid = function() {

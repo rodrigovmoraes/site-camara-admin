@@ -6,11 +6,11 @@
    EventsCalendarController.$inject = ['settings', '$scope']
    function EventsCalendarController(settings, $scope) {
       var $ctrl = this;
-      
+
       $scope.isGoogleApiSignedIn = false;
 
       $ctrl.handleGoogleApiClientLoad = function () {
-    	gapi.load('client:auth2', $ctrl.initGoogleApiClient);
+    	    gapi.load('client:auth2', $ctrl.initGoogleApiClient);
       }
 
       /**
@@ -19,7 +19,28 @@
       */
 	  $ctrl.updateSigninStatus = function (isSignedIn) {
 	  		$scope.isGoogleApiSignedIn = isSignedIn;
+	  		if (isSignedIn) {
+	  			var googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+	  			var googleUserProfile = googleUser ? googleUser.getBasicProfile() : null;
+	  			if (googleUserProfile) {
+					$scope.googleUserApiSignedIn =  googleUserProfile.getEmail();
+	  			} else {
+	  				$scope.googleUserApiSignedIn = null;
+	  			}
+	  		} else {
+	  			$scope.googleUserApiSignedIn = null;
+	  		}
+
 	  		$scope.$apply();
+	  }
+
+	  $scope.getCamaraGoogleApiUser = function() {
+	  	    return settings.GoogleCalendarService.camaraProfile;
+	  }
+
+	  $scope.isCamaraLoggedInGoogleApi = function() {
+	  	    return $scope.isGoogleApiSignedIn &&
+	  				$scope.googleUserApiSignedIn == $scope.getCamaraGoogleApiUser();
 	  }
 
  	  /**

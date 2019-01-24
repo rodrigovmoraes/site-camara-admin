@@ -82,6 +82,21 @@
                                      });
       };
 
+      PagesService.getUploadWysiwygFileAttachmentURL = function() {
+         return settings.baseUrlSiteCamaraApi +
+                     settings.Pages.uploadWysiwygFileAttachmentURL;
+      }
+
+      PagesService.getUploadWysiwygFileImageAttachmentURL = function() {
+         return settings.baseUrlSiteCamaraApi +
+                     settings.Pages.uploadWysiwygFileImageAttachmentURL;
+      }
+
+      PagesService.getUploadWysiwygFileVideoAttachmentURL = function() {
+         return settings.baseUrlSiteCamaraApi +
+                     settings.Pages.uploadWysiwygFileVideoAttachmentURL;
+      }
+
       //filtering and pagination options controller
       var _filterOptions = {
          id: null,

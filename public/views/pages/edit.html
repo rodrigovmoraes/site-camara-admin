@@ -28,12 +28,24 @@
                </div>
            </div>
 
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Link</label>
+                   <div class="col-md-9">
+                      <button type="button" class="btn btn-primary" ng-click="$editPageCtrl.copyPageUrl()" ng-disabled="editPageForm.$submitted && !$editPageCtrl.isValid()">
+                        Copiar link da página
+                      </button>
+                      <a target="_blank" ng-href="{{$editPageCtrl.pageLink}}" class="btn btn-primary">Abrir página no Portal</a>
+                   </div>
+               </div>
+           </div>
+
            <textarea froala="$editPageCtrl.froalaOptions" ng-model="$editPageCtrl.body"></textarea>
 
            <div class="form-actions">
                <div class="row">
                    <div class="col-md-12 text-center">
-                       <button type="button" class="btn green" ng-click="$editPageCtrl.save()" ng-disabled="editPageForm.$submitted && !$editPageCtrl.isValid()">
+                        <button type="button" class="btn green" ng-click="$editPageCtrl.save()" ng-disabled="editPageForm.$submitted && !$editPageCtrl.isValid()">
                            <i class="fa fa-check">&nbsp;</i>Salvar
                         </button>
                         <button type="button" class="btn red" ng-click="$editPageCtrl.remove()" ng-disabled="editPageForm.$submitted && !$editPageCtrl.isValid()">

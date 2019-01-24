@@ -25,7 +25,8 @@ var SiteCamaraAdminApp = angular.module("SiteCamaraAdminApp", [
     "angularFileUpload",
     "angular-uuid",
     "btford.socket-io",
-    "ui.calendar"
+    "ui.calendar",
+    "ngClipboard"
 ]);
 
 //Froala config
@@ -81,7 +82,10 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                    return $ocLazyLoad.load({
                        name: 'SiteCamaraAdminApp',
-                       insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                       insertBefore: '#ng_load_plugins_before', // load the above css files
+                                                                // before a LINK element with this ID.
+                                                                // Dynamic CSS files must be loaded between
+                                                                // core and theme css files
                        files: [
                            'css/camara/login.css',
                            '../assets/pages/css/login.min.css',
@@ -642,23 +646,342 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                          files: [
                              'js/camara/controllers/events_calendar/EventsCalendarController.js',
                              'js/camara/controllers/events_calendar/ListEventsCalendarController.js',
+                             'js/camara/controllers/events_calendar/NewEventModalInstanceController.js',
+                             'js/camara/controllers/events_calendar/EditEventModalInstanceController.js',
                              'js/camara/controllers/ConfirmModalInstanceController.js',
                              'https://apis.google.com/js/api.js'
                          ]
                      });
                  }]
              }
-          })
-          .state('eventsCalendar.list', {
+         })
+         .state('eventsCalendar.list', {
                 url: "/list",
                 templateUrl: "views/events_calendar/list.html",
                 controller: "ListEventsCalendarController as $listEventsCalendarCtrl"
+         })
+         //Licitacoes management
+         .state('licitacao', {
+            url: "/licitacoes.html",
+            abstract: true,
+            templateUrl: "views/licitacoes/index.html",
+            data: { pageTitle: 'Gerenciamento de Licitações' },
+            controller: "LicitacoesController as $ctrl",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load( {
+                        name: 'SiteCamaraAdminApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/camara/controllers/licitacoes/LicitacoesController.js',
+                            'js/camara/controllers/licitacoes/NewLicitacaoController.js',
+                            'js/camara/controllers/licitacoes/NewLicitacaoEventController.js',
+                            'js/camara/controllers/licitacoes/EditLicitacaoEventController.js',
+                            'js/camara/controllers/licitacoes/ViewLicitacaoController.js',
+                            'js/camara/controllers/licitacoes/EditLicitacaoController.js',
+                            'js/camara/controllers/licitacoes/ListLicitacoesController.js',
+                            'js/camara/controllers/licitacoes/PublishLicitacaoController.js',
+                            'js/camara/controllers/ConfirmModalInstanceController.js',
+                            'js/camara/controllers/MessageModalInstanceController.js',
+                            '../assets/apps/css/todo-2.css'
+                        ]
+                    });
+                }]
+            }
+         })
+         //New licitacao
+         .state('licitacao.new', {
+            url: "/new",
+            templateUrl: "views/licitacoes/new.html",
+            controller: "NewLicitacaoController as $newLicitacaoCtrl",
+            resolve: {
+                licitacoesCategories: [ 'LicitacoesService', function (LicitacoesService) {
+                   return LicitacoesService.getLicitacoesCategories().then(function(result) {
+                      return result.categories;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+                }]
+            }
+         })
+         .state('licitacao.publish', {
+            url: "/publish/:licitacaoId",
+            templateUrl: "views/licitacoes/publish.html",
+            controller: "PublishLicitacaoController as $publishLicitacaoCtrl",
+            params: {
+              licitacaoId: null
+            },
+            resolve: {
+               licitacao: ['$stateParams', 'LicitacoesService', function ($stateParams, LicitacoesService) {
+                   return LicitacoesService.getLicitacao($stateParams.licitacaoId).then(function(result) {
+                      return result.licitacao;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+               }]
+            }
+         })
+         .state('licitacao.newEvent', {
+            url: "/new/event/:licitacaoId",
+            templateUrl: "views/licitacoes/new_event.html",
+            controller: "NewLicitacaoEventController as $newLicitacaoEventCtrl",
+            params: {
+              licitacaoId: null
+            },
+            resolve: {
+                licitacao: ['$stateParams', 'LicitacoesService', function ($stateParams, LicitacoesService) {
+                   return LicitacoesService.getLicitacao($stateParams.licitacaoId).then(function(result) {
+                      return result.licitacao;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+                }]
+            }
+         })
+         .state('licitacao.editEvent', {
+            url: "/edit/event/:licitacaoId/:eventId",
+            templateUrl: "views/licitacoes/edit_event.html",
+            controller: "EditLicitacaoEventController as $editLicitacaoEventCtrl",
+            params: {
+              licitacaoId: null,
+              eventId: null
+            },
+            resolve: {
+                licitacao: ['$stateParams', 'LicitacoesService', function ($stateParams, LicitacoesService) {
+                   return LicitacoesService.getLicitacao($stateParams.licitacaoId)
+                                           .then(function(result) {
+                                              return result.licitacao;
+                                           }).catch(function(error) {
+                                              console.error(error);
+                                              throw error;
+                                           });
+                }],
+                licitacaoEvent: ['$stateParams', 'LicitacoesService', function ($stateParams, LicitacoesService) {
+                   return LicitacoesService.getLicitacaoEvent($stateParams.eventId)
+                                           .then(function(result) {
+                                              return result.licitacaoEvent;
+                                           }).catch(function(error) {
+                                              console.error(error);
+                                              throw error;
+                                           });
+                }]
+
+            }
+         })
+         //Edit licitacao
+         .state('licitacao.edit', {
+            url: "/edit/:licitacaoId",
+            templateUrl: "views/licitacoes/edit.html",
+            controller: "EditLicitacaoController as $editLicitacaoCtrl",
+            params: {
+              licitacaoId: null
+            },
+            resolve: {
+                licitacao: ['$stateParams', 'LicitacoesService', function ($stateParams, LicitacoesService) {
+                   return LicitacoesService.getLicitacao($stateParams.licitacaoId).then(function(result) {
+                      return result.licitacao;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+                }],
+                licitacoesCategories: [ 'LicitacoesService', function (LicitacoesService) {
+                  return LicitacoesService.getLicitacoesCategories().then(function(result) {
+                     return result.categories;
+                  }).catch(function(error) {
+                     console.error(error);
+                     throw error;
+                  });
+               }]
+            }
+         })
+         //View licitacao
+         .state('licitacao.view', {
+            url: "/view/:licitacaoId",
+            templateUrl: "views/licitacoes/view.html",
+            controller: "ViewLicitacaoController as $viewLicitacaoCtrl",
+            params: {
+              licitacaoId: null,
+              infoMessage: null,
+              errorMessage: null
+            },
+            resolve: {
+                licitacao: ['$stateParams', 'LicitacoesService', function ($stateParams, LicitacoesService) {
+                   return LicitacoesService.getLicitacao($stateParams.licitacaoId).then(function(result) {
+                      return result.licitacao;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+                }]
+            }
+         })
+         //Licitacoes list
+         .state('licitacao.list', {
+            url: "/list",
+            templateUrl: "views/licitacoes/list.html",
+            controller: "ListLicitacoesController as $listLicitacoesCtrl",
+            params: {
+              infoMessage: null,
+              errorMessage: null
+           },
+           resolve: {
+               licitacoesCategories: [ 'LicitacoesService', function (LicitacoesService) {
+                  return LicitacoesService.getLicitacoesCategories().then(function(result) {
+                     return result.categories;
+                  }).catch(function(error) {
+                     console.error(error);
+                     throw error;
+                  });
+               }]
+           }
+         })
+         //Legislative proposition management
+         .state('legislativeProposition', {
+            url: "/legislativeProposition.html",
+            abstract: true,
+            templateUrl: "views/legislative_proposition/index.html",
+            data: { pageTitle: 'Gerenciamento de Proposituras' },
+            controller: "LegislativePropositionController as $ctrl",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load( {
+                        name: 'SiteCamaraAdminApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/camara/controllers/legislative_proposition/LegislativePropositionController.js',
+                            'js/camara/controllers/legislative_proposition/NewLegislativePropositionController.js',
+                            'js/camara/controllers/legislative_proposition/ViewLegislativePropositionController.js',
+                            'js/camara/controllers/legislative_proposition/EditLegislativePropositionController.js',
+                            'js/camara/controllers/legislative_proposition/ListLegislativePropositionsController.js',
+                            'js/camara/controllers/legislative_proposition/NewRelationshipModalInstanceController.js',
+                            'js/camara/controllers/ConfirmModalInstanceController.js',
+                            'js/camara/controllers/MessageModalInstanceController.js',
+                            '../assets/apps/css/todo-2.css'
+                        ]
+                    });
+                }]
+            }
+         })
+         //New legislative proposition
+         .state('legislativeProposition.new', {
+            url: "/new",
+            templateUrl: "views/legislative_proposition/new.html",
+            controller: "NewLegislativePropositionController as $newLegislativePropositionCtrl",
+            resolve: {
+               legislativePropositionTypes: ['$stateParams', 'LegislativePropositionService', function ($stateParams, LegislativePropositionService) {
+                  return LegislativePropositionService
+                                       .getLegislativePropositionTypes()
+                                       .then(function(result) {
+                     return result.legislativePropositionTypes;
+                  }).catch(function(error) {
+                     console.error(error);
+                     throw error;
+                  });
+               }]
+            }
+         })
+         //Edit legislative proposition
+         .state('legislativeProposition.edit', {
+            url: "/edit/:legislativePropositionId",
+            templateUrl: "views/legislative_proposition/edit.html",
+            controller: "EditLegislativePropositionController as $editLegislativePropositionCtrl",
+            params: {
+              legislativePropositionId: null
+            },
+            resolve: {
+                legislativeProposition: ['$stateParams', 'LegislativePropositionService', function ($stateParams, LegislativePropositionService) {
+                   return LegislativePropositionService
+                              .getLegislativeProposition($stateParams.legislativePropositionId)
+                              .then(function(result) {
+                      return result.legislativeProposition;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+                }],
+                legislativePropositionTypes: ['$stateParams', 'LegislativePropositionService', function ($stateParams, LegislativePropositionService) {
+                  return LegislativePropositionService
+                              .getLegislativePropositionTypes()
+                              .then(function(result) {
+                     return result.legislativePropositionTypes;
+                  }).catch(function(error) {
+                     console.error(error);
+                     throw error;
+                  });
+               }]
+            }
+         })
+         //View legislative proposition
+         .state('legislativeProposition.view', {
+            url: "/view/:legislativePropositionId",
+            templateUrl: "views/legislative_proposition/view.html",
+            controller: "ViewLegislativePropositionController as $viewLegislativePropositionCtrl",
+            params: {
+              legislativePropositionId: null,
+              infoMessage: null,
+              errorMessage: null
+            },
+            resolve: {
+                legislativeProposition: ['$stateParams', 'LegislativePropositionService', function ($stateParams, LegislativePropositionService) {
+                   return LegislativePropositionService.getLegislativeProposition($stateParams.legislativePropositionId).then(function(result) {
+                      return result.legislativeProposition;
+                   }).catch(function(error) {
+                      console.error(error);
+                      throw error;
+                   });
+                }]
+            }
+         })
+         //Legislative propositions list
+         .state('legislativeProposition.list', {
+            url: "/list",
+            templateUrl: "views/legislative_proposition/list.html",
+            controller: "ListLegislativePropositionsController as $listLegislativePropositionsCtrl",
+            params: {
+              infoMessage: null,
+              errorMessage: null
+           },
+           resolve: {
+             legislativePropositionTypes: ['LegislativePropositionService', function (LegislativePropositionService) {
+                return LegislativePropositionService
+                                     .getLegislativePropositionTypes()
+                                     .then(function(result) {
+                   return result.legislativePropositionTypes;
+                }).catch(function(error) {
+                   console.error(error);
+                   throw error;
+                });
+             }]
+           }
+         })
+         .state('legislativePropositionTags', {
+            url: "/legislativePropositionTags.html",
+            templateUrl: "views/legislative_proposition_tags.html",
+            controller: "LegislativePropositionTagsController as $ctrl",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'SiteCamaraAdminApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/camara/controllers/legislative_proposition_tags/LegislativePropositionTagsController.js',
+                            'js/camara/controllers/legislative_proposition_tags/NewLegislativePropositionTagModalInstanceController.js',
+                            'js/camara/controllers/legislative_proposition_tags/EditLegislativePropositionTagModalInstanceController.js',
+                            'js/camara/controllers/ConfirmModalInstanceController.js'
+                        ]
+                    });
+                }]
+            }
          })
          // Dashboard
          .state('dashboard', {
             url: "/dashboard.html",
             templateUrl: "views/dashboard.html",
-            data: {pageTitle: 'Admin Dashboard Template'},
+            data: { pageTitle: 'Admin Dashboard Template' },
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -698,7 +1021,6 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                 }]
             }
          })
-
          // Blank Page
          .state('blank', {
             url: "/blank",

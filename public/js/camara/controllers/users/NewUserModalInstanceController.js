@@ -31,15 +31,6 @@
          }
       }
 
-      $modalCtrl.uniqueEmailValidator = function() {
-         var email = $scope.newUserForm.email.$viewValue;
-         if(email) {
-            return UserService.checkUniqueEmail(email);
-         } else {
-            return true;
-         }
-      }
-
       $modalCtrl.selectedPrimaryGroup = null;
 
       $modalCtrl.close = function() {

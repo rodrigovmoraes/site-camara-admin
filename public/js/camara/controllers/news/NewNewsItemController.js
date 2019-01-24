@@ -104,9 +104,25 @@
       }
 
       $newNewsItemCtrl.froalaOptions = {
-        //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
-        placeholderText: messages.enterNewsText
-     };
+         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+         placeholderText: messages.enterNewsText,
+         imageStyles: {
+          newsImageFloatRight: 'Float Right',
+          newsImageFloatLeft: 'Float Left'
+         },
+         fileUploadParam: 'file',
+         fileUploadMethod: 'PUT',
+         fileUploadURL: NewsService.getUploadWysiwygFileAttachmentURL(),
+         fileMaxSize: 1024 * 1024 * 100, //100MB
+         imageUploadMethod: 'PUT',
+         imageUploadParam: 'file',
+         imageUploadURL:  NewsService.getUploadWysiwygFileImageAttachmentURL(),
+         imageMaxSize: 1024 * 1024 * 10, //10MB
+         videoUploadMethod: 'PUT',
+         videoUploadParam: 'file',
+         videoUploadURL:  NewsService.getUploadWysiwygFileVideoAttachmentURL(),
+         videoMaxSize: 1024 * 1024 * 100 //10MB
+      };
 
       $newNewsItemCtrl.isValid = function() {
          return $scope.newNewsItemForm.$valid &&
@@ -128,7 +144,7 @@
 
             NewsService.newNewsItem(newNewsItem).then(function(result) {
                _filterOptions.id = result.id;
-               $state.go('banner.list', { infoMessage: messages.newsItemCreated });
+               $state.go('newsItem.list', { infoMessage: messages.newsItemCreated });
             }).catch(function(error) {
                $newNewsItemCtrl.errorMessage = error.message;
             });

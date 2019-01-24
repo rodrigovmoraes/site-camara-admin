@@ -150,5 +150,101 @@
          }
       }
 
+      //add days to a date
+      Utils.addDays = function(date, days) {
+         var result = new Date(date);
+         result.setDate(result.getDate() + days);
+         return result;
+      }
+
+      //add hours to a date
+      Utils.addHours = function(date, hours) {
+         var result = new Date(date);
+         result.setHours(result.getHours() + hours);
+         return result;
+      }
+
+      Utils.dateToYYYYMMDDFormat = function(date) {
+         if (date) {
+            var s = _.padStart(date.getFullYear(), 4, '0') + "-" +
+                    _.padStart(date.getMonth() + 1, 2, '0') + "-" +
+                    _.padStart(date.getDate(), 2, '0');
+            return s;
+         } else {
+            return "";
+         }
+      }
+
+      Utils.UTCDateToYYYYMMDDFormat = function(date) {
+         if (date) {
+            var s = _.padStart(date.getUTCFullYear(), 4, '0') + "-" +
+                    _.padStart(date.getUTCMonth() + 1, 2, '0') + "-" +
+                    _.padStart(date.getUTCDate(), 2, '0');
+            return s;
+         } else {
+            return "";
+         }
+      }
+
+      Utils.UTCDateToYYYYMMDDHHMIFormat = function(date, utcHoursOffset) {
+         if (date) {
+            var s = _.padStart(date.getUTCFullYear(), 4, '0') + "-" +
+                    _.padStart(date.getUTCMonth() + 1, 2, '0') + "-" +
+                    _.padStart(date.getUTCDate(), 2, '0') + "T" +
+                    _.padStart(date.getUTCHours(), 2, '0') + ":" +
+                    _.padStart(date.getUTCMinutes(), 2, '0') + ":00" +
+                    (utcHoursOffset >= 0 ? "+" : "-") +
+                    _.padStart(Math.abs(utcHoursOffset), 2, '0') + ":00"
+            return s;
+         } else {
+            return "";
+         }
+      }
+
+      Utils.UTCDateToDDMMYYYYFormat = function(date) {
+         if (date) {
+            var s = _.padStart(date.getUTCDate(), 2, '0') + "/" +
+                    _.padStart(date.getUTCMonth() + 1, 2, '0') + "/" +
+                    _.padStart(date.getUTCFullYear(), 4, '0');
+            return s;
+         } else {
+            return "";
+         }
+      }
+
+      Utils.UTCDateToHHhMIminFormat = function(date) {
+         if (date) {
+            var s = _.padStart(date.getUTCHours(), 2, '0') + "h";
+            if(date.getUTCMinutes() > 0) {
+               s += _.padStart(date.getUTCMinutes(), 2, '0') + "min";
+            }
+            return s;
+         } else {
+            return "";
+         }
+      }
+
+      Utils.dateToDDMMYYYYFormat = function(date) {
+         if (date) {
+            var s = _.padStart(date.getDate(), 2, '0') + "/" +
+                    _.padStart(date.getMonth() + 1, 2, '0') + "/" +
+                    _.padStart(date.getFullYear(), 4, '0');
+            return s;
+         } else {
+            return "";
+         }
+      }
+
+      Utils.YYYYMMDDFormatToDate = function(str) {
+         var year = parseInt(str.substr(0, 4));
+         var month = parseInt(str.substr(5, 2)) - 1;
+         var day = parseInt(str.substr(8, 2));
+
+         return new Date(year, month, day);
+      }
+
+      Utils.YYYYMMDDHHMMFormatToDate = function(str) {
+         return new Date(str);
+      }
    }
 })();

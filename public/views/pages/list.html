@@ -83,6 +83,10 @@
                                   <div class="list-datetime page-item-datetime bold uppercase">
                                      <i class="fa fa-clock-o font-black" ng-if="page.creationDate"></i><span class="font-black">Criação: {{ page.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
                                      <i class="fa fa-clock-o font-red" ng-if="page.changedDate" style="margin-left: 15px"></i><span class="font-red" ng-if="page.changedDate">Edição: {{ page.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-info-circle font-blue" style="margin-left: 10px"></i>
+                                     <span class="font-blue">
+                                        <a href="#" ng-click="$listPagesCtrl.copyPageUrl(page._id)">Copiar link da página</a>
+                                     </span>
                                   </div>
 
                               </li>
@@ -100,8 +104,6 @@
                         {{ $listPagesCtrl.pager.totalItems }}  items, página {{ $listPagesCtrl.pager.currentPage }} de {{ $listPagesCtrl.pager.totalPages }}
                      </div>
                   </div>
-
-
                </div>
             </div>
         </div>

@@ -1,0 +1,236 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN LIST PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento de Licitações</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+               <div class="table-toolbar">
+                  <div class="mt-element-list">
+                      <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                          <div class="list-head-title-container">
+                              <h3 class="list-title">Lista de Licitações</h3>
+                          </div>
+                          <div class="list-count pull-right bg-red">{{ $listLicitacoesCtrl.pager.totalItems ? $listLicitacoesCtrl.pager.totalItems : "" }}</div>
+                      </div>
+                      <div class="mt-list-container list-news ext-1">
+                          <ul>
+
+                             <li class="mt-list-item">
+
+                                <form class="form-inline" role="form">
+                                      <div class="form-group" style="padding-right: 7px">
+                                         <div class="input-group">
+                                           <span class="input-group-btn">
+                                              <button type="button" title="Criar nova licitação" class="btn btn-default" ui-sref="licitacao.new"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="keywords" ng-model="$listLicitacoesCtrl.filter.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chave">
+                                           </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="number" style="width: 120px" ng-model="$listLicitacoesCtrl.filter.number" class="form-control" id="numberInput" placeholder="número">
+                                           </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="number" style="width: 120px" ng-model="$listLicitacoesCtrl.filter.year" class="form-control" id="yearInput" placeholder="ano">
+                                           </div>
+                                      </div>
+                                </form>
+                                <form class="form-inline" style="margin-top: 7px" role="form">
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Publicação: inicial" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listLicitacoesCtrl.filter.publicationDate1" is-open="$listLicitacoesCtrl.filter.publicationDate1IsOpen" datepicker-append-to-body="true" datepicker-options="$listLicitacoesCtrl.filter.dateOptions" close-text="Close"/>
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listLicitacoesCtrl.filter.openPublicationDate1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Publicação: final" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listLicitacoesCtrl.filter.publicationDate2" is-open="$listLicitacoesCtrl.filter.publicationDate2IsOpen" datepicker-append-to-body="true" datepicker-options="$listLicitacoesCtrl.filter.dateOptions" close-text="Close"/>
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listLicitacoesCtrl.filter.openPublicationDate2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                         <div class="input-group">
+
+                                            <div class="dropdown">
+                                               <button class="btn btn-default dropdown-toggle" type="button" id="stateFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span ng-if="$listLicitacoesCtrl.filter.state === null">Estado</span>
+                                                 <span ng-if="$listLicitacoesCtrl.filter.state === 0">Estado: Criado</span>
+                                                 <span ng-if="$listLicitacoesCtrl.filter.state === 1">Estado: Publicado</span>
+                                                 <span ng-if="$listLicitacoesCtrl.filter.state === 2">Estado: Despublicado</span>
+                                                 <span class="caret"></span>
+                                               </button>
+                                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                 <li ng-class="{active: $listLicitacoesCtrl.filter.state === null}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setStateFilter(null)">Todos <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.filter.state === null"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.filter.state === 0}">
+                                                    <a href="#" ng-click="$listLicitacoesCtrl.setStateFilter(0)">Criado <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.filter.state === 0"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.filter.state === 1}">
+                                                    <a href="#" ng-click="$listLicitacoesCtrl.setStateFilter(1)">Publicado <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.filter.state === 1"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.filter.state === 2}">
+                                                    <a href="#" ng-click="$listLicitacoesCtrl.setStateFilter(2)">Despublicado <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.filter.state === 2"></i></a>
+                                                 </li>
+                                               </ul>
+                                             </div>
+
+                                         </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                         <div class="input-group">
+
+                                            <div class="dropdown">
+                                               <button class="btn btn-default dropdown-toggle" type="button" id="categoryFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span ng-if="$listLicitacoesCtrl.filter.category === null">Categoria</span>
+                                                 <span ng-if="$listLicitacoesCtrl.filter.category !== null">Categoria: {{$listLicitacoesCtrl.filter.category.description}}</span>
+                                                 <span class="caret"></span>
+                                               </button>
+
+                                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                 <li ng-class="{active: $listLicitacoesCtrl.filter.category === null}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setCategoryFilter(null)">Todos <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.filter.category === null"></i></a>
+                                                 </li>
+                                                 <li ng-repeat="licitacaoCategory in $listLicitacoesCtrl.licitacoesCategories" ng-class="{ active: $listLicitacoesCtrl.filter.category !== null && $listLicitacoesCtrl.filter.category._id === licitacaoCategory._id }">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setCategoryFilter(licitacaoCategory)">{{licitacaoCategory.description}} <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.filter.category !== null && $listLicitacoesCtrl.filter.category._id === licitacaoCategory._id"></i></a>
+                                                 </li>
+                                               </ul>
+                                             </div>
+
+                                         </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                         <div class="input-group">
+
+                                            <div class="dropdown">
+                                               <button class="btn btn-default dropdown-toggle" type="button" id="orderOption" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === null">Ordenação</span>
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === 'number'">Ordenação: Numeração</span>
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === 'creationDate'">Ordenação: Criação</span>
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === 'publicationDate'">Ordenação: Publicação</span>
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === 'changedDate'">Ordenação: Edição</span>
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === 'category'">Ordenação: Modalidade</span>
+                                                 <span ng-if="$listLicitacoesCtrl.sort.field === 'state'">Ordenação: Estado</span>
+                                                 <span class="caret"></span>
+                                               </button>
+                                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.field === 'number'}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortField('number')">Numeração <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.field === 'number'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.field === 'creationDate'}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortField('creationDate')">Criação <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.field === 'creationDate'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.field === 'publicationDate'}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortField('publicationDate')">Publicação <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.field === 'publicationDate'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.field === 'changedDate'}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortField('changedDate')">Edição <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.field === 'changedDate'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.field === 'category'}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortField('category')">Modalidade <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.field === 'category'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.field === 'state'}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortField('state')">Estado <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.field === 'state'"></i></a>
+                                                 </li>
+                                                 <li role="presentation" class="divider"></li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.direction === 1}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortDirection(1)">Ascendente <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.direction === 1"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLicitacoesCtrl.sort.direction === -1}">
+                                                   <a href="#" ng-click="$listLicitacoesCtrl.setSortDirection(-1)">Descendente <i class="fa fa-check"  ng-if="$listLicitacoesCtrl.sort.direction === -1"></i></a>
+                                                 </li>
+                                               </ul>
+                                             </div>
+
+                                         </div>
+                                      </div>
+
+                                </form>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listLicitacoesCtrl.infoMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $listLicitacoesCtrl.infoMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listLicitacoesCtrl.errorMessage">
+                                 <div class="alert alert-danger alert-no-margin" role="alert">
+                                    {{ $listLicitacoesCtrl.errorMessage }}
+                                 </div>
+                              </li>
+                              <li ng-repeat="licitacao in $listLicitacoesCtrl.licitacoes" class="mt-list-item" ng-class="{ 'news-highlight': licitacao._id === $listLicitacoesCtrl.highlightLicitacaoId }">
+                                  <div class="list-icon-container">
+                                     <a href="javascript:;" ui-sref="licitacao.view({ licitacaoId: licitacao._id })">
+                                        <i class="fa fa-angle-right"></i>
+                                     </a>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-navicon font-black"></i><span class="font-black">Licitação: {{ $listLicitacoesCtrl.formatLicitacaoNumber(licitacao.number, licitacao.year) }}</span>
+                                  </div>
+
+                                  <div class="list-item-content page-item-content">
+                                      <p class="uppercase">
+                                         <a href="javascript:;" class="black-link" ui-sref="licitacao.view({ licitacaoId: licitacao._id })" ng-bind-html="licitacao.description | highlight: $listLicitacoesCtrl.filter.keywords"></a>
+                                      </p>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-info-circle font-black" ng-if="licitacao.categoryDescription"></i><span class="font-black" ng-if="licitacao.categoryDescription">Modalidade: {{ licitacao.categoryDescription }}</span>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-info-circle font-black" ng-if="licitacao.stateDescription && licitacao.state == 0"></i><span class="font-black" ng-if="licitacao.stateDescription && licitacao.state == 0">Estado: {{ licitacao.stateDescription }}</span>
+                                     <i class="fa fa-info-circle font-green-meadow" ng-if="licitacao.stateDescription && licitacao.state == 1"></i><span class="font-green-meadow" ng-if="licitacao.stateDescription && licitacao.state == 1">Estado: {{ licitacao.stateDescription }}</span>
+                                     <i class="fa fa-info-circle font-red" ng-if="licitacao.stateDescription && licitacao.state == 2"></i><span class="font-red" ng-if="licitacao.stateDescription && licitacao.state == 2">Estado: {{ licitacao.stateDescription }}</span>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-clock-o font-black" ng-if="licitacao.creationDate"></i><span class="font-black" ng-if="licitacao.creationDate">Criação: {{ licitacao.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-clock-o font-green-meadow" ng-if="licitacao.publicationDate" style="margin-left: 15px"></i><span class="font-green-meadow" ng-if="licitacao.publicationDate">Publicação: {{ licitacao.publicationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-clock-o font-red" ng-if="licitacao.changedDate" style="margin-left: 15px"></i><span class="font-red" ng-if="licitacao.changedDate">Última Edição: {{ licitacao.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                  </div>
+
+                              </li>
+                              <li class="mt-list-item" ng-if="!$listLicitacoesCtrl.pager.totalItems">
+                                 <div class="alert alert-danger" role="alert">
+                                    {{ $listLicitacoesCtrl.notFoundMessage }}
+                                 </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div ng-if="$listLicitacoesCtrl.pager.totalItems">
+                     <ul uib-pagination id="newsListPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" ng-change="$listLicitacoesCtrl.pager.pageChanged()" total-items="$listLicitacoesCtrl.pager.totalItems" items-per-page="$listLicitacoesCtrl.pager.itemsPerPage" ng-model="$listLicitacoesCtrl.pager.currentPage" max-size="$listLicitacoesCtrl.pager.maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+                     <div style="margin-top: 5px" class="pull-right">
+                        {{ $listLicitacoesCtrl.pager.totalItems }}  items, página {{ $listLicitacoesCtrl.pager.currentPage }} de {{ $listLicitacoesCtrl.pager.totalPages }}
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END LIST PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

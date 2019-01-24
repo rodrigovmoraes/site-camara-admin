@@ -1,0 +1,238 @@
+<!-- BEGIN NEW PAGE -->
+<div class="portlet box green portlet-in-modal">
+   <div class="portlet-title">
+       <div class="caption">
+           <i class="fa fa-plus"></i>Nova Propositura
+        </div>
+       <div class="tools">
+           <a href="" class="remove" data-original-title="" title="" ng-click="$newLegislativePropositionCtrl.close()"></a>
+       </div>
+   </div>
+   <div class="portlet-body form">
+       <ul class="nav nav-tabs">
+          <li ng-class="{active: $newLegislativePropositionCtrl.isGeneralTabActive}"><a href="#" ng-click="$newLegislativePropositionCtrl.setGeneralTabActive()">Geral</a></li>
+          <li ng-class="{active: $newLegislativePropositionCtrl.isConsolidationTabActive}" ng-if="$newLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$newLegislativePropositionCtrl.setConsolidationTabActive()">Consolidação</a></li>
+          <li ng-class="{active: $newLegislativePropositionCtrl.isRelationshipsTabActive}" ng-if="$newLegislativePropositionCtrl.selectedType && $newLegislativePropositionCtrl.selectedType.code === 1"><a href="#"  ng-click="$newLegislativePropositionCtrl.setRelationshipsTabActive()">Relacionamentos</a></li>
+       </ul>
+
+       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$newLegislativePropositionCtrl.errorMessage">
+          {{ $newLegislativePropositionCtrl.errorMessage }}
+       </div>
+       <!-- BEGIN FORM-->
+       <form action="#" name="$newLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+          <div class="form-group" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive">
+             <label class="control-label col-md-3">Tipo</label>
+             <div class="col-md-5">
+               <ui-select name="type" required="true" ng-model="$newLegislativePropositionCtrl.selectedType" theme="bootstrap">
+                    <ui-select-match placeholder="Digite o tipo da propositura ...">{{ $select.selected.description }}</ui-select-match>
+                    <ui-select-choices repeat="legislativePropositionType in $newLegislativePropositionCtrl.legislativePropositionTypes | filter: $select.search">
+                       <div ng-bind-html="legislativePropositionType.description | highlight: $select.search"></div>
+                    </ui-select-choices>
+               </ui-select>
+
+               <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.category.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.category.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                  Selecione um tipo de propositura.
+               </div>
+
+               <span class="help-block">
+                  Selecione o tipo da propositura.
+               </span>
+             </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Número</label>
+                   <div class="col-md-9">
+                        <input type="number" style="width: 80px" class="form-control" name="number" required="true" maxlength="4" ng-model="$newLegislativePropositionCtrl.number" ui-validate='{ uniqueNumber : $newLegislativePropositionCtrl.uniqueNumberValidator }'>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.number.$error.uniqueNumber && ($newLegislativePropositionCtrl.newLegislativePropositionForm.number.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                           Já foi cadastrada uma propositura deste tipo com este número.
+                        </div>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.number.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.number.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                           O número precisa ser preenchido.
+                        </div>
+                        <span class="help-block">Digite o número da propositura.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <label class="control-label col-md-3">Data</label>
+               <div class="col-md-9">
+                     <input type="date" id="legislativePropositionDate" required="true" name="date" ng-model="$newLegislativePropositionCtrl.date" placeholder="yyyy-MM-dd"/>
+                     <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.date.$error.date && ($newLegislativePropositionCtrl.newLegislativePropositionForm.date.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                        Data inválida, preencha o dia, o mês e o ano.
+                     </div>
+                     <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.date.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.date.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                        A data da propositura precisa ser preenchida.
+                     </div>
+                     <span class="help-block">
+                        Digite a data da propositura.
+                     </span>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Ementa</label>
+                   <div class="col-md-9">
+                        <textarea class="form-control" name="description" required="true" rows="4" maxlength="5000" ng-model="$newLegislativePropositionCtrl.description">
+                        </textarea>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.description.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.description.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                           A ementa precisa ser preenchida.
+                        </div>
+                        <span class="help-block">Digite a ementa da propositura.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive" ng-if="$newLegislativePropositionCtrl.selectedType && $newLegislativePropositionCtrl.legislativePropositionTags && $newLegislativePropositionCtrl.legislativePropositionTags.length > 0">
+             <label class="control-label col-md-3">Classificações</label>
+             <div class="col-md-5">
+               <div class="input-group">
+                  <ui-select multiple="true" ng-model="$newLegislativePropositionCtrl.selectedTags" theme="bootstrap">
+                     <ui-select-match placeholder="Digite a classificação desejada ...">{{ $item.description }}</ui-select-match>
+                     <ui-select-choices repeat="legislativePropositionTag in $newLegislativePropositionCtrl.legislativePropositionTags | filter: $select.search">
+                        <div ng-bind-html="legislativePropositionTag.description | highlight: $select.search"></div>
+                     </ui-select-choices>
+                  </ui-select>
+                  <span class="help-block">
+                     Escolha as classificações desta propositura.
+                     As classificações são utilizadas para categorizar as proposituras.
+                  </span>
+               </div>
+             </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto</label>
+                   <div class="col-md-9">
+                        <textarea froala="$newLegislativePropositionCtrl.textFroalaOptions" name="text" ng-model="$newLegislativePropositionCtrl.text" required="true"></textarea>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.text.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.text.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                           O texto precisa ser preenchido.
+                        </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto Anexo</label>
+                   <div class="col-md-9">
+                        <textarea froala="$newLegislativePropositionCtrl.textAttachmentFroalaOptions" name="textAttachment" ng-model="$newLegislativePropositionCtrl.textAttachment"></textarea>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isConsolidationTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto Consolidado</label>
+                   <div class="col-md-9">
+                      <textarea froala="$newLegislativePropositionCtrl.consolidatedTextFroalaOptions" name="consolidatedText" ng-model="$newLegislativePropositionCtrl.consolidatedText"></textarea>
+                      <span class="help-block">
+                        Caso seja digitado algum conteúdo para o texto consolidado, o texto original
+                        será substituído pelo texto digitado na apresentação da propositura para
+                        o internauta no Portal da Câmara. O mesmo irá ocorrer para o texto anexo consolidado
+                        (campo abaixo).
+                      </span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isConsolidationTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto Anexo Consolidado</label>
+                   <div class="col-md-9">
+                        <textarea froala="$newLegislativePropositionCtrl.consolidatedTextAttachmentFroalaOptions" name="consolidatedTextAttachment" ng-model="$newLegislativePropositionCtrl.consolidatedTextAttachment"></textarea>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$newLegislativePropositionCtrl.isRelationshipsTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
+             <label class="control-label col-md-3">Tipo de Relacionamento</label>
+             <div class="col-md-5">
+                <div class="input-group">
+                   <ui-select name="relationShiptype" ng-model="$newLegislativePropositionCtrl.selectedRelationshipType" theme="bootstrap">
+                       <ui-select-match placeholder="Digite o tipo do relacionamento ...">{{ $select.selected.description }}</ui-select-match>
+                       <ui-select-choices repeat="legislativePropositionRelationshipType in $newLegislativePropositionCtrl.legislativePropositionRelationshipTypes | filter: $select.search">
+                          <div ng-bind-html="legislativePropositionRelationshipType.description | highlight: $select.search"></div>
+                       </ui-select-choices>
+                   </ui-select>
+
+                  <span class="input-group-btn">
+                     <button type="button" title="Adicionar relacionamento" class="btn btn-default" ng-click="$newLegislativePropositionCtrl.addRelationship($newLegislativePropositionCtrl.selectedRelationshipType)">
+                        <i class="glyphicon glyphicon-plus"></i>
+                     </button>
+                  </span>
+               </div>
+
+               <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.relationshipTypeNotEntered && !$newLegislativePropositionCtrl.selectedRelationshipType">
+                  Selecione um tipo de relacionamento.
+               </div>
+
+               <span class="help-block">
+                  Adicione os relacionamentos que esta lei possui com outras leis.
+                  Para isso, selecione o tipo de relacionamento que deseja incluir e clique no botão ao lado.
+               </span>
+             </div>
+           </div>
+
+           <div class="form-body" ng-show="$newLegislativePropositionCtrl.isRelationshipsTabActive && $newLegislativePropositionCtrl.relationshipsToBeIncluded && $newLegislativePropositionCtrl.relationshipsToBeIncluded.length > 0">
+               <div class="form-group">
+                  <div class="col-md-12">
+                     <div class="mt-element-list" style="border-top: 1px solid; border-color: #e7ecf1">
+                        <div class="mt-list-container list-news ext-1">
+                             <ul>
+                                  <li class="mt-list-item" ng-repeat="relationshipsToBeIncluded in $newLegislativePropositionCtrl.relationshipsToBeIncluded" class="mt-list-item">
+                                       <div class="list-datetime page-item-datetime bold uppercase">
+                                          <i class="fa fa-navicon font-black"></i>
+                                          <span class="font-black">
+                                             {{relationshipsToBeIncluded.type.description}}: {{$newLegislativePropositionCtrl.formatLegislativePropositionNumber(relationshipsToBeIncluded.otherLegislativeProposition.number, relationshipsToBeIncluded.otherLegislativeProposition.year)}}
+                                          </span>
+                                       </div>
+
+                                       <div class="list-item-content page-item-content">
+                                          <p class="uppercase">
+                                             <a href="javascript:;" ng-click="$modalCtrl.add()" class="black-link ng-binding">
+                                                {{relationshipsToBeIncluded.otherLegislativeProposition.description}}
+                                             </a>
+                                          </p>
+                                       </div>
+
+                                       <div class="list-datetime page-item-datetime bold uppercase">
+                                          <i class="fa fa-clock-o font-black"></i>
+                                          <span class="font-black ng-binding">Data: {{ relationshipsToBeIncluded.otherLegislativeProposition.date | date: 'dd/MM/yyyy' }}</span>
+                                          <i class="fa fa-info-circle font-blue-madison ng-scope" style="margin-left: 10px"></i>
+                                          <span class="font-blue-madison">Criação: {{ relationshipsToBeIncluded.otherLegislativeProposition.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                          <i class="fa fa-info-circle font-red" style="margin-left: 10px" ng-if="relationshipsToBeIncluded.otherLegislativeProposition.changedDate"></i>
+                                          <span class="font-red" ng-if="relationshipsToBeIncluded.otherLegislativeProposition.changedDate">Alteração: {{ relationshipsToBeIncluded.otherLegislativeProposition.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                          <a href="#" style="text-decoration: none" ng-click="$newLegislativePropositionCtrl.removeRelationship($index)">
+                                             <i class="fa fa-close font-red" style="margin-left: 10px"></i>
+                                             <span class="font-red">Remover</span>
+                                          </a>
+                                       </div>
+                                  </li>
+                             </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-actions">
+               <div class="row">
+                   <div class="col-md-12 text-center">
+                        <button type="button" class="btn green" ng-click="$newLegislativePropositionCtrl.save()" ng-disabled="$newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted && !$newLegislativePropositionCtrl.isValid()">
+                           <i class="fa fa-check"></i>Salvar
+                        </button>
+                       <button type="button" class="btn default" ng-click="$newLegislativePropositionCtrl.close()">Fechar</button>
+                   </div>
+               </div>
+           </div>
+       </form>
+       <!-- END FORM-->
+   </div>
+</div>
+<!-- END NEW PAGE -->

@@ -1,0 +1,209 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="dashboard">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Datatables</a>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Advanced Datatables - {{ $ctrl.usersCount }}</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true"> Actions
+                <i class="fa fa-angle-down"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<h3 class="page-title">
+   Administração do Portal da Câmara
+</h3>
+<!-- END PAGE HEADER-->
+
+<!-- BEGIN MAIN CONTENT -->
+<!-- BEGIN NEW LEGISLATIVE PROPOSITION TAG MODAL CONTENT -->
+<div id="new-legislative-proposition-tag-modal">
+   <script type="text/ng-template" id="newLegislativePropositionTagModalContent.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Nova Classificação
+                      </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+
+                  <div class="portlet-body form">
+                     <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                        {{$modalCtrl.errorMessage}}
+                     </div>
+                      <!-- BEGIN FORM-->
+                      <form action="#" name="newLegislativePropositionTagForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                           <div class="form-group">
+                              <label class="control-label col-md-3">Tipo de Propositura</label>
+                              <div class="col-md-9">
+                                <ui-select name="type" required="true" ng-model="$modalCtrl.selectedType" theme="bootstrap">
+                                     <ui-select-match placeholder="Digite o tipo da propositura ...">{{ $select.selected.description }}</ui-select-match>
+                                     <ui-select-choices repeat="legislativePropositionType in $modalCtrl.legislativePropositionTypes | filter: $select.search">
+                                        <div ng-bind-html="legislativePropositionType.description | highlight: $select.search"></div>
+                                     </ui-select-choices>
+                                </ui-select>
+                                <div class="alert alert-danger" role="alert" ng-if="newLegislativePropositionTagForm.type.$error.required && ($newLegislativePropositionTagForm.type.$touched || newLegislativePropositionTagForm.$submitted)">
+                                  O tipo de propositura desta classificação precisa ser selecionado.
+                                </div>
+                                <span class="help-block">Escolha o tipo de propositura para esta classificação.</span>
+                              </div>
+                            </div>
+
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Descrição</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" required="true" ng-model="$modalCtrl.description" name="description" id="description" ui-validate='{ uniqueDescription : $modalCtrl.uniqueDescriptionValidator }'>
+                                    <div class="alert alert-danger" role="alert" ng-if="newLegislativePropositionTagForm.description.$error.required && ($newLegislativePropositionTagForm.description.$touched || newLegislativePropositionTagForm.$submitted)">
+                                      A descrição precisa ser preenchida.
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" ng-if="newLegislativePropositionTagForm.description.$error.uniqueDescription && (newLegislativePropositionTagForm.description.$touched || newLegislativePropositionTagForm.$submitted)">
+                                      Já existe uma classificação cadastrada com esta descrição para este tipo de propositura.
+                                    </div>
+                               </div>
+                           </div>
+
+                           <!-- BEGIN SAVE/CANCEL BUTTONS -->
+                           <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="newLegislativePropositionTagForm.$submitted && !$modalCtrl.isValid()">
+                                          <i class="fa fa-check"></i>Salvar</button>
+                                      <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                                  </div>
+                              </div>
+                           </div>
+                         <!-- END SAVE/CANCEL BUTTONS -->
+                      </form>
+                      <!-- END FORM-->
+                  </div>
+
+                  <!-- ENDS TABS-->
+               </div>
+          </div>
+   </script>
+</div>
+<!-- END NEW LEGISLATIVE PROPOSITION TAG MODAL CONTENT -->
+
+<!-- BEGIN EDIT LEGISLATIVE PROPOSITION TAG MODAL CONTENT -->
+<div id="edit-legislative-proposition-tag-modal">
+   <script type="text/ng-template" id="editLegislativePropositionTagModalContent.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Edição de Classificação
+                      </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+
+                  <div class="portlet-body form">
+                     <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                        {{$modalCtrl.errorMessage}}
+                     </div>
+                      <!-- BEGIN FORM-->
+                      <form action="#" name="editLegislativePropositionTagForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Tipo de Propositura</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" disabled="true" required="false" ng-model="$modalCtrl.legislativePropositionTypesDescription" name="legislativePropositionTypesDescription" id="legislativePropositionTypesDescription">
+                               </div>
+                           </div>
+
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Descrição</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control"  required="true" ng-model="$modalCtrl.description" name="description" id="description" ui-validate='{ uniqueDescription : $modalCtrl.uniqueDescriptionValidator }'>
+                                    <div class="alert alert-danger" role="alert" ng-if="editLegislativePropositionTagForm.description.$error.uniqueDescription && (editLegislativePropositionTagForm.description.$touched || editLegislativePropositionTagForm.$submitted)">
+                                      Já existe uma classificação cadastrada com esta descrição para este tipo de propositura.
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" ng-if="editLegislativePropositionTagForm.description.$error.required && ($editLegislativePropositionTagForm.description.$touched || editLegislativePropositionTagForm.$submitted)">
+                                      A descrição precisa ser preenchida.
+                                   </div>
+                               </div>
+                           </div>
+
+                           <!-- BEGIN SAVE/CANCEL BUTTONS -->
+                           <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="editLegislativePropositionTagForm.$submitted && !$modalCtrl.isValid()">
+                                          <i class="fa fa-check"></i>Salvar
+                                       </button>
+                                       <button type="button" class="btn red" ng-click="$modalCtrl.remove()">
+                                         <i class="fa fa-trash">&nbsp;</i>Remover
+                                       </button>
+                                      <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                                  </div>
+                              </div>
+                           </div>
+                         <!-- END SAVE/CANCEL BUTTONS -->
+                      </form>
+                      <!-- END FORM-->
+                  </div>
+
+                  <!-- ENDS TABS-->
+               </div>
+          </div>
+   </script>
+</div>
+<!-- END EDIT LEGISLATIVE PROPOSITION TAG MODAL CONTENT -->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">Gerenciamento de Classificações de Propositura</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button id="sample_editable_1_new" class="btn sbold green" ng-click="$ctrl.openNewLegislativePropositionTagModal();">
+                                   Nova Classificação
+                                   <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$ctrl.errorMessage">
+                       {{$ctrl.errorMessage}}
+                    </div>
+                    <div class="alert alert-warning alert-no-margin" role="alert" ng-if="$ctrl.warnMessage">
+                       {{$ctrl.warnMessage}}
+                    </div>
+                    <div class="alert alert-info alert-no-margin" role="alert" ng-if="$ctrl.message">
+                      {{$ctrl.message}}
+                    </div>
+                    <div id="legislativePropositionGrid" style="height: 380px" ui-grid="$ctrl.instanceGrid" ui-grid-pagination class="grid"></div>
+                    <div ng-if="$ctrl.pager.totalItems">
+                       <ul id="legislativePropositionGridPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" uib-pagination total-items="$ctrl.pager.totalItems" items-per-page="$ctrl.pager.itemsPerPage" ng-model="$ctrl.pager.currentPage" max-size="$ctrl.pager.maxSize" class="pagination-sm  pull-right" boundary-links="true" rotate="false" ng-change="$ctrl.pager.pageChanged()"></ul>
+                       {{$ctrl.pager.totalItems}}  items, página {{$ctrl.pager.currentPage}} de {{$ctrl.pager.totalPages}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END TABLE PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

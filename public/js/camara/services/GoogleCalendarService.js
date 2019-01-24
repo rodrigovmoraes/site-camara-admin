@@ -3,21 +3,23 @@
 
    angular.module('SiteCamaraAdminApp').service('GoogleCalendarService', GoogleCalendarService);
 
-   GoogleCalendarService.$inject = [ 'settings', '$http' ];
-   function GoogleCalendarService( settings, $http, messages ) {
+   GoogleCalendarService.$inject = [ 'settings', '$http',
+                                     'messages', '$q' ];
+   function GoogleCalendarService( settings, $http,
+                                   messages, $q ) {
       var googleCalendarService = this;
 
-      //map errors received from the server to appropriate error message
-      var _handleError = function(error) {
-         if(!error.data) {
+      var _rejectError = function(reject, error) {
+        if(!error.result || !error.result.error) {
            //network error
            error.message = messages.serverCommunicationError;
         } else {
-           error.message = error.data.error.message;
+           error.message = error.result.error.message;
         }
-        throw error;
+        reject(error);
       }
 
+      //extract date from start and end fields from calendar api
       var _extractDate = function(dte) {
         if(dte) {
           if(dte.date) {
@@ -38,62 +40,68 @@
         }
       }
 
+      //get events from a page
       var _getEvents = function(pageToken) {
         var params = {
             timeZone: settings.GoogleCalendarService.timeZone,
-            key: settings.GoogleCalendarService.apiKey,
-            pageToken: pageToken
+            pageToken: pageToken,
+            calendarId: settings.GoogleCalendarService.camaraCalendarId
          }
 
-         return new Promise(function(resolve) {
-            $http.get( settings.GoogleCalendarService.urlBase +
-                           "/calendars/" + settings.GoogleCalendarService.camaraCalendarId + "/events", {
-                           "params": params
-                     }).then(function(result) {
-                          if(result &&  result.data && result.data.items) {
-                              var events = [];
-                              var items = result.data.items;
-                              var i;
-                              for(i = 0; i < items.length; i++) {
-                                     var resultItem = items[i];
-                                     events.push({
-                                        id: resultItem.id,
-                                        start: _extractDate(resultItem.start).date,
-                                        end: _extractDate(resultItem.end).date,
-                                        url: resultItem.htmlLink,
-                                        title: resultItem.summary,
-                                        allDay: _extractDate(resultItem.start).allDay
-                                     });
-                              }
-                              resolve({
-                                'nextPageToken': events.length > 0 && result.data ? result.data.nextPageToken : null,
-                                'items': events
-                              });
-                          } else {
-                              resolve({  'nextPageToken': null,
-                                         'items': []
-                                      });
-                          }
-                     });
-         });
-
+         return $q(function(resolve, reject) {
+            gapi.client.calendar
+                       .events
+                       .list(params)
+                       .then(function(response) {
+                            var result = response.result;
+                            if(result && result.items) {
+                                var events = [];
+                                var items = result.items;
+                                var i;
+                                for(i = 0; i < items.length; i++) {
+                                       var resultItem = items[i];
+                                       events.push({
+                                          id: resultItem.id,
+                                          start: _extractDate(resultItem.start).date,
+                                          end: _extractDate(resultItem.end).date,
+                                          title: resultItem.summary,
+                                          allDay: _extractDate(resultItem.start).allDay
+                                       });
+                                }
+                                resolve({
+                                  'nextPageToken': events.length > 0 && result ? result.nextPageToken : null,
+                                  'items': events
+                                });
+                            } else {
+                                resolve({  'nextPageToken': null,
+                                           'items': []
+                                        });
+                            }
+                       }).catch(function(error) {
+                          reject(error);
+                       });
+           });
       }
 
+      //retrieve events from calendar api
       googleCalendarService.getEvents = async function(start, end) {
          var params = {
             timeZone: settings.GoogleCalendarService.timeZone,
-            key: settings.GoogleCalendarService.apiKey,
-            maxResults : 1
+            calendarId: settings.GoogleCalendarService.camaraCalendarId,
+            timeMin: start.toISOString(),
+            timeMax: end.toISOString()
          }
-         return $http
-                  .get( settings.GoogleCalendarService.urlBase +
-                        "/calendars/" + settings.GoogleCalendarService.camaraCalendarId + "/events", {
-                        "params": params
-                  }).then(async function(result) {
-                     //get the first page 
+         return $q(function(resolve, reject) {
+            gapi.client
+                .calendar
+                .events
+                .list(params)
+                .then(async function(response) {
+                     //get the first page
                      var events = [];
-                     if(result &&  result.data && result.data.items) {
-                        var items = result.data.items;
+                     var result = response.result;
+                     if(result &&  result.items) {
+                        var items = result.items;
                         var i;
                         for(i = 0; i < items.length; i++) {
                               var resultItem = items[i];
@@ -101,13 +109,12 @@
                                  id: resultItem.id,
                                  start: _extractDate(resultItem.start).date,
                                  end: _extractDate(resultItem.end).date,
-                                 url: resultItem.htmlLink,
                                  title: resultItem.summary,
                                  allDay: _extractDate(resultItem.start).allDay
                               });
                         }
                         //get next pages
-                        var next = result.data ? result.data.nextPageToken : null;
+                        var next = result ? result.nextPageToken : null;
                         while(next) {
                            var result = await _getEvents(next);
                            next = result.nextPageToken;
@@ -117,13 +124,94 @@
                                 events.push(resultItem);
                            }
                         }
-                        return events;
+                        resolve(events);
                      } else {
-                        return [];
+                        resolve([]);
                      }
-                  }).catch(function(error) {
-                     _handleError(error);
-                  });
+                }).catch(function(error) {
+                     _rejectError(reject, error);
+                });
+         });
+      }
+
+      googleCalendarService.newEvent = function (event) {
+         var params = {
+            calendarId: settings.GoogleCalendarService.camaraCalendarId,
+            resource: event
+         }
+         return $q(function(resolve, reject) {
+                   gapi.client.calendar
+                              .events
+                              .insert(params)
+                              .then(function(result) {
+                                 resolve(result);
+                              }, function(error) {
+                                 _rejectError(reject, error);
+                              });
+                });
+
+      }
+
+      googleCalendarService.editEvent = function (eventId, event) {
+         var params = {
+            calendarId: settings.GoogleCalendarService.camaraCalendarId,
+            eventId: eventId,
+            resource: event
+         }
+         return $q(function(resolve, reject) {
+            gapi.client.calendar
+                       .events
+                       .update(params)
+                       .then(function(result) {
+                           resolve(result);
+                        }, function(error) {
+                           _rejectError(reject, error);
+                        });
+         });
+      }
+
+      googleCalendarService.getEvent = function (eventId) {
+         var params = {
+            'calendarId': settings.GoogleCalendarService.camaraCalendarId,
+            'eventId': eventId
+         }
+         return $q(function(resolve, reject) {
+            gapi.client.calendar
+                       .events
+                       .get(params)
+                       .then(function(response) {
+                           var resultItem = response.result;
+
+                           resolve({
+                              id: resultItem.id,
+                              url: resultItem.htmlLink,
+                              start: _extractDate(resultItem.start).date,
+                              end: _extractDate(resultItem.end).date,
+                              title: resultItem.summary,
+                              allDay: _extractDate(resultItem.start).allDay,
+                              location: resultItem.location,
+                              description: resultItem.description
+                           });
+                        }, function(error) {
+                           _rejectError(reject, error);
+                        });
+         });
+      }
+
+      googleCalendarService.removeEvent = function (eventId) {
+         var params = {
+            'calendarId': settings.GoogleCalendarService.camaraCalendarId,
+            'eventId': eventId
+         }
+         return $q(function(resolve, reject) {
+            gapi.client.calendar.events
+                                .delete(params)
+                                .then(function(response) {
+                                    resolve(response);
+                                }, function(error) {
+                                    _rejectError(reject, error);
+                                });
+         });
       }
    }
 })();

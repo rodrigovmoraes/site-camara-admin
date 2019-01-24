@@ -1,0 +1,170 @@
+<div ui-view class="fade-in-up">
+   <div class="portlet light portlet-fit bordered">
+       <div class="portlet-title">
+           <div class="caption">
+               <i class=" icon-layers font-green"></i>
+               <span class="caption-subject font-green bold uppercase">Gerenciamento de Licitações</span>
+           </div>
+       </div>
+       <div class="portlet-body">
+          <div class="table-toolbar">
+             <div class="mt-element-list">
+                 <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                     <div class="list-head-title-container uppercase">
+                         <h3 class="list-title">Licitação: {{ $newLicitacaoEventCtrl.formatLicitacaoNumber($newLicitacaoEventCtrl.licitacao.number, $newLicitacaoEventCtrl.licitacao.year) }}</h3>
+                     </div>
+                 </div>
+                 <div class="mt-list-container list-news ext-1">
+                     <ul>
+                         <li class="mt-list-item">
+                             <div class="list-item-content page-item-content">
+                                 <p class="uppercase">
+                                    {{$newLicitacaoEventCtrl.licitacao.description}}
+                                 </p>
+                             </div>
+
+                             <div class="list-datetime page-item-datetime bold uppercase">
+                                <i class="fa fa-info-circle font-black" ng-if="$newLicitacaoEventCtrl.licitacao.categoryDescription"></i>
+                                <span class="font-black" ng-if="$newLicitacaoEventCtrl.licitacao.categoryDescription">Modalidade: {{ $newLicitacaoEventCtrl.licitacao.categoryDescription }}</span>
+                             </div>
+
+                             <div class="list-datetime page-item-datetime bold uppercase">
+                                <i class="fa fa-info-circle font-black" ng-if="$newLicitacaoEventCtrl.licitacao.stateDescription && $newLicitacaoEventCtrl.licitacao.state == 0"></i>
+                                <span class="font-black" ng-if="$newLicitacaoEventCtrl.licitacao.stateDescription && $newLicitacaoEventCtrl.licitacao.state == 0">Estado: {{ $newLicitacaoEventCtrl.licitacao.stateDescription }}</span>
+                                <i class="fa fa-info-circle font-green-meadow" ng-if="$newLicitacaoEventCtrl.licitacao.stateDescription && $newLicitacaoEventCtrl.licitacao.state == 1"></i><span class="font-green-meadow" ng-if="$newLicitacaoEventCtrl.licitacao.stateDescription && $newLicitacaoEventCtrl.licitacao.state == 1">Estado: {{ $newLicitacaoEventCtrl.licitacao.stateDescription }}</span>
+                                <i class="fa fa-info-circle font-red" ng-if="$newLicitacaoEventCtrl.licitacao.stateDescription && $newLicitacaoEventCtrl.licitacao.state == 2"></i><span class="font-red" ng-if="$newLicitacaoEventCtrl.licitacao.stateDescription && $newLicitacaoEventCtrl.licitacao.state == 2">Estado: {{ licitacao.stateDescription }}</span>
+                             </div>
+
+                             <div class="list-datetime page-item-datetime bold uppercase">
+                                <i class="fa fa-clock-o font-black" ng-if="$newLicitacaoEventCtrl.licitacao.creationDate"></i><span class="font-black" ng-if="$newLicitacaoEventCtrl.licitacao.creationDate">Criação: {{ $newLicitacaoEventCtrl.licitacao.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                <i class="fa fa-clock-o font-green-meadow" ng-if="$newLicitacaoEventCtrl.licitacao.publicationDate" style="margin-left: 15px"></i><span class="font-green-meadow" ng-if="$newLicitacaoEventCtrl.licitacao.publicationDate">Publicação: {{ $newLicitacaoEventCtrl.licitacao.publicationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                <i class="fa fa-clock-o font-red" ng-if="$newLicitacaoEventCtrl.licitacao.changedDate" style="margin-left: 15px"></i><span class="font-red" ng-if="$newLicitacaoEventCtrl.licitacao.changedDate">Última Edição: {{ $newLicitacaoEventCtrl.licitacao.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                             </div>
+
+                         </li>
+
+                         <li class="mt-list-item">
+                            <!-- BEGIN NEW LICITACAO EVENT -->
+                            <div class="portlet box green portlet-in-modal">
+                               <div class="portlet-title">
+                                   <div class="caption">
+                                      <i class="fa fa-plus"></i>Novo Evento
+                                   </div>
+                               </div>
+                               <div class="portlet-body form">
+                                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$newLicitacaoEventCtrl.errorMessage">
+                                      {{ $newLicitacaoEventCtrl.errorMessage }}
+                                   </div>
+                                   <!-- BEGIN FORM-->
+                                   <form action="#" name="$newLicitacaoEventCtrl.insertNewLicitacaoEventForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+                                       <div class="form-body">
+                                            <div class="form-group">
+                                                 <label class="control-label col-md-3">Descrição</label>
+                                                 <div class="col-md-9">
+                                                      <input type="text" class="form-control" name="description" required="true" maxlength="255" ng-model="$newLicitacaoEventCtrl.description">
+                                                      <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoEventCtrl.insertNewLicitacaoEventForm.description.$error.required && ($newLicitacaoEventCtrl.insertNewLicitacaoEventForm.description.$touched || $newLicitacaoEventCtrl.insertNewLicitacaoEventForm.$submitted)">
+                                                         A descrição do evento não pode ser vazia.
+                                                      </div>
+                                                      <span class="help-block">Digite uma descrição para o evento.</span>
+                                                 </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Data</label>
+                                                <div class="col-md-9">
+                                                      <input type="date" id="date" name="date" ng-model="$newLicitacaoEventCtrl.date" placeholder="yyyy-MM-dd" required/>
+                                                      <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoEventCtrl.insertNewLicitacaoEventForm.date.$error.date && ($newLicitacaoEventCtrl.insertNewLicitacaoEventForm.date.$touched || newNewsItemForm.$submitted)">
+                                                         Data inválida, preencha o dia, o mês e o ano.
+                                                      </div>
+                                                      <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoEventCtrl.insertNewLicitacaoEventForm.date.$error.required && ($newLicitacaoEventCtrl.insertNewLicitacaoEventForm.date.$touched || $newLicitacaoEventCtrl.insertNewLicitacaoEventForm.$submitted)">
+                                                         Digite uma data para o evento.
+                                                      </div>
+                                                      <span class="help-block">
+                                                            Digite a data do evento.
+                                                      </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                               <label class="control-label col-md-3">Arquivo</label>
+                                               <div class="col-md-9">
+                                                  <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$newLicitacaoEventCtrl.uploadEventFileErrorMessage">
+                                                     {{ $newLicitacaoEventCtrl.uploadEventFileErrorMessage }}
+                                                  </div>
+                                                  <table class="table" ng-if="$newLicitacaoEventCtrl.uploader.queue.length > 0">
+                                                       <thead>
+                                                           <tr>
+                                                               <th width="50%">Nome</th>
+                                                               <th ng-show="$newLicitacaoEventCtrl.uploader.isHTML5">Tamanho</th>
+                                                               <th>Estado</th>
+                                                               <th>Ações</th>
+                                                           </tr>
+                                                       </thead>
+                                                       <tbody>
+                                                           <tr ng-repeat="item in $newLicitacaoEventCtrl.uploader.queue">
+                                                               <td>
+                                                                   <a ng-href="{{$newLicitacaoEventCtrl.viewRawFileEventUrlBase}}{{$newLicitacaoEventCtrl.eventFilename}}?originalFilename={{$newLicitacaoEventCtrl.eventOriginalFilename}}" target="_blank"><strong>{{ item.file.name }}</strong></a>
+                                                               </td>
+                                                               <td ng-show="$newLicitacaoEventCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                                                               <td class="text-center">
+                                                                   <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                                   <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                                   <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                               </td>
+                                                               <td nowrap>
+                                                                   <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                                       <span class="glyphicon glyphicon-ban-circle"></span>Cancelar envio
+                                                                   </button>
+                                                                   <button type="button" class="btn btn-danger btn-xs" ng-click="$newLicitacaoEventCtrl.removeFileItem(item)">
+                                                                       <span class="glyphicon glyphicon-trash"></span>Remover
+                                                                   </button>
+                                                               </td>
+                                                           </tr>
+                                                       </tbody>
+                                                   </table>
+
+                                                   <div>
+                                                       <span class="help-block" style="margin-bottom: 10px">Selecione um arquivo abaixo.</span>
+                                                       <div ng-if="$newLicitacaoEventCtrl.uploader.queue.length > 0">
+                                                           Progresso do envio:
+                                                           <div class="progress" style="">
+                                                               <div class="progress-bar" role="progressbar" ng-style="{ 'width': $newLicitacaoEventCtrl.uploader.progress + '%' }"></div>
+                                                           </div>
+                                                       </div>
+                                                       <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                                       <input type="file" name="eventFile" nv-file-select="" uploader="$newLicitacaoEventCtrl.uploader"/><br/>
+                                                       <div class="alert alert-danger" role="alert" ng-if="!$newLicitacaoEventCtrl.eventFilename && $newLicitacaoEventCtrl.insertNewLicitacaoEventForm.$submitted">
+                                                          Selecione um arquivo.
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                            </div>
+                                       </div>
+
+                                       <div class="form-actions">
+                                           <div class="row">
+                                               <div class="col-md-12 text-center">
+                                                   <button type="button" class="btn green" ng-click="$newLicitacaoEventCtrl.save()" ng-disabled="$newLicitacaoEventCtrl.insertNewLicitacaoEventForm.$submitted && !$newLicitacaoEventCtrl.isValid()">
+                                                       <i class="fa fa-check">&nbsp;</i>Inserir
+                                                   </button>
+                                                   <button type="button" class="btn default" ui-sref="licitacao.view({ licitacaoId: $newLicitacaoEventCtrl.licitacao._id })">Fechar</button>
+                                               </div>
+                                           </div>
+                                       </div>
+
+                                   </form>
+                                   <!-- END FORM-->
+                               </div>
+                            </div>
+                            <!-- END NEW LICITACAO EVENT -->
+                         </li>
+
+                     </ul>
+                 </div>
+             </div>
+          </div>
+
+       </div>
+   </div>
+</div>

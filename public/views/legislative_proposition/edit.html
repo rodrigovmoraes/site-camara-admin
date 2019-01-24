@@ -1,0 +1,410 @@
+<!-- BEGIN NEW PAGE -->
+<div class="portlet box green portlet-in-modal">
+   <div class="portlet-title">
+       <div class="caption">
+           <i class="fa fa-plus"></i>Editar Propositura - {{$editLegislativePropositionCtrl.selectedType.description}} {{$editLegislativePropositionCtrl.formatLegislativePropositionNumber($editLegislativePropositionCtrl.number, $editLegislativePropositionCtrl.year)}}
+        </div>
+       <div class="tools">
+           <a href="" class="remove" data-original-title="" title="" ng-click="$editLegislativePropositionCtrl.close()"></a>
+       </div>
+   </div>
+   <div class="portlet-body form">
+       <ul class="nav nav-tabs">
+          <li ng-class="{active: $editLegislativePropositionCtrl.isGeneralTabActive}"><a href="#" ng-click="$editLegislativePropositionCtrl.setGeneralTabActive()">Geral</a></li>
+          <li ng-class="{active: $editLegislativePropositionCtrl.isAttachmentTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#" ng-click="$editLegislativePropositionCtrl.setAttachmentTabActive()">Anexos</a></li>
+          <li ng-class="{active: $editLegislativePropositionCtrl.isConsolidationTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setConsolidationTabActive()">Consolidação</a></li>
+          <li ng-class="{active: $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setConsolidatedAttachmentTabActive()">Anexo Consolidados</a></li>
+          <li ng-class="{active: $editLegislativePropositionCtrl.isRelationshipsTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType && $editLegislativePropositionCtrl.selectedType.code === 1"><a href="#"  ng-click="$editLegislativePropositionCtrl.setRelationshipsTabActive()">Relacionamentos</a></li>
+          <li ng-class="{active: $editLegislativePropositionCtrl.isRemoveTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setRemoveTabActive()">Remoção</a></li>
+       </ul>
+
+       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editLegislativePropositionCtrl.errorMessage">
+          {{ $editLegislativePropositionCtrl.errorMessage }}
+       </div>
+       <!-- BEGIN FORM-->
+       <form action="#" name="$editLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+          <div class="form-body" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+              <div class="form-group">
+                  <label class="control-label col-md-3">Número</label>
+                  <div class="col-md-9">
+                       <input type="number" style="width: 80px" disabled="true" class="form-control" name="number" required="true" maxlength="4" ng-model="$editLegislativePropositionCtrl.number">
+                  </div>
+              </div>
+          </div>
+
+          <div class="form-group" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive">
+             <label class="control-label col-md-3">Tipo</label>
+             <div class="col-md-5">
+               <ui-select name="type" required="true" disabled="true" ng-model="$editLegislativePropositionCtrl.selectedType" theme="bootstrap">
+                    <ui-select-match placeholder="Digite o tipo da propositura ...">{{ $select.selected.description }}</ui-select-match>
+                    <ui-select-choices repeat="legislativePropositionType in $editLegislativePropositionCtrl.legislativePropositionTypes | filter: $select.search">
+                       <div ng-bind-html="legislativePropositionType.description | highlight: $select.search"></div>
+                    </ui-select-choices>
+               </ui-select>
+             </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <label class="control-label col-md-3">Data</label>
+               <div class="col-md-9">
+                     <input type="date" id="legislativePropositionDate" required="true" name="date" ng-model="$editLegislativePropositionCtrl.date" placeholder="yyyy-MM-dd"/>
+                     <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.date.$error.date && ($editLegislativePropositionCtrl.newLegislativePropositionForm.date.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                        Data inválida, preencha o dia, o mês e o ano.
+                     </div>
+                     <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.date.$error.required && ($editLegislativePropositionCtrl.newLegislativePropositionForm.date.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                        A data da propositura precisa ser preenchida.
+                     </div>
+                     <span class="help-block">
+                        Digite a data da propositura.
+                     </span>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Ementa</label>
+                   <div class="col-md-9">
+                        <textarea class="form-control" name="description" required="true" rows="4" maxlength="5000" ng-model="$editLegislativePropositionCtrl.description">
+                        </textarea>
+                        <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.description.$error.required && ($editLegislativePropositionCtrl.newLegislativePropositionForm.description.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                           A ementa precisa ser preenchida.
+                        </div>
+                        <span class="help-block">Digite a ementa da propositura.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType && $editLegislativePropositionCtrl.legislativePropositionTags && $editLegislativePropositionCtrl.legislativePropositionTags.length > 0">
+             <label class="control-label col-md-3">Classificações</label>
+             <div class="col-md-5">
+               <div class="input-group">
+                  <ui-select multiple="true" ng-model="$editLegislativePropositionCtrl.selectedTags" theme="bootstrap">
+                     <ui-select-match placeholder="Digite a classificação desejada ...">{{ $item.description }}</ui-select-match>
+                     <ui-select-choices repeat="legislativePropositionTag in $editLegislativePropositionCtrl.legislativePropositionTags | filter: $select.search">
+                        <div ng-bind-html="legislativePropositionTag.description | highlight: $select.search"></div>
+                     </ui-select-choices>
+                  </ui-select>
+                  <span class="help-block">
+                     Escolha as classificações desta propositura. As classificações são utilizadas para categorizar as proposituras.
+                  </span>
+               </div>
+             </div>
+           </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto</label>
+                   <div class="col-md-9">
+                        <textarea froala="$editLegislativePropositionCtrl.textFroalaOptions" name="text" ng-model="$editLegislativePropositionCtrl.text" required="true"></textarea>
+                        <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.text.$error.required && ($editLegislativePropositionCtrl.newLegislativePropositionForm.text.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
+                           O texto precisa ser preenchido.
+                        </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto Anexo</label>
+                   <div class="col-md-9">
+                        <textarea froala="$editLegislativePropositionCtrl.textAttachmentFroalaOptions" name="textAttachment" ng-model="$editLegislativePropositionCtrl.textAttachment"></textarea>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isAttachmentTabActive">
+             <label class="control-label col-md-3">Arquivo</label>
+             <div class="col-md-9">
+                 <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$editLegislativePropositionCtrl.uploadFileAttachmentErrorMessage">
+                    {{ $editLegislativePropositionCtrl.uploadFileAttachmentErrorMessage }}
+                 </div>
+                 <table class="table" ng-if="$editLegislativePropositionCtrl.attachmentUploader.queue.length > 0">
+                     <thead>
+                          <tr>
+                              <th width="50%">Nome</th>
+                              <th ng-show="$editLegislativePropositionCtrl.attachmentUploader.isHTML5">Tamanho</th>
+                              <th>Estado</th>
+                              <th>Ações</th>
+                          </tr>
+                     </thead>
+                     <tbody>
+                          <tr ng-repeat="item in $editLegislativePropositionCtrl.attachmentUploader.queue">
+                              <td>
+                                  <a ng-href="{{$editLegislativePropositionCtrl.viewRawFileEventUrlBase}}{{$editLegislativePropositionCtrl.eventFilename}}?originalFilename={{$editLegislativePropositionCtrl.eventOriginalFilename}}" target="_blank"><strong>{{ item.file.name }}</strong></a>
+                              </td>
+                              <td ng-show="$editLegislativePropositionCtrl.attachmentUploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                              <td class="text-center">
+                                  <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                  <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                  <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                              </td>
+                              <td nowrap>
+                                  <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                      <span class="glyphicon glyphicon-ban-circle"></span>Cancelar envio
+                                  </button>
+                              </td>
+                          </tr>
+                     </tbody>
+                  </table>
+
+                  <div>
+                     <span class="help-block" style="margin-bottom: 10px">Selecione um arquivo abaixo para adicionar como anexo desta propositura.</span>
+                     <div ng-if="$editLegislativePropositionCtrl.attachmentUploader.queue.length > 0">
+                          Progresso do envio:
+                          <div class="progress" style="">
+                              <div class="progress-bar" role="progressbar" ng-style="{ 'width': $editLegislativePropositionCtrl.attachmentUploader.progress + '%' }"></div>
+                          </div>
+                     </div>
+                     <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                     <input type="file" name="eventFile" nv-file-select="" uploader="$editLegislativePropositionCtrl.attachmentUploader"/><br/>
+                  </div>
+             </div>
+          </div>
+
+          <div class="form-body" ng-show="$editLegislativePropositionCtrl.isAttachmentTabActive && ($editLegislativePropositionCtrl.fileAttachments && $editLegislativePropositionCtrl.fileAttachments.length > 0 ||  $editLegislativePropositionCtrl.uploadFileAttachmentMessage)">
+              <div class="form-group">
+                 <div class="col-md-12">
+                    <div class="mt-element-list" style="border-top: 1px solid; border-color: #e7ecf1">
+                       <div class="mt-list-container list-news ext-1">
+                           <ul>
+                              <li class="mt-list-item" class="mt-list-item" ng-if="$editLegislativePropositionCtrl.uploadFileAttachmentMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $editLegislativePropositionCtrl.uploadFileAttachmentMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-repeat="fileAttachment in $editLegislativePropositionCtrl.fileAttachments" class="mt-list-item">
+                                   <div class="list-datetime page-item-datetime bold uppercase">
+                                      <a ng-href="{{$editLegislativePropositionCtrl.viewFileAttachmentUrlBase}}{{fileAttachment._id}}" target="_blank">
+                                         <i class="fa fa-navicon font-black"></i>
+                                         <span class="font-black">
+                                            {{fileAttachment.originalFilename}}
+                                         </span>
+                                      </a>
+                                   </div>
+
+                                   <div class="list-datetime page-item-datetime bold uppercase">
+                                      <a href="#" style="text-decoration: none" ng-click="$editLegislativePropositionCtrl.removeFileAttachment($index)">
+                                         <i class="fa fa-close font-red"></i>
+                                         <span class="font-red">Remover</span>
+                                      </a>
+                                   </div>
+                              </li>
+                           </ul>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isConsolidationTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto Consolidado</label>
+                   <div class="col-md-9">
+                      <textarea froala="$editLegislativePropositionCtrl.consolidatedTextFroalaOptions" name="consolidatedText" ng-model="$editLegislativePropositionCtrl.consolidatedText"></textarea>
+                      <span class="help-block">
+                        Caso seja digitado algum conteúdo para o texto consolidado neste campo, durante a apresentação da propositura
+                        para o internauta no Portal da Câmara, o texto original (na aba Geral) será substituído pelo texto digitado.
+                        O mesmo irá ocorrer para o texto anexo consolidado (campo abaixo).
+                      </span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive">
+             <label class="control-label col-md-3">Arquivo</label>
+             <div class="col-md-9">
+                 <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$editLegislativePropositionCtrl.uploadConsolidatedFileAttachmentErrorMessage">
+                    {{ $editLegislativePropositionCtrl.uploadConsolidatedFileAttachmentErrorMessage }}
+                 </div>
+                 <table class="table" ng-if="$editLegislativePropositionCtrl.consolidatedAttachmentUploader.queue.length > 0">
+                     <thead>
+                          <tr>
+                              <th width="50%">Nome</th>
+                              <th ng-show="$editLegislativePropositionCtrl.consolidatedAttachmentUploader.isHTML5">Tamanho</th>
+                              <th>Estado</th>
+                              <th>Ações</th>
+                          </tr>
+                     </thead>
+                     <tbody>
+                          <tr ng-repeat="item in $editLegislativePropositionCtrl.consolidatedAttachmentUploader.queue">
+                              <td>
+                                  <a ng-href="{{$editLegislativePropositionCtrl.viewRawFileEventUrlBase}}{{$editLegislativePropositionCtrl.eventFilename}}?originalFilename={{$editLegislativePropositionCtrl.eventOriginalFilename}}" target="_blank"><strong>{{ item.file.name }}</strong></a>
+                              </td>
+                              <td ng-show="$editLegislativePropositionCtrl.consolidatedAttachmentUploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                              <td class="text-center">
+                                  <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                  <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                  <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                              </td>
+                              <td nowrap>
+                                  <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                      <span class="glyphicon glyphicon-ban-circle"></span>Cancelar envio
+                                  </button>
+                              </td>
+                          </tr>
+                     </tbody>
+                  </table>
+
+                  <div>
+                     <span class="help-block" style="margin-bottom: 10px">
+                       Selecione um arquivo abaixo para adicionar como anexo consolidado desta propositura.
+                       Caso sejam adicionados anexos consolidados aqui, durante a apresentação da propositura para
+                       o internauta no Portal da Câmara, a lista original de anexos (aba Anexos)
+                       será substituída pelos anexos adicionados aqui.
+                     </span>
+                     <div ng-if="$editLegislativePropositionCtrl.consolidatedAttachmentUploader.queue.length > 0">
+                          Progresso do envio:
+                          <div class="progress" style="">
+                              <div class="progress-bar" role="progressbar" ng-style="{ 'width': $editLegislativePropositionCtrl.consolidatedAttachmentUploader.progress + '%' }"></div>
+                          </div>
+                     </div>
+                     <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                     <input type="file" name="eventFile" nv-file-select="" uploader="$editLegislativePropositionCtrl.consolidatedAttachmentUploader"/><br/>
+                  </div>
+             </div>
+          </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive && ($editLegislativePropositionCtrl.consolidatedFileAttachments && $editLegislativePropositionCtrl.consolidatedFileAttachments.length > 0 || $editLegislativePropositionCtrl.uploadConsolidatedFileAttachmentMessage)">
+              <div class="form-group">
+                 <div class="col-md-12">
+                    <div class="mt-element-list" style="border-top: 1px solid; border-color: #e7ecf1">
+                       <div class="mt-list-container list-news ext-1">
+                           <ul>
+                              <li class="mt-list-item" class="mt-list-item" ng-if="$editLegislativePropositionCtrl.uploadConsolidatedFileAttachmentMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $editLegislativePropositionCtrl.uploadConsolidatedFileAttachmentMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-repeat="consolidatedFileAttachment in $editLegislativePropositionCtrl.consolidatedFileAttachments" class="mt-list-item">
+                                   <div class="list-datetime page-item-datetime bold uppercase">
+                                      <a ng-href="{{$editLegislativePropositionCtrl.viewConsolidatedFileAttachmentUrlBase}}{{consolidatedFileAttachment._id}}" target="_blank">
+                                         <i class="fa fa-navicon font-black"></i>
+                                         <span class="font-black">
+                                            {{consolidatedFileAttachment.originalFilename}}
+                                         </span>
+                                      </a>
+                                   </div>
+
+                                   <div class="list-datetime page-item-datetime bold uppercase">
+                                      <a href="#" style="text-decoration: none" ng-click="$editLegislativePropositionCtrl.removeConsolidatedFileAttachment($index)">
+                                         <i class="fa fa-close font-red"></i>
+                                         <span class="font-red">Remover</span>
+                                      </a>
+                                   </div>
+                              </li>
+                           </ul>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+          </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isConsolidationTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Texto Anexo Consolidado</label>
+                   <div class="col-md-9">
+                        <textarea froala="$editLegislativePropositionCtrl.consolidatedTextAttachmentFroalaOptions" name="consolidatedTextAttachment" ng-model="$editLegislativePropositionCtrl.consolidatedTextAttachment"></textarea>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isRelationshipsTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+             <label class="control-label col-md-3">Tipo de Relacionamento</label>
+             <div class="col-md-5">
+                <div class="input-group">
+                   <ui-select name="relationShiptype" ng-model="$editLegislativePropositionCtrl.selectedRelationshipType" theme="bootstrap">
+                       <ui-select-match placeholder="Digite o tipo do relacionamento ...">{{ $select.selected.description }}</ui-select-match>
+                       <ui-select-choices repeat="legislativePropositionRelationshipType in $editLegislativePropositionCtrl.legislativePropositionRelationshipTypes | filter: $select.search">
+                          <div ng-bind-html="legislativePropositionRelationshipType.description | highlight: $select.search"></div>
+                       </ui-select-choices>
+                   </ui-select>
+
+                  <span class="input-group-btn">
+                     <button type="button" title="Adicionar relacionamento" class="btn btn-default" ng-click="$editLegislativePropositionCtrl.addRelationship($editLegislativePropositionCtrl.selectedRelationshipType)">
+                        <i class="glyphicon glyphicon-plus"></i>
+                     </button>
+                  </span>
+               </div>
+
+               <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.relationshipTypeNotEntered && !$editLegislativePropositionCtrl.selectedRelationshipType">
+                  Selecione um tipo de relacionamento.
+               </div>
+
+               <span class="help-block">
+                  Adicione os relacionamentos que esta lei possui com outras leis.
+                  Para isso, selecione o tipo de relacionamento que deseja incluir e clique no botão ao lado.
+               </span>
+             </div>
+           </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isRelationshipsTabActive && $editLegislativePropositionCtrl.relationshipsToBeIncluded && $editLegislativePropositionCtrl.relationshipsToBeIncluded.length > 0">
+               <div class="form-group">
+                  <div class="col-md-12">
+                     <div class="mt-element-list" style="border-top: 1px solid; border-color: #e7ecf1">
+                        <div class="mt-list-container list-news ext-1">
+                             <ul>
+                                  <li class="mt-list-item" ng-repeat="relationshipsToBeIncluded in $editLegislativePropositionCtrl.relationshipsToBeIncluded" class="mt-list-item">
+                                       <div class="list-datetime page-item-datetime bold uppercase">
+                                          <i class="fa fa-navicon font-black"></i>
+                                          <span class="font-black">
+                                             {{relationshipsToBeIncluded.type.description}}: {{$editLegislativePropositionCtrl.formatLegislativePropositionNumber(relationshipsToBeIncluded.otherLegislativeProposition.number, relationshipsToBeIncluded.otherLegislativeProposition.year)}}
+                                          </span>
+                                       </div>
+
+                                       <div class="list-item-content page-item-content">
+                                          <p class="uppercase">
+                                             <a href="javascript:;" ng-click="$modalCtrl.add()" class="black-link ng-binding">
+                                                {{relationshipsToBeIncluded.otherLegislativeProposition.description}}
+                                             </a>
+                                          </p>
+                                       </div>
+
+                                       <div class="list-datetime page-item-datetime bold uppercase">
+                                          <i class="fa fa-clock-o font-black"></i>
+                                          <span class="font-black ng-binding">Data: {{ relationshipsToBeIncluded.otherLegislativeProposition.date | date: 'dd/MM/yyyy' }}</span>
+                                          <i class="fa fa-info-circle font-blue-madison ng-scope" style="margin-left: 10px"></i>
+                                          <span class="font-blue-madison">Criação: {{ relationshipsToBeIncluded.otherLegislativeProposition.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                          <i class="fa fa-info-circle font-red" style="margin-left: 10px" ng-if="relationshipsToBeIncluded.otherLegislativeProposition.changedDate"></i>
+                                          <span class="font-red" ng-if="relationshipsToBeIncluded.otherLegislativeProposition.changedDate">Alteração: {{ relationshipsToBeIncluded.otherLegislativeProposition.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                          <a href="#" style="text-decoration: none" ng-click="$editLegislativePropositionCtrl.removeRelationship($index)">
+                                             <i class="fa fa-close font-red" style="margin-left: 10px"></i>
+                                             <span class="font-red">Remover</span>
+                                          </a>
+                                       </div>
+                                  </li>
+                             </ul>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isRemoveTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+               <div class="form-group">
+                   <div class="col-md-12">
+                      <button type="button" class="btn red" ng-click="$editLegislativePropositionCtrl.remove()">
+                         <i class="fa fa-check"></i>Remover
+                      </button>
+                      <span class="help-block">
+                         Antes de remover esta propositura, verifique os dados em outras abas e remova somente quando tiver certeza!
+                      </span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-actions">
+               <div class="row">
+                   <div class="col-md-12 text-center">
+                       <button type="button" class="btn green" ng-click="$editLegislativePropositionCtrl.save()" ng-disabled="$editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted && !$editLegislativePropositionCtrl.isValid()">
+                           <i class="fa fa-check"></i>Salvar
+                       </button>
+                       <button type="button" class="btn default" ng-click="$editLegislativePropositionCtrl.close()">Fechar</button>
+                   </div>
+               </div>
+           </div>
+       </form>
+       <!-- END FORM-->
+   </div>
+</div>
+<!-- END NEW PAGE -->

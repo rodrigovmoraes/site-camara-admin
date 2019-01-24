@@ -1,0 +1,196 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN LIST PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento de Proposituras</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+               <div class="table-toolbar">
+                  <div class="mt-element-list">
+                      <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                          <div class="list-head-title-container">
+                              <h3 class="list-title">Lista de Proposituras</h3>
+                          </div>
+                          <div class="list-count pull-right bg-red">{{ $listLegislativePropositionsCtrl.pager.totalItems ? $listLegislativePropositionsCtrl.pager.totalItems : "" }}</div>
+                      </div>
+                      <div class="mt-list-container list-news ext-1">
+                          <ul>
+
+                             <li class="mt-list-item">
+
+                                <form class="form-inline" role="form">
+                                      <div class="form-group" style="padding-right: 7px">
+                                         <div class="input-group">
+                                           <span class="input-group-btn">
+                                              <button type="button" title="Criar nova propositura" class="btn btn-default" ui-sref="legislativeProposition.new"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="keywords" ng-model="$listLegislativePropositionsCtrl.filter.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chave">
+                                           </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="number" style="width: 120px" ng-model="$listLegislativePropositionsCtrl.filter.number" class="form-control" id="numberInput" placeholder="número">
+                                           </div>
+                                      </div>
+                                      <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group input-icon">
+                                              <i class="fa fa-search"></i>
+                                              <input type="number" style="width: 120px" ng-model="$listLegislativePropositionsCtrl.filter.year" class="form-control" id="yearInput" placeholder="ano">
+                                           </div>
+                                      </div>
+                                </form>
+                                <form class="form-inline" style="margin-top: 7px" role="form">
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Data: inicial" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listLegislativePropositionsCtrl.filter.date1" is-open="$listLegislativePropositionsCtrl.filter.date1IsOpen" datepicker-append-to-body="true" datepicker-options="$listLegislativePropositionsCtrl.filter.dateOptions" close-text="Close"/>
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listLegislativePropositionsCtrl.filter.openDate1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                         <div class="input-group">
+                                           <input type="text" class="form-control" placeholder="Data: final" uib-datepicker-popup="dd/MM/yyyy" ng-model="$listLegislativePropositionsCtrl.filter.date2" is-open="$listLegislativePropositionsCtrl.filter.date2IsOpen" datepicker-append-to-body="true" datepicker-options="$listLegislativePropositionsCtrl.filter.dateOptions" close-text="Close"/>
+                                           <span class="input-group-btn">
+                                              <button type="button" class="btn btn-default" ng-click="$listLegislativePropositionsCtrl.filter.openDate2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                           </span>
+                                        </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                         <div class="input-group">
+
+                                            <div class="dropdown">
+                                               <button class="btn btn-default dropdown-toggle" type="button" id="categoryFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span ng-if="$listLegislativePropositionsCtrl.filter.type === null">Tipo</span>
+                                                 <span ng-if="$listLegislativePropositionsCtrl.filter.type !== null">Tipo: {{$listLegislativePropositionsCtrl.filter.type.description}}</span>
+                                                 <span class="caret"></span>
+                                               </button>
+
+                                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.filter.type === null}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setTypeFilter(null)">Todos <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.filter.category === null"></i></a>
+                                                 </li>
+                                                 <li ng-repeat="legislativePropositionType in $listLegislativePropositionsCtrl.legislativePropositionTypes" ng-class="{ active: $listLegislativePropositionsCtrl.filter.type !== null && $listLegislativePropositionsCtrl.filter.type._id === legislativePropositionType._id }">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setTypeFilter(legislativePropositionType)">{{legislativePropositionType.description}} <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.filter.type !== null && $listLegislativePropositionsCtrl.filter.type._id === legislativePropositionType._id"></i></a>
+                                                 </li>
+                                               </ul>
+                                             </div>
+
+                                         </div>
+                                      </div>
+
+                                      <div class="form-group">
+                                         <div class="input-group">
+
+                                            <div class="dropdown">
+                                               <button class="btn btn-default dropdown-toggle" type="button" id="orderOption" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span ng-if="$listLegislativePropositionsCtrl.sort.field === null">Ordenação</span>
+                                                 <span ng-if="$listLegislativePropositionsCtrl.sort.field === 'number'">Ordenação: Numeração</span>
+                                                 <span ng-if="$listLegislativePropositionsCtrl.sort.field === 'date'">Ordenação: Data</span>
+                                                 <span ng-if="$listLegislativePropositionsCtrl.sort.field === 'creationDate'">Ordenação: Criação</span>
+                                                 <span ng-if="$listLegislativePropositionsCtrl.sort.field === 'changedDate'">Ordenação: Alteração</span>
+                                                 <span ng-if="$listLegislativePropositionsCtrl.sort.field === 'type'">Ordenação: Tipo</span>
+                                                 <span class="caret"></span>
+                                               </button>
+                                               <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.field === 'number'}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortField('number')">Numeração <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.field === 'number'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.field === 'creationDate'}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortField('creationDate')">Criação <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.field === 'creationDate'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.field === 'date'}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortField('date')">Data <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.field === 'date'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.field === 'changedDate'}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortField('changedDate')">Alteração <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.field === 'changedDate'"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.field === 'type'}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortField('type')">Tipo <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.field === 'type'"></i></a>
+                                                 </li>
+                                                 <li role="presentation" class="divider"></li>
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.direction === 1}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortDirection(1)">Ascendente <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.direction === 1"></i></a>
+                                                 </li>
+                                                 <li ng-class="{active: $listLegislativePropositionsCtrl.sort.direction === -1}">
+                                                   <a href="#" ng-click="$listLegislativePropositionsCtrl.setSortDirection(-1)">Descendente <i class="fa fa-check"  ng-if="$listLegislativePropositionsCtrl.sort.direction === -1"></i></a>
+                                                 </li>
+                                               </ul>
+                                             </div>
+
+                                         </div>
+                                      </div>
+
+                                </form>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listLegislativePropositionsCtrl.infoMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $listLegislativePropositionsCtrl.infoMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$listLegislativePropositionsCtrl.errorMessage">
+                                 <div class="alert alert-danger alert-no-margin" role="alert">
+                                    {{ $listLegislativePropositionsCtrl.errorMessage }}
+                                 </div>
+                              </li>
+
+                              <li class="mt-list-item" ng-repeat="legislativeProposition in $listLegislativePropositionsCtrl.legislativePropositions" class="mt-list-item" ng-class="{ 'news-highlight': legislativeProposition._id === $listLegislativePropositionsCtrl.highlightLegislativePropositionId }">
+                                  <div class="list-icon-container">
+                                     <a href="javascript:;" ui-sref="legislativeProposition.edit({ 'legislativePropositionId': legislativeProposition._id })">
+                                        <i class="fa fa-angle-right"></i>
+                                     </a>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-navicon font-black"></i><span class="font-black">{{ legislativeProposition.typeDescription }}: {{ $listLegislativePropositionsCtrl.formatLegislativePropositionNumber(legislativeProposition.number, legislativeProposition.year) }}</span>
+                                  </div>
+
+                                  <div class="list-item-content page-item-content">
+                                      <p class="uppercase">
+                                         <a href="javascript:;" class="black-link" ui-sref="legislativeProposition.edit({ 'legislativePropositionId': legislativeProposition._id })" ng-bind-html="legislativeProposition.description | highlight: $listLegislativePropositionsCtrl.filter.keywords"></a>
+                                      </p>
+                                  </div>
+
+                                  <div class="list-datetime page-item-datetime bold uppercase">
+                                     <i class="fa fa-clock-o font-black"></i>
+                                     <span class="font-black">Data: {{ legislativeProposition.date | date: 'dd/MM/yyyy' }}</span>
+                                     <i class="fa fa-info-circle font-blue-madison" style="margin-left: 10px" ng-if="legislativeProposition.creationDate"></i>
+                                     <span class="font-blue-madison" ng-if="legislativeProposition.creationDate">Criação: {{ legislativeProposition.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                     <i class="fa fa-info-circle font-red" style="margin-left: 10px" ng-if="legislativeProposition.changedDate"></i>
+                                     <span class="font-red" ng-if="legislativeProposition.changedDate">Alteração: {{ legislativeProposition.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                  </div>
+                              </li>
+
+                              <li class="mt-list-item" ng-if="!$listLegislativePropositionsCtrl.pager.totalItems">
+                                 <div class="alert alert-danger" role="alert">
+                                    {{ $listLegislativePropositionsCtrl.notFoundMessage }}
+                                 </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div ng-if="$listLegislativePropositionsCtrl.pager.totalItems">
+                     <ul uib-pagination id="newsListPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" ng-change="$listLegislativePropositionsCtrl.pager.pageChanged()" total-items="$listLegislativePropositionsCtrl.pager.totalItems" items-per-page="$listLegislativePropositionsCtrl.pager.itemsPerPage" ng-model="$listLegislativePropositionsCtrl.pager.currentPage" max-size="$listLegislativePropositionsCtrl.pager.maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+                     <div style="margin-top: 5px" class="pull-right">
+                        {{ $listLegislativePropositionsCtrl.pager.totalItems }}  items, página {{ $listLegislativePropositionsCtrl.pager.currentPage }} de {{ $listLegislativePropositionsCtrl.pager.totalPages }}
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END LIST PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

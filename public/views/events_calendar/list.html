@@ -1,3 +1,262 @@
+<!-- BEGIN NEW EVENT CALENDAR MODAL CONTENT -->
+<script type="text/ng-template" id="newCalendarEvent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Novo Evento
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN FORM-->
+                   <form action="#" name="newEventCalendarForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Título</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="255" required="true" ng-model="$modalCtrl.title" name="title" id="title">
+                                    <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.title.$error.required && (newEventCalendarForm.title.$touched || newEventCalendarForm.$submitted)">
+                                       Digite um título para o evento.
+                                    </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-body">
+                           <div class="form-group">
+                              <label class="control-label col-md-3">Dia todo ?</label>
+                              <div class="col-md-9">
+                                 <toggle-switch ng-model="$modalCtrl.allDay" on-label="Sim" off-label="Não">
+                                 </toggle-switch>
+                                 <span class="help-block">
+                                    Selecione "Sim" se o evento ocorrerá o dia todo e
+                                    não haverá um horário definido de início e fim.
+                                 </span>
+                              </div>
+                           </div>
+                       </div>
+                       <div class="form-body" ng-if="$modalCtrl.allDay">
+                         <div class="form-group">
+                           <label class="control-label col-md-3">Data</label>
+                           <div class="col-md-9">
+                              <input type="date" id="date" name="date" ng-model="$modalCtrl.date" placeholder="yyyy-MM-dd" required/>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.date.$error.date && (newEventCalendarForm.date.$touched || newEventCalendarForm.$submitted)">
+                                 Digite a data do evento especificando o dia, o mês e o ano.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.date.$error.required && (newEventCalendarForm.date.$touched || newEventCalendarForm.$submitted)">
+                                 Digite a data do evento especificando o dia, o mês e o ano.
+                              </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="form-body" ng-if="!$modalCtrl.allDay">
+                         <div class="form-group">
+                           <label class="control-label col-md-3">Início</label>
+                           <div class="col-md-9">
+                              <input type="datetime-local" id="startDate" name="startDate" ng-model="$modalCtrl.startDate" placeholder="yyyy-MM-dd HH:mm" required/>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.startDate.$error.datetimelocal && (newEventCalendarForm.startDate.$touched || newEventCalendarForm.$submitted)">
+                                 Digite o início do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.startDate.$error.required && (newEventCalendarForm.startDate.$touched || newEventCalendarForm.$submitted)">
+                                 Digite o início do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="form-body" ng-if="!$modalCtrl.allDay">
+                         <div class="form-group">
+                           <label class="control-label col-md-3">Fim</label>
+                           <div class="col-md-9">
+                              <input type="datetime-local" id="endDate" name="endDate" ng-model="$modalCtrl.endDate" placeholder="yyyy-MM-dd HH:mm"  ui-validate='{ afterBegin : $modalCtrl.afterBeginValidator }' required/>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.endDate.$error.datetimelocal && (newEventCalendarForm.endDate.$touched || newEventCalendarForm.$submitted)">
+                                 Digite o fim do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.endDate.$error.required && (newEventCalendarForm.endDate.$touched || newEventCalendarForm.$submitted)">
+                                 Digite o fim do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="newEventCalendarForm.endDate.$error.afterBegin && (newEventCalendarForm.endDate.$touched || newEventCalendarForm.$submitted)">
+                                A data de fim do evento deve ser maior que a data de início.
+                              </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Localização</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="50" ng-model="$modalCtrl.location" name="location" id="location">
+                                    <span class="help-block">
+                                       Digite uma descrição para o local do evento. Ex: Sala de Reuniões.
+                                    </span>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Descrição</label>
+                               <div class="col-md-9">
+                                  <textarea froala="$modalCtrl.froalaOptions" ng-model="$modalCtrl.description"></textarea>
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="form-actions">
+                           <div class="row">
+                               <div class="col-md-12 text-center">
+                                   <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="newEventCalendarForm.$submitted && !$modalCtrl.isValid()">
+                                       <i class="fa fa-check"></i> Ok</button>
+                                   <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+                   <!-- END FORM-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END NEW EVENT CALENDAR MODAL CONTENT -->
+
+<!-- BEGIN EDIT EVENT CALENDAR MODAL CONTENT -->
+<script type="text/ng-template" id="editCalendarEvent.html">
+       <div class="modal-body" id="modal-body">
+            <div class="portlet box green portlet-in-modal">
+               <div class="portlet-title">
+                   <div class="caption">
+                       <i class="fa fa-plus"></i>Evento {{$modalCtrl.title}}
+                    </div>
+                   <div class="tools">
+                       <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                   </div>
+               </div>
+               <div class="portlet-body form">
+                   <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                      {{ $modalCtrl.errorMessage }}
+                   </div>
+                   <!-- BEGIN FORM-->
+                   <form action="#" name="editEventCalendarForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Título</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="255" required="true" ng-model="$modalCtrl.title" name="title" id="title">
+                                    <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.title.$error.required && (editEventCalendarForm.title.$touched || editEventCalendarForm.$submitted)">
+                                       Digite um título para o evento.
+                                    </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-body" ng-if="$modalCtrl.url">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">URL</label>
+                               <div class="col-md-9">
+                                  <a ng-href="{{$modalCtrl.url}}" target="_blank">Clique aqui</a> caso deseje visualizar este evento no <i>Google Calendar</i>.
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-body">
+                           <div class="form-group">
+                              <label class="control-label col-md-3">Dia todo ?</label>
+                              <div class="col-md-9">
+                                 <toggle-switch ng-model="$modalCtrl.allDay" on-label="Sim" off-label="Não">
+                                 </toggle-switch>
+                                 <span class="help-block">
+                                    Selecione "Sim" se o evento ocorrerá o dia todo e
+                                    não haverá um horário definido de início e fim.
+                                 </span>
+                              </div>
+                           </div>
+                       </div>
+                       <div class="form-body" ng-if="$modalCtrl.allDay">
+                         <div class="form-group">
+                           <label class="control-label col-md-3">Data</label>
+                           <div class="col-md-9">
+                              <input type="date" id="date" name="date" ng-model="$modalCtrl.date" placeholder="yyyy-MM-dd" required/>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.date.$error.date && (editEventCalendarForm.date.$touched || editEventCalendarForm.$submitted)">
+                                 Digite a data do evento especificando o dia, o mês e o ano.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.date.$error.required && (editEventCalendarForm.date.$touched || editEventCalendarForm.$submitted)">
+                                 Digite a data do evento especificando o dia, o mês e o ano.
+                              </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="form-body" ng-if="!$modalCtrl.allDay">
+                         <div class="form-group">
+                           <label class="control-label col-md-3">Início</label>
+                           <div class="col-md-9">
+                              <input type="datetime-local" id="startDate" name="startDate" ng-model="$modalCtrl.startDate" placeholder="yyyy-MM-dd HH:mm" required/>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.startDate.$error.datetimelocal && (editEventCalendarForm.startDate.$touched || editEventCalendarForm.$submitted)">
+                                 Digite o início do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.startDate.$error.required && (editEventCalendarForm.startDate.$touched || editEventCalendarForm.$submitted)">
+                                 Digite o início do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="form-body" ng-if="!$modalCtrl.allDay">
+                         <div class="form-group">
+                           <label class="control-label col-md-3">Fim</label>
+                           <div class="col-md-9">
+                              <input type="datetime-local" id="endDate" name="endDate" ng-model="$modalCtrl.endDate" placeholder="yyyy-MM-dd HH:mm"  ui-validate='{ afterBegin : $modalCtrl.afterBeginValidator }' required/>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.endDate.$error.datetimelocal && (editEventCalendarForm.endDate.$touched || editEventCalendarForm.$submitted)">
+                                 Digite o fim do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.endDate.$error.required && (editEventCalendarForm.endDate.$touched || editEventCalendarForm.$submitted)">
+                                 Digite o fim do evento especificando o dia, o mês, o ano, as horas e os minutos.
+                              </div>
+                              <div class="alert alert-danger" role="alert" ng-if="editEventCalendarForm.endDate.$error.afterBegin && (editEventCalendarForm.endDate.$touched || editEventCalendarForm.$submitted)">
+                                A data de fim do evento deve ser maior que a data de início.
+                              </div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Localização</label>
+                               <div class="col-md-9">
+                                    <input type="text" class="form-control" maxlength="50" ng-model="$modalCtrl.location" name="location" id="location">
+                                    <span class="help-block">
+                                       Digite uma descrição para o local do evento. Ex: Sala de Reuniões.
+                                    </span>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-body">
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Descrição</label>
+                               <div class="col-md-9">
+                                  <textarea froala="$modalCtrl.froalaOptions" ng-model="$modalCtrl.description"></textarea>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-actions">
+                           <div class="row">
+                               <div class="col-md-12 text-center">
+                                    <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="editEventCalendarForm.$submitted && !$modalCtrl.isValid()">
+                                       <i class="fa fa-check"></i> Ok
+                                    </button>
+                                    <button type="button" class="btn red" ng-click="$modalCtrl.remove()">
+                                        <i class="fa fa-close"></i> Remover
+                                    </button>
+                                    <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                               </div>
+                           </div>
+                       </div>
+                   </form>
+                   <!-- END FORM-->
+               </div>
+            </div>
+       </div>
+</script>
+<!-- END EDIT EVENT CALENDAR MODAL CONTENT -->
+
 <!-- BEGIN MAIN CONTENT -->
 <div class="row">
     <div class="col-md-12">
@@ -18,41 +277,51 @@
                           </div>
                       </div>
                       <div class="mt-list-container list-news ext-1">
-                          <ul>
+                          <ul ng-if="!isCamaraLoggedInGoogleApi()">
+                            <li class="mt-list-item">
+                              <span ng-if="!isGoogleApiSignedIn" class="help-block">
+                                <p>Você não está logado no Google.</p>
+                              </span>
+                              <span ng-if="isGoogleApiSignedIn && !isCamaraLoggedInGoogleApi()" class="help-block">
+                                <p>
+                                  Você está logado no   Google, no entanto com a conta <b><i>{{googleUserApiSignedIn}}</i></b>.
+                                </p>
+                              </span>
+                              <span class="help-block">
+                                <p>
+                                  Para gerenciar o calendário de eventos da Câmara Municipal de Sorocaba, é necessário realizar o login na conta <b><i>{{ getCamaraGoogleApiUser() }}</i></b>. <b><a href="#" ng-click="$listEventsCalendarCtrl.googleApiLogin()">Clique aqui</a></b> para realizar o login.
+                                </p>
+                              </span>
+                            </li>
+                          </ul>
+                          <ul ng-if="isCamaraLoggedInGoogleApi()">
                               <li class="mt-list-item">
                                  <form class="form-inline" role="form">
-                                      <div class="form-group" style="padding-right: 7px">
+                                       <div class="form-group" style="padding-right: 7px">
                                           <div class="input-group">
                                             <span class="input-group-btn">
-                                               <button type="button" title="Logar no Google Calendar" class="btn btn-default" ng-click="$listEventsCalendarCtrl.googleApiLogin()" ng-if="!isGoogleApiSignedIn">Google Login</button>
+                                               <button type="button" title="Novo Evento" class="btn btn-default" ng-click="$listEventsCalendarCtrl.newEvent()"><i class="glyphicon glyphicon glyphicon-plus"></i></button>
                                             </span>
                                          </div>
                                        </div>
                                        <div class="form-group" style="padding-right: 7px">
                                           <div class="input-group">
                                             <span class="input-group-btn">
-                                               <button type="button" title="logout do Google Calendar" class="btn btn-default" ng-click="$listEventsCalendarCtrl.googleApiLogout()" ng-if="isGoogleApiSignedIn">Google Logout</button>
+                                               <button type="button" title="Calendário Visão Mensal" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('month')">Mensal</button>
                                             </span>
                                          </div>
                                        </div>
                                        <div class="form-group" style="padding-right: 7px">
                                           <div class="input-group">
                                             <span class="input-group-btn">
-                                               <button type="button" title="Calendário Visão Mensal" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('month','camaraCalendar')">Mensal</button>
+                                               <button type="button" title="Calendário Visão Semanal" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('agendaWeek')">Semanal</button>
                                             </span>
                                          </div>
                                        </div>
                                        <div class="form-group" style="padding-right: 7px">
                                           <div class="input-group">
                                             <span class="input-group-btn">
-                                               <button type="button" title="Calendário Visão Semanal" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('agendaWeek','camaraCalendar')">Semanal</button>
-                                            </span>
-                                         </div>
-                                       </div>
-                                       <div class="form-group" style="padding-right: 7px">
-                                          <div class="input-group">
-                                            <span class="input-group-btn">
-                                               <button type="button" title="Calendário Visão Diária" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('agendaDay','camaraCalendar')">Diário</button>
+                                               <button type="button" title="Calendário Visão Diária" class="btn btn-default" ng-click="$listEventsCalendarCtrl.changeView('agendaDay')">Diário</button>
                                             </span>
                                          </div>
                                        </div>
@@ -67,10 +336,18 @@
                                        <div class="form-group" style="padding-right: 7px">
                                           <div class="input-group">
                                             <span class="input-group-btn">
-                                               <button type="button" title="Ir para o dia" class="btn btn-default" ng-click="$listEventsCalendarCtrl.goTo('camaraCalendar')"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                                               <button type="button" title="Ir para o dia" class="btn btn-default" ng-click="$listEventsCalendarCtrl.goTo()"><i class="glyphicon glyphicon-arrow-right"></i></button>
                                             </span>
                                          </div>
                                        </div>
+                                       <div class="form-group" style="padding-right: 7px">
+                                          <div class="input-group">
+                                            <span class="input-group-btn">
+                                               <button type="button" title="Logout no Google Calendar" class="btn btn-default" ng-click="$listEventsCalendarCtrl.googleApiLogout()" ng-if="isGoogleApiSignedIn"><i class="glyphicon glyphicon-log-out"></i></button>
+                                            </span>
+                                         </div>
+                                       </div>
+
                                  </form>
                                </li>
                               <li class="mt-list-item" ng-if="$listEventsCalendarCtrl.alertMessage">

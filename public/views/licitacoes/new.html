@@ -1,0 +1,196 @@
+<!-- BEGIN NEW PAGE -->
+<div class="portlet box green portlet-in-modal">
+   <div class="portlet-title">
+       <div class="caption">
+           <i class="fa fa-plus"></i>Nova Licitação
+        </div>
+       <div class="tools">
+           <a href="" class="remove" data-original-title="" title="" ng-click="$newLicitacaoCtrl.close()"></a>
+       </div>
+   </div>
+   <div class="portlet-body form">
+       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$newLicitacaoCtrl.errorMessage">
+          {{ $newLicitacaoCtrl.errorMessage }}
+       </div>
+       <!-- BEGIN FORM-->
+       <form action="#" name="$newLicitacaoCtrl.newLicitacaoForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Ano</label>
+                   <div class="col-md-9">
+                        <input type="number" style="width: 100px" class="form-control" name="year" required="true" maxlength="4" ng-model="$newLicitacaoCtrl.year">
+                        <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.year.$error.required && ($newLicitacaoCtrl.newLicitacaoForm.year.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                           O ano precisa ser preenchido.
+                        </div>
+                        <span class="help-block">Digite o ano da licitação.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Número</label>
+                   <div class="col-md-9">
+                        <input type="number" style="width: 80px" class="form-control" name="number" required="true" maxlength="4" ng-model="$newLicitacaoCtrl.number" ui-validate='{ uniqueNumber : $newLicitacaoCtrl.uniqueNumberValidator }'>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.number.$error.uniqueNumber && ($newLicitacaoCtrl.newLicitacaoForm.number.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                           Já foi cadastrada uma licitação com este número para este ano.
+                        </div>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.number.$error.required && ($newLicitacaoCtrl.newLicitacaoForm.number.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                           O número precisa ser preenchido.
+                        </div>
+                        <span class="help-block">Digite o número da licitação.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Objeto</label>
+                   <div class="col-md-9">
+                        <textarea class="form-control" name="description" required="true" rows="4" maxlength="1000" ng-model="$newLicitacaoCtrl.description">
+                        </textarea>
+                        <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.description.$error.required && ($newLicitacaoCtrl.newLicitacaoForm.description.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                           O objeto precisa ser preenchido.
+                        </div>
+                        <span class="help-block">Digite o objeto da licitação.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group">
+              <label class="control-label col-md-3">Modalidade</label>
+              <div class="col-md-5">
+
+                <ui-select name="category" required="true" ng-model="$newLicitacaoCtrl.selectedCategory" theme="bootstrap">
+                     <ui-select-match placeholder="Digite a modalidade da licitação ...">{{ $select.selected.description }}</ui-select-match>
+                     <ui-select-choices repeat="category in $newLicitacaoCtrl.categories | filter: $select.search">
+                        <div ng-bind-html="category.description | highlight: $select.search"></div>
+                     </ui-select-choices>
+                </ui-select>
+
+                <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.category.$error.required && ($newLicitacaoCtrl.newLicitacaoForm.category.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                   Selecione uma modalidade para a licitação.
+                </div>
+
+                <span class="help-block">
+                   Selecione a modalidade da licitação.
+                </span>
+              </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                  <label class="control-label col-md-3">Publicar ?</label>
+                  <div class="col-md-9">
+                     <toggle-switch ng-model="$newLicitacaoCtrl.publish" on-label="Sim" off-label="Não">
+                     </toggle-switch>
+                     <span class="help-block">
+                        Selecione "Não" para que esta licitação não apareça de
+                        imediato no portal da Câmara. Posteriormente, quando desejar que esta licitação
+                        apareça no portal, abra a licitação no Gerencimento de Licitações e clique em "Publicar".
+                        Selecione "Sim" para que esta licitação apareça no Portal, neste caso deverá ser cadastrado também
+                        um evento inicial para a Licitação, por exemplo um Edital de Abertura.
+                     </span>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-group" ng-if="$newLicitacaoCtrl.publish">
+               <label class="control-label col-md-3">Descrição do Evento</label>
+               <div class="col-md-9">
+                     <input type="text" class="form-control" name="initialEventDescription" required="true" maxlength="255" ng-model="$newLicitacaoCtrl.initialEvent.description">
+                     <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.initialEventDescription.$error.required && ($newLicitacaoCtrl.newLicitacaoForm.initialEventDescription.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                        A descrição do evento não pode ser vazia.
+                     </div>
+                     <span class="help-block">Digite uma descrição para o evento inicial desta Licitação, p. ex. "Edital de Abertura".</span>
+               </div>
+           </div>
+
+           <div class="form-group" ng-if="$newLicitacaoCtrl.publish">
+               <label class="control-label col-md-3">Data do evento</label>
+               <div class="col-md-9">
+                     <input type="date" id="initialEventDate" name="initialEventDate" ng-model="$newLicitacaoCtrl.initialEvent.date" placeholder="yyyy-MM-dd" required/>
+                     <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.initialEventDate.$error.date && ($newLicitacaoCtrl.newLicitacaoForm.initialEventDate.$touched || newNewsItemForm.$submitted)">
+                        Data inválida, preencha o dia, o mês e o ano.
+                     </div>
+                     <div class="alert alert-danger" role="alert" ng-if="$newLicitacaoCtrl.newLicitacaoForm.initialEventDate.$error.required && ($newLicitacaoCtrl.newLicitacaoForm.initialEventDate.$touched || $newLicitacaoCtrl.newLicitacaoForm.$submitted)">
+                        Digite uma data para o evento.
+                     </div>
+                     <span class="help-block">
+                        Digite a data do evento.
+                     </span>
+               </div>
+           </div>
+
+           <div class="form-group" ng-if="$newLicitacaoCtrl.publish">
+             <label class="control-label col-md-3">Arquivo do evento</label>
+             <div class="col-md-9">
+                 <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$newLicitacaoCtrl.uploadEventFileErrorMessage">
+                    {{ $newLicitacaoCtrl.uploadEventFileErrorMessage }}
+                 </div>
+                 <table class="table" ng-if="$newLicitacaoCtrl.uploader.queue.length > 0">
+                     <thead>
+                          <tr>
+                              <th width="50%">Nome</th>
+                              <th ng-show="$newLicitacaoCtrl.uploader.isHTML5">Tamanho</th>
+                              <th>Estado</th>
+                              <th>Ações</th>
+                          </tr>
+                     </thead>
+                     <tbody>
+                          <tr ng-repeat="item in $newLicitacaoCtrl.uploader.queue">
+                              <td>
+                                  <a ng-href="{{$newLicitacaoCtrl.viewRawFileEventUrlBase}}{{$newLicitacaoCtrl.initialEvent.filename}}?originalFilename={{$newLicitacaoCtrl.initialEvent.originalFilename}}" target="_blank"><strong>{{ item.file.name }}</strong></a>
+                              </td>
+                              <td ng-show="$newLicitacaoCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                              <td class="text-center">
+                                  <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                  <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                  <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                              </td>
+                              <td nowrap>
+                                  <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                      <span class="glyphicon glyphicon-ban-circle"></span>Cancelar envio
+                                  </button>
+                                  <button type="button" class="btn btn-danger btn-xs" ng-click="$newLicitacaoCtrl.removeFileItem(item)">
+                                      <span class="glyphicon glyphicon-trash"></span>Remover
+                                  </button>
+                              </td>
+                          </tr>
+                     </tbody>
+                  </table>
+
+                  <div>
+                     <span class="help-block" style="margin-bottom: 10px">Selecione um arquivo abaixo.</span>
+                     <div ng-if="$newLicitacaoCtrl.uploader.queue.length > 0">
+                          Progresso do envio:
+                          <div class="progress" style="">
+                              <div class="progress-bar" role="progressbar" ng-style="{ 'width': $newLicitacaoCtrl.uploader.progress + '%' }"></div>
+                          </div>
+                     </div>
+                     <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                     <input type="file" name="eventFile" nv-file-select="" uploader="$newLicitacaoCtrl.uploader"/><br/>
+                     <div class="alert alert-danger" role="alert" ng-if="!$newLicitacaoCtrl.initialEvent.filename && $newLicitacaoCtrl.newLicitacaoForm.$submitted">
+                        Selecione um arquivo.
+                     </div>
+                  </div>
+             </div>
+           </div>
+
+
+           <div class="form-actions">
+               <div class="row">
+                   <div class="col-md-12 text-center">
+                        <button type="button" class="btn green" ng-click="$newLicitacaoCtrl.save()" ng-disabled="$newLicitacaoCtrl.newLicitacaoForm.$submitted && !$newLicitacaoCtrl.isValid()">
+                           <i class="fa fa-check"></i>Salvar
+                        </button>
+                       <button type="button" class="btn default" ng-click="$newLicitacaoCtrl.close()">Fechar</button>
+                   </div>
+               </div>
+           </div>
+       </form>
+       <!-- END FORM-->
+   </div>
+</div>
+<!-- END NEW PAGE -->

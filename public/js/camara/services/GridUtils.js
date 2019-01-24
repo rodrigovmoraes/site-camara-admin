@@ -133,6 +133,7 @@
       }
 
       GridUtils.applySorting = function(dataSource, paginationOptions) {
+         paginationOptions.sortColumns = _.orderBy(paginationOptions.sortColumns,['priority'],['asc']);
          if(paginationOptions !== undefined && paginationOptions.sortColumns !== null) {
             return _.orderBy(dataSource, _.map(paginationOptions.sortColumns, 'field'), _.map(paginationOptions.sortColumns, 'direction'));
          } else {

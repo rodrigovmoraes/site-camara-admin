@@ -1,0 +1,106 @@
+<!-- BEGIN NEW MENU ITEM CONTENT -->
+<div class="modal-body" id="modal-body">
+   <div class="portlet box green portlet-in-modal">
+      <div class="portlet-title">
+          <div class="caption">
+              <i class="fa fa-plus"></i>Novo relacionamento - {{ $modalCtrl.relationshipType.description }}
+           </div>
+          <div class="tools">
+              <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+          </div>
+      </div>
+      <div class="portlet-body form">
+          <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+             {{ $modalCtrl.errorMessage }}
+          </div>
+
+          <!-- BEGIN FORM-->
+          <form name="$modalCtrl.newRelationshipTypeForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+              <div class="form-body">
+                  <div class="form-group">
+                      <label class="control-label col-md-3">Número</label>
+                      <div class="col-md-9">
+                        <div class="input-group" style="width: 150px">
+                            <input type="number" class="form-control" name="number" maxlength="7" ng-model="$modalCtrl.number">
+                            <span class="input-group-btn">
+                             <button type="button" ng-click="$modalCtrl.searchLaw()" class="btn btn-default" title="Procurar lei ordinária">
+                                <span class="glyphicon glyphicon-search"></span>
+                             </button>
+                            </span>
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.numberNotEntered">
+                           Digite o número da lei ordinária, precisa ser um número maior que zero.
+                        </div>
+
+                        <div class="alert alert-danger" role="alert"  ng-if="$modalCtrl.legislativePropositionNotFound">
+                           Não foi encontrada nenhuma lei ordinária com este número.
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.relationshipAlreadyExists">
+                           Já existe um relação do mesmo tipo ({{$modalCtrl.relationshipType.description}}) para a lei ordinária nº {{$modalCtrl.number}}.
+                        </div>
+
+                        <span class="help-block">
+                            Digite o número da lei que se relaciona com
+                            a lei que está sendo cadastrada e clique no
+                            botão ao lado.
+                        </span>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-body" ng-if="$modalCtrl.legislativeProposition">
+                  <div class="form-group">
+                     <div class="mt-element-list">
+                        <div class="mt-list-container list-news ext-1 col-md-12"  style="border-top: 1px solid; border-color: #e7ecf1; margin-bottom: 12px">
+                             <ul>
+                                <li class="mt-list-item">
+                                       <div class="list-icon-container">
+                                           <a href="javascript:;" ng-click="$modalCtrl.add()">
+                                              <i class="fa fa-angle-right"></i>
+                                           </a>
+                                       </div>
+
+                                      <div class="list-datetime page-item-datetime bold uppercase">
+                                         <i class="fa fa-navicon font-black"></i>
+                                         <span class="font-black">{{$modalCtrl.legislativePropositionType.description}}: {{$modalCtrl.formatLegislativePropositionNumber($modalCtrl.legislativeProposition.number, $modalCtrl.legislativeProposition.year)}}</span>
+                                      </div>
+
+                                      <div class="list-item-content page-item-content">
+                                         <p class="uppercase">
+                                            <a href="javascript:;" ng-click="$modalCtrl.add()" class="black-link ng-binding">
+                                               {{$modalCtrl.legislativeProposition.description}}
+                                            </a>
+                                         </p>
+                                      </div>
+
+                                      <div class="list-datetime page-item-datetime bold uppercase">
+                                         <i class="fa fa-clock-o font-black"></i>
+                                         <span class="font-black ng-binding">Data: {{ $modalCtrl.legislativeProposition.date | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                         <i class="fa fa-info-circle font-blue-madison ng-scope" style="margin-left: 10px"></i>
+                                         <span class="font-blue-madison">Criação: {{ $modalCtrl.legislativeProposition.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                                      </div>
+                                  </li>
+                             </ul>
+                        </div>
+                     </div>
+                  </div>
+              </div>
+
+              <div class="form-actions">
+                  <div class="row">
+                      <div class="col-md-12 text-center">
+                          <button type="button" class="btn green" ng-click="$modalCtrl.add()" ng-disabled="!$modalCtrl.legislativeProposition">
+                              <i class="fa fa-check"></i> Adicionar Relacionamento</button>
+                          <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
+          <!-- END FORM-->
+      </div>
+   </div>
+</div>
+<!-- END NEW MENU ITEM CONTENT -->

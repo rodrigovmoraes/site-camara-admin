@@ -131,6 +131,21 @@
                                      });
       };
 
+      newsService.getUploadWysiwygFileAttachmentURL = function() {
+         return settings.baseUrlSiteCamaraApi +
+                     settings.News.uploadWysiwygFileAttachmentURL;
+      }
+
+      newsService.getUploadWysiwygFileImageAttachmentURL = function() {
+         return settings.baseUrlSiteCamaraApi +
+                     settings.News.uploadWysiwygFileImageAttachmentURL;
+      }
+
+      newsService.getUploadWysiwygFileVideoAttachmentURL = function() {
+         return settings.baseUrlSiteCamaraApi +
+                     settings.News.uploadWysiwygFileVideoAttachmentURL;
+      }
+
       //filtering and pagination options controller
       var _filterOptions = {
          id: null,

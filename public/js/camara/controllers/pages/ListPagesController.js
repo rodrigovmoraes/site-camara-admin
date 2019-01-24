@@ -3,12 +3,14 @@
 
    angular.module('SiteCamaraAdminApp').controller('ListPagesController', ListPagesController);
 
-   ListPagesController.$inject = ['$scope', 'messages',
-                                  'Utils', '$stateParams',
-                                      'PagesService', 'settings'];
+   ListPagesController.$inject = [ '$scope', 'messages',
+                                   'Utils', '$stateParams',
+                                   'PagesService', 'settings',
+                                   'ngClipboard'];
    function ListPagesController( $scope, messages,
                                  Utils, $stateParams,
-                                 PagesService, settings ) {
+                                 PagesService, settings,
+                                 ngClipboard ) {
       var $listPagesCtrl = this;
 
       //messages control
@@ -75,6 +77,10 @@
       }
       //filter setup
       $listPagesCtrl.filter = PagesService.getFilterOptions();
+
+      $listPagesCtrl.copyPageUrl = function(pageId) {
+         ngClipboard.toClipboard(settings.Pages.pageUrlBase + pageId);
+      }
 
       //initial load of the pages
       _updatePagesList();

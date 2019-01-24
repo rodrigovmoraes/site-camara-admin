@@ -90,16 +90,6 @@
          return $scope.editUserForm.$valid;
       }
 
-      $modalCtrl.uniqueEmailValidator = function() {
-         var email = $scope.editUserForm.email.$viewValue;
-         if(email && email !== user.email) {
-            //check if the email was changed
-            return UserService.checkUniqueEmail(email);
-         } else {
-            return true;
-         }
-      }
-
       //modal controls
       $modalCtrl.close = function() {
          $uibModalInstance.dismiss('cancel');

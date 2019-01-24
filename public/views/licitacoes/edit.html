@@ -1,0 +1,85 @@
+<!-- BEGIN NEW PAGE -->
+<div class="portlet box green portlet-in-modal">
+   <div class="portlet-title">
+       <div class="caption">
+           <i class="fa fa-plus"></i>Edição de Licitação
+        </div>
+       <div class="tools">
+           <a href="" class="remove" data-original-title="" title="" ng-click="$editLicitacaoCtrl.close()"></a>
+       </div>
+   </div>
+   <div class="portlet-body form">
+       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$editLicitacaoCtrl.errorMessage">
+          {{ $editLicitacaoCtrl.errorMessage }}
+       </div>
+       <!-- BEGIN FORM-->
+       <form action="#" name="$editLicitacaoCtrl.editLicitacaoForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Ano</label>
+                   <div class="col-md-9">
+                        <input type="number" style="width: 100px" disabled="true" class="form-control" name="year" required="true" maxlength="4" ng-model="$editLicitacaoCtrl.year">
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Número</label>
+                   <div class="col-md-9">
+                        <input type="number" style="width: 80px" disabled="true" class="form-control" name="number" required="true" maxlength="4" ng-model="$editLicitacaoCtrl.number">
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Objeto</label>
+                   <div class="col-md-9">
+                        <textarea class="form-control" name="description" required="true" rows="4" maxlength="1000" ng-model="$editLicitacaoCtrl.description">
+                        </textarea>
+                        <div class="alert alert-danger" role="alert" ng-if="$editLicitacaoCtrl.editLicitacaoForm.description.$error.required && ($editLicitacaoCtrl.editLicitacaoForm.description.$touched || $editLicitacaoCtrl.editLicitacaoForm.$submitted)">
+                           O objeto precisa ser preenchido.
+                        </div>
+                        <span class="help-block">Digite o objeto da licitação.</span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-group">
+              <label class="control-label col-md-3">Modalidade</label>
+              <div class="col-md-5">
+
+                <ui-select name="category" required="true" ng-model="$editLicitacaoCtrl.selectedCategory" theme="bootstrap">
+                     <ui-select-match placeholder="Digite a modalidade da licitação ...">{{ $select.selected.description }}</ui-select-match>
+                     <ui-select-choices repeat="category in $editLicitacaoCtrl.categories | filter: $select.search">
+                        <div ng-bind-html="category.description | highlight: $select.search"></div>
+                     </ui-select-choices>
+                </ui-select>
+
+                <div class="alert alert-danger" role="alert" ng-if="$editLicitacaoCtrl.editLicitacaoForm.category.$error.required && ($editLicitacaoCtrl.editLicitacaoForm.category.$touched || $editLicitacaoCtrl.editLicitacaoForm.$submitted)">
+                   Selecione uma modalidade para a licitação.
+                </div>
+
+                <span class="help-block">
+                   Selecione a modalidade da licitação.
+                </span>
+              </div>
+           </div>
+
+           <div class="form-actions">
+               <div class="row">
+                   <div class="col-md-12 text-center">
+                        <button type="button" class="btn green" ng-click="$editLicitacaoCtrl.save()" ng-disabled="$editLicitacaoCtrl.editLicitacaoForm.$submitted && !$editLicitacaoCtrl.isValid()">
+                           <i class="fa fa-check"></i>Salvar
+                        </button>
+                       <button type="button" class="btn default" ng-click="$editLicitacaoCtrl.close()">Fechar</button>
+                   </div>
+               </div>
+           </div>
+       </form>
+       <!-- END FORM-->
+   </div>
+</div>
+<!-- END NEW PAGE -->

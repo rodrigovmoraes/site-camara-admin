@@ -100,6 +100,18 @@
          newsImageFloatRight: 'Float Right',
          newsImageFloatLeft: 'Float Left'
         },
+        fileUploadParam: 'file',
+        fileUploadMethod: 'PUT',
+        fileUploadURL: NewsService.getUploadWysiwygFileAttachmentURL(),
+        fileMaxSize: 1024 * 1024 * 100, //100MB
+        imageUploadMethod: 'PUT',
+        imageUploadParam: 'file',
+        imageUploadURL:  NewsService.getUploadWysiwygFileImageAttachmentURL(),
+        imageMaxSize: 1024 * 1024 * 10, //10MB
+        videoUploadMethod: 'PUT',
+        videoUploadParam: 'file',
+        videoUploadURL:  NewsService.getUploadWysiwygFileVideoAttachmentURL(),
+        videoMaxSize: 1024 * 1024 * 100 //10MB
      };
 
       $editNewsItemCtrl.isValid = function() {

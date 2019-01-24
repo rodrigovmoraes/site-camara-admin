@@ -7,12 +7,12 @@
                                   'Utils', '$state',
                                   'PagesService', '$filter',
                                   'page', 'settings',
-                                  '$uibModal'];
+                                  '$uibModal', 'ngClipboard'];
    function EditPageController( $scope, messages,
                                 Utils, $state,
                                 PagesService, $filter,
                                 page, settings,
-                                $uibModal
+                                $uibModal, ngClipboard
                               ) {
       var $editPageItemCtrl = this;
 
@@ -32,6 +32,8 @@
       //news data
       $editPageItemCtrl.title = page.title;
       $editPageItemCtrl.body = page.body;
+      $editPageItemCtrl.pageLink = settings.Pages.pageUrlBase + page._id;
+
       $editPageItemCtrl.froalaOptions = {
         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
         placeholderText: messages.enterPageText,
@@ -39,6 +41,18 @@
          newsImageFloatRight: 'Float Right',
          newsImageFloatLeft: 'Float Left'
         },
+        fileUploadParam: 'file',
+        fileUploadMethod: 'PUT',
+        fileUploadURL: PagesService.getUploadWysiwygFileAttachmentURL(),
+        fileMaxSize: 1024 * 1024 * 100, //100MB
+        imageUploadMethod: 'PUT',
+        imageUploadParam: 'file',
+        imageUploadURL:  PagesService.getUploadWysiwygFileImageAttachmentURL(),
+        imageMaxSize: 1024 * 1024 * 10, //10MB
+        videoUploadMethod: 'PUT',
+        videoUploadParam: 'file',
+        videoUploadURL:  PagesService.getUploadWysiwygFileVideoAttachmentURL(),
+        videoMaxSize: 1024 * 1024 * 100 //10MB
      };
 
       $editPageItemCtrl.isValid = function() {
@@ -96,6 +110,10 @@
                $editPageItemCtrl.errorMessage = error.message;
             });
          });
+      }
+
+      $editPageItemCtrl.copyPageUrl = function() {
+         ngClipboard.toClipboard($editPageItemCtrl.pageLink);
       }
 
       $editPageItemCtrl.close = function () {

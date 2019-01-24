@@ -176,3 +176,24 @@ div#rolenode {
 .video-banner-highlight {
    background-color: #e5e5e5
 }
+
+/*force link to be black*/
+a.black-link:link {
+    color: black;
+}
+
+/* visited link */
+a.black-link:visited {
+    color: black;
+}
+
+/* mouse over link */
+a.black-link:hover {
+    color: black;
+    text-decoration: none;
+}
+
+/* selected link */
+a.black-link:active {
+    color: black;
+}

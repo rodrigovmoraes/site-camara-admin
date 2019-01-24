@@ -31,9 +31,9 @@
             var id = params.id;
 
             $ctrl.paginationOptions.filtering = [{ "field": "_id",
-                                                    "type": "string",
-                                                    "term": id,
-                                                    "filterType": "select"
+                                                   "type": "string",
+                                                   "term": id,
+                                                   "filterType": "select"
                                                 }];
             $ctrl.refresh(message);
          });

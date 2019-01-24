@@ -24,7 +24,7 @@
 
       //set the name of uploaded file
       $newBannerCtrl.uploader.onSuccessItem  = function( item, response,
-                                                               status, headers ) {
+                                                         status, headers ) {
          $newBannerCtrl.uploadBannerImageErrorMessage = "";
          $newBannerCtrl.bannerImageFilename = response.filename;
          if($newBannerCtrl.bannerImageFilename) {
