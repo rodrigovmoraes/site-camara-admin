@@ -246,5 +246,44 @@
       Utils.YYYYMMDDHHMMFormatToDate = function(str) {
          return new Date(str);
       }
+
+      var sizeInkB = function(sizeInBytes) {
+         return sizeInBytes / 1024;
+      }
+
+      var sizeInMB = function(sizeInBytes) {
+         return sizeInBytes / (1024 * 1024);
+      }
+
+      var sizeInGB = function(sizeInBytes) {
+         return sizeInBytes / (1024 * 1024 * 1024);
+      }
+
+      Utils.formatFileSize = function(sizeInBytes) {
+         //bytes
+         var size = sizeInBytes;
+         //try kbytes
+         var auxSize = sizeInkB(sizeInBytes);
+         if (auxSize < 1) {
+            return _.round(size, 2) + " B";
+         } else {
+            size = auxSize;
+         }
+         //try Mbytes
+         auxSize = sizeInMB(sizeInBytes);
+         if (auxSize < 1) {
+            return _.round(size, 2) + " kB";
+         } else {
+            size = auxSize;
+         }
+         //try Gbytes
+         auxSize = sizeInGB(sizeInBytes);
+         if (auxSize < 1) {
+            return _.round(size, 2) + " MB";
+         } else {
+            size = auxSize;
+            return _.round(size, 2) + " GB"
+         }
+      }
    }
 })();

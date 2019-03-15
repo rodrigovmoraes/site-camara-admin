@@ -1,3 +1,36 @@
+<!-- BEGIN SELECT FLICKR PHOTO MODAL -->
+<div id="select-flickr-photo-modal">
+   <script type="text/ng-template" id="selectFlickrPhotoModal.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Seleção de Fotos do Flickr
+                       </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+                  <div class="portlet-body form">
+                      <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                         {{ $modalCtrl.errorMessage }}
+                      </div>
+                          <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.ok()">
+                                          <i class="fa fa-check"></i> Ok</button>
+                                      <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                  </div>
+               </div>
+          </div>
+   </script>
+</div>
+<!-- END SELECT FLICKR PHOTO MODAL -->
+
 <!-- BEGIN NEW NEWS -->
 <div class="portlet box green portlet-in-modal">
    <div class="portlet-title">
@@ -152,18 +185,18 @@
                </div>
            </div>
 
-           <textarea froala="$editNewsItemCtrl.froalaOptions" ng-model="$editNewsItemCtrl.body"></textarea>
+           <textarea froala="$editNewsItemCtrl.froalaOptions" fn-open-select-flickr-photo="$editNewsItemCtrl.openSelectFlickrPhotoModal" ng-model="$editNewsItemCtrl.body"></textarea>
 
            <div class="form-actions">
                <div class="row">
                    <div class="col-md-12 text-center">
-                       <button type="button" class="btn green" ng-click="$editNewsItemCtrl.save()" ng-disabled="editNewsItemForm.$submitted && !$editNewsItemCtrl.isValid()">
+                        <button type="button" class="btn green" ng-click="$editNewsItemCtrl.save()" ng-disabled="editNewsItemForm.$submitted && !$editNewsItemCtrl.isValid()">
                            <i class="fa fa-check">&nbsp;</i>Salvar
                         </button>
                         <button type="button" class="btn red" ng-click="$editNewsItemCtrl.remove()" ng-disabled="editNewsItemForm.$submitted && !$editNewsItemCtrl.isValid()">
                            <i class="fa fa-trash">&nbsp;</i>Remover
                         </button>
-                       <button type="button" class="btn default" ng-click="$editNewsItemCtrl.close()">Fechar</button>
+                        <button type="button" class="btn default" ng-click="$editNewsItemCtrl.close()">Fechar</button>
                    </div>
                </div>
            </div>

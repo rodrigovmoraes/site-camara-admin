@@ -31,8 +31,8 @@ var SiteCamaraAdminApp = angular.module("SiteCamaraAdminApp", [
 
 //Froala config
 SiteCamaraAdminApp.value('froalaConfig', {
-        toolbarInline: false,
-        placeholderText: 'Enter Text Here'
+     toolbarInline: false,
+     placeholderText: 'Enter Text Here'
 });
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -312,7 +312,9 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                            'js/camara/controllers/news/NewNewsItemController.js',
                            'js/camara/controllers/news/EditNewsItemController.js',
                            'js/camara/controllers/news/ListNewsItemsController.js',
-                           'js/camara/controllers/ConfirmModalInstanceController.js'
+                           'js/camara/controllers/ConfirmModalInstanceController.js',
+                           'js/camara/controllers/froala/SelectFlickrPhotoFroalaModalInstanceController.js',
+                           'js/camara/controllers/froala/SelectFlickrPhotoSizeFroalaModalInstanceController.js'
                        ]
                    });
                }]
@@ -977,6 +979,68 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                 }]
             }
          })
+         //public finances
+         .state('publicFinances', {
+            url: "/publicFinances.html",
+            abstract: true,
+            templateUrl: "views/public_finances/index.html",
+            data: { pageTitle: 'Sistema de Publicação de Contas Públicas' },
+            controller: "PublicFinancesController as $ctrl",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load( {
+                        name: 'SiteCamaraAdminApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/camara/controllers/public_finances/PublicFinancesController.js',
+                            'js/camara/controllers/public_finances/PublicFinancesListController.js',
+                            'js/camara/controllers/public_finances/NewFolderModalInstanceController.js',
+                            'js/camara/controllers/public_finances/UploadNewFileModalInstanceController.js',
+                            'js/camara/controllers/public_finances/ChangeFolderDescriptionModalInstanceController.js',
+                            'js/camara/controllers/ConfirmModalInstanceController.js',
+                            'js/camara/controllers/MessageModalInstanceController.js',
+                            '../assets/apps/css/todo-2.css'
+                        ]
+                    });
+                }]
+            }
+         })
+         // proposition
+         .state('publicFinances.list', {
+            url: "/list/:folderId",
+            templateUrl: "views/public_finances/list.html",
+            controller: "PublicFinancesListController as $publicFinancesListCtrl",
+            params: {
+               folderId: null
+            },
+            resolve: {
+               objects: ['$stateParams', 'PublicFinancesService', function ($stateParams, PublicFinancesService) {
+                  return PublicFinancesService
+                  .getFolderContents($stateParams.folderId)
+                  .then(function(result) {
+                     return result.objects;
+                  }).catch(function(error) {
+                     console.error(error);
+                     throw error;
+                  });
+               }],
+               folderPath: ['$stateParams', 'PublicFinancesService', function ($stateParams, PublicFinancesService) {
+                  if ($stateParams.folderId) {
+                     return PublicFinancesService
+                            .getFolderPath($stateParams.folderId)
+                            .then(function(result) {
+                               return result.path;
+                            }).catch(function(error) {
+                               console.error(error);
+                               throw error;
+                            });
+                  } else {
+                     return [];
+                  }
+
+               }]
+            }
+         })
          // Dashboard
          .state('dashboard', {
             url: "/dashboard.html",
@@ -1327,7 +1391,6 @@ SiteCamaraAdminApp.config([ '$stateProvider',
             templateUrl: "views/profile/help.html",
             data: { pageTitle: 'User Help' }
         })
-
         // Todo
         .state('todo', {
             url: "/todo",
@@ -1405,7 +1468,6 @@ SiteCamaraAdminApp.run(["$rootScope",
         } else {
            _redirectOrRevalidate(toState, AuthenticationService.isLoggedIn());
         }
-
    });
 }]);
 

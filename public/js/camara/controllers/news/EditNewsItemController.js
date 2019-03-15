@@ -94,7 +94,18 @@
       $editNewsItemCtrl.thumbnailWidthRatio = imageRatio.width;
 
       $editNewsItemCtrl.froalaOptions = {
-        //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+        toolbarButtons : [ 'fullscreen', 'bold', 'italic', 'underline',
+                           'strikeThrough', 'subscript', 'superscript', '|',
+                           'fontFamily', 'fontSize', 'color', 'inlineClass',
+                           'inlineStyle', 'paragraphStyle', 'lineHeight',
+                           '|', 'paragraphFormat', 'align', 'formatOL',
+                           'formatUL', 'outdent', 'indent', 'quote', '-',
+                           'insertLink', 'insertImage', 'insertVideo',
+                           'embedly', 'insertFile', 'insertTable', '|',
+                           'emoticons', 'fontAwesome', 'specialCharacters',
+                           'insertHR', 'selectAll', 'clearFormatting',  '|',
+                           'print',    'getPDF', 'spellChecker',
+                           'help', 'html', '|', 'undo', 'redo', '|', 'alert'],
         placeholderText: messages.enterNewsText,
         imageStyles: {
          newsImageFloatRight: 'Float Right',
@@ -117,6 +128,31 @@
       $editNewsItemCtrl.isValid = function() {
          return $scope.editNewsItemForm.$valid &&
                      $editNewsItemCtrl.thumbnailFilename;
+      }
+
+      $editNewsItemCtrl.openSelectFlickrPhotoModal = function(froalaScope) {
+         var selectFlickrPhotoModal = $uibModal.open({
+                                          templateUrl: 'tpl/camara/froala/select-flickr-photo-froala.html',
+                                          animation: false,
+                                          size: 'lg',
+                                          controller: 'SelectFlickrPhotoFroalaModalInstanceController',
+                                          controllerAs: '$modalCtrl',
+                                          scope: $scope
+                                       });
+         selectFlickrPhotoModal.result.then(function(photoObject) {
+            console.log(photoObject);
+            var selectFlickrPhotoSizeModal = $uibModal.open({
+                                             templateUrl: 'tpl/camara/froala/select-flickr-photo-size-froala.html',
+                                             animation: false,
+                                             size: 'lg',
+                                             controller: 'SelectFlickrPhotoSizeFroalaModalInstanceController',
+                                             controllerAs: '$modalCtrl',
+                                             scope: $scope
+                                          });
+            selectFlickrPhotoSizeModal.result.then(function(chosenSize) {
+               froalaScope.html.insert('<img src=\"' + photoObject['url_' + chosenSize] + '\"/>');
+            });
+         });
       }
 
       $editNewsItemCtrl.getNow = function() {

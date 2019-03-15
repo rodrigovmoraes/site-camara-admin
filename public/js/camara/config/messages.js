@@ -139,5 +139,21 @@
    legislativePropositionTagRemoveDialogText: 'Deseja realmente remover esta classificação, \"<%=description%>\" ?',
    legislativePropositionTagChanged: 'Classificação alterada',
    legislativePropositionTagCreated: 'Classificação criada',
-   legislativePropositionTagRemoved: 'Classificação \"<%=description%>\" removida'
+   legislativePropositionTagRemoved: 'Classificação \"<%=description%>\" removida',
+
+   publicFinancesFolderCreated: 'Diretório "<%=folderDescription%>" criado',
+   publicFinancesFileCreated: 'Arquivo "<%=fileDescription%>" criado',
+
+   publicFinancesFolderMovedUp: 'Diretório "<%=folderDescription%>" movido para cima',
+   publicFinancesFileMovedUp: 'Arquivo "<%=fileDescription%>" movido para cima',
+
+   publicFinancesFolderMovedDown: 'Diretório "<%=folderDescription%>" movido para baixo',
+   publicFinancesFileMovedDown: 'Arquivo "<%=fileDescription%>" movido para baixo',
+
+   publicFinancesFileRemoveDialogText: 'Deseja realmente remover este arquivo, "<%=fileDescription%>" ?',
+   publicFinancesFileRemoved: 'Arquivo "<%=fileDescription%>" removido',
+   publicFinancesFolderRemoveDialogText: 'Deseja realmente remover este diretório, "<%=folderDescription%>" ?',
+   publicFinancesFolderEmpty: 'Diretório vazio.',
+   publicFinancesFolderNotEmptyToBeRemovedDialogText: 'Este diretório contém arquivos e/ou subdiretórios e, portanto, não pode ser removido.',
+   publicFinancesFolderRemoved: 'Diretório "<%=folderDescription%>" removido',
 }

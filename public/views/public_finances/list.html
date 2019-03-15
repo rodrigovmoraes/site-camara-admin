@@ -1,0 +1,363 @@
+<!-- CHANGE FOLDER DESCRIPTION MODAL -->
+<div id="upload-new-file-modal">
+   <script type="text/ng-template" id="changeFolderDescription.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Alterar descrição do diretório
+                       </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+                  <div class="portlet-body form">
+                      <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                         {{ $modalCtrl.errorMessage }}
+                      </div>
+
+                      <!-- BEGIN FORM-->
+                      <form action="#" name="$modalCtrl.changeFolderDescriptionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                          <div class="form-body">
+                              <div class="form-group">
+                                  <label class="control-label col-md-3">Descrição</label>
+                                  <div class="col-md-9">
+                                       <input type="text" class="form-control" maxlength="50" required="" ng-model="$modalCtrl.description" name="description" id="description" ui-validate='{ uniqueDescription : $modalCtrl.uniqueDescriptionValidator }'>
+                                       <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.changeFolderDescriptionForm.description.$error.required && ($modalCtrl.newFolderForm.description.$touched || $modalCtrl.newFolderForm.$submitted)">
+                                         Digite uma nova descrição para o diretório. Ex: "Lei de Responsabilidade Fiscal".
+                                       </div>
+                                       <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.changeFolderDescriptionForm.description.$error.uniqueDescription && ($modalCtrl.changeFolderDescriptionForm.description.$touched || $modalCtrl.changeFolderDescriptionForm.$submitted)">
+                                         Já existe um elemento (um arquivo ou um subdiretório) neste diretório com esta descrição.
+                                       </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="$modalCtrl.changeFolderDescriptionForm.$submitted && !$modalCtrl.isValid()">
+                                          <i class="fa fa-check"></i>Ok</button>
+                                      <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                      <!-- END FORM-->
+
+                  </div>
+               </div>
+          </div>
+   </script>
+</div>
+<!-- CHANGE FOLDER DESCRIPTION MODAL -->
+
+<!-- BEGIN NEW FOLDER MODAL -->
+<div id="upload-new-file-modal">
+   <script type="text/ng-template" id="newFolder.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Novo diretório
+                       </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+                  <div class="portlet-body form">
+                      <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                         {{ $modalCtrl.errorMessage }}
+                      </div>
+
+                      <!-- BEGIN FORM-->
+                      <form action="#" name="$modalCtrl.newFolderForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                          <div class="form-body">
+                              <div class="form-group">
+                                  <label class="control-label col-md-3">Descrição</label>
+                                  <div class="col-md-9">
+                                       <input type="text" class="form-control" maxlength="50" required="" ng-model="$modalCtrl.description" name="description" id="description" ui-validate='{ uniqueDescription : $modalCtrl.uniqueDescriptionValidator }'>
+                                       <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.newFolderForm.description.$error.required && ($modalCtrl.newFolderForm.description.$touched || $modalCtrl.newFolderForm.$submitted)">
+                                         Digite uma descrição para o diretório. Ex: "Lei de Responsabilidade Fiscal".
+                                       </div>
+                                       <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.newFolderForm.description.$error.uniqueDescription && ($modalCtrl.newFolderForm.description.$touched || $modalCtrl.newFolderForm.$submitted)">
+                                         Já existe um elemento (um arquivo ou um subdiretório) neste diretório com esta descrição.
+                                       </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="$modalCtrl.newFolderForm.$submitted && !$modalCtrl.isValid()">
+                                          <i class="fa fa-check"></i>Ok</button>
+                                      <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                      <!-- END FORM-->
+
+                  </div>
+               </div>
+          </div>
+   </script>
+</div>
+<!-- END NEW FOLDER MODAL -->
+
+<!-- BEGIN UPLOAD NEW FILE MODAL -->
+<div id="upload-new-file-modal">
+   <script type="text/ng-template" id="uploadNewFile.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Upload de arquivo
+                       </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+                  <div class="portlet-body form">
+                      <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                         {{ $modalCtrl.errorMessage }}
+                      </div>
+
+                      <!-- BEGIN FORM-->
+                      <form action="#" name="$modalCtrl.uploadNewFileForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                          <div class="form-body">
+
+                              <div class="form-group">
+                                  <label class="control-label col-md-3">Descrição</label>
+                                  <div class="col-md-9">
+                                       <input type="text" class="form-control" maxlength="50" required="" ng-model="$modalCtrl.fileDescription" name="fileDescription" id="fileDescription" ui-validate='{ uniqueDescription : $modalCtrl.uniqueDescriptionValidator }'>
+                                       <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.uploadNewFileForm.fileDescription.$error.required && ($modalCtrl.uploadNewFileForm.fileDescription.$touched || $modalCtrl.uploadNewFileForm.$submitted)">
+                                         Digite uma descrição para o arquivo. Ex: "Despesa Total com Pessoal".
+                                       </div>
+                                       <div class="alert alert-danger" role="alert" ng-if="$modalCtrl.uploadNewFileForm.fileDescription.$error.uniqueDescription && ($modalCtrl.uploadNewFileForm.fileDescription.$touched || $modalCtrl.uploadNewFileForm.$submitted)">
+                                         Já existe um elemento (um arquivo ou um subdiretório) nesta pasta com esta descrição.
+                                       </div>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label class="control-label col-md-3">Arquivo</label>
+                                  <div class="col-md-9">
+                                       <div class="alert alert-danger alert-no-margin" role="alert" style="margin-bottom: 10px" ng-if="$modalCtrl.uploadFileErrorMessage">
+                                          {{ $modalCtrl.uploadFileErrorMessage }}
+                                       </div>
+                                       <table class="table" ng-if="$modalCtrl.uploader.queue.length > 0">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">Nome</th>
+                                                    <th ng-show="$modalCtrl.uploader.isHTML5">Tamanho</th>
+                                                    <th>Estado</th>
+                                                    <th>Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in $modalCtrl.uploader.queue">
+                                                    <td>
+                                                       <strong><a ng-href="{{$modalCtrl.file.url}}" target="_blank">{{ item.file.name }}</a></strong>
+                                                    </td>
+                                                    <td ng-show="$modalCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
+                                                    <td class="text-center">
+                                                       <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                       <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                       <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                    </td>
+                                                    <td nowrap>
+                                                       <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancelar envio
+                                                       </button>
+                                                       <button type="button" class="btn btn-danger btn-xs" ng-click="$modalCtrl.removeFileItem(item)">
+                                                            <span class="glyphicon glyphicon-trash"></span> Remover
+                                                       </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                       </table>
+                                       <span class="help-block" style="margin-bottom: 10px">Selecione um arquivo abaixo para realizar o upload.</span>
+                                       <div ng-if="$modalCtrl.uploader.queue.length > 0">
+                                           Progresso do envio:
+                                           <div class="progress" style="">
+                                               <div class="progress-bar" role="progressbar" ng-style="{ 'width': $modalCtrl.uploader.progress + '%' }"></div>
+                                           </div>
+                                       </div>
+                                       <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                       <input type="file" name="file" nv-file-select="" uploader="$modalCtrl.uploader"/><br/>
+                                       <div class="alert alert-danger" role="alert" ng-if="!$modalCtrl.file && $modalCtrl.uploadNewFileForm.$submitted">
+                                          Selecione um arquivo.
+                                       </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.ok()" ng-disabled="$modalCtrl.uploadNewFileForm.$submitted && !$modalCtrl.isValid()">
+                                          <i class="fa fa-check"></i> Ok</button>
+                                      <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                      <!-- END FORM-->
+
+                  </div>
+               </div>
+          </div>
+   </script>
+</div>
+<!-- END UPLOAD NEW FILE MODAL -->
+
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN LIST PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento da Divulgação de Contas Públicas</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+               <div class="table-toolbar public_finances">
+                  <div class="mt-element-list">
+                      <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
+                          <div class="list-head-title-container">
+                              <h3 class="list-title">Listagem de Diretório</h3>
+                          </div>
+                          <div class="list-count pull-right bg-red">{{$publicFinancesListCtrl.objects.length}}</div>
+                      </div>
+                      <div class="mt-list-container list-news ext-1">
+                          <ul>
+                              <li class="mt-list-item" ng-if="$publicFinancesListCtrl.infoMessage">
+                                 <div class="alert alert-info alert-no-margin" role="alert">
+                                    {{ $publicFinancesListCtrl.infoMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item" ng-if="$publicFinancesListCtrl.errorMessage">
+                                 <div class="alert alert-danger alert-no-margin" role="alert">
+                                    {{ $publicFinancesListCtrl.errorMessage }}
+                                 </div>
+                              </li>
+                              <li class="mt-list-item">
+                                <div class="panel panel-default">
+                                   <ol class="breadcrumb">
+                                      <li>
+                                         <a href="javascript:;" ui-sref="publicFinances.list({ folderId: null })" title="Raiz">#</a>
+                                      </li>
+                                      <li ng-repeat="folder in $publicFinancesListCtrl.folderPath">
+                                         <a href="javascript:;" ui-sref="publicFinances.list({ folderId: folder._id })">{{ folder.description }}</a>
+                                      </li>
+                                   </ol>
+                                </div>
+                              </li>
+
+                              <li class="mt-list-item">
+                                 <div class="panel panel-default">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-body">
+                                      <!--// <p>...</p> //-->
+                                      <div class="btn-toolbar" role="toolbar" aria-label="...">
+                                         <button type="button" class="btn btn-primary" ng-click="$publicFinancesListCtrl.openNewFolderModal()"  aria-label="Criar diretório" title="Criar diretório">
+                                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                         </button>
+                                         <button type="button" class="btn btn-primary" ng-click="$publicFinancesListCtrl.openUploadNewFileModal()" aria-label="Fazer upload de arquivo" title="Fazer upload de arquivo">
+                                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                                         </button>
+                                       </div>
+                                    </div>
+                                    <div class="alert alert-warning" role="alert" ng-if="!$publicFinancesListCtrl.objects || $publicFinancesListCtrl.objects.length === 0">
+                                       {{ $publicFinancesListCtrl.notFoundMessage }}
+                                    </div>
+                                    <!-- Table -->
+                                    <table class="table" ng-if="$publicFinancesListCtrl.objects && $publicFinancesListCtrl.objects.length > 0">
+                                       <thead>
+                                          <tr>
+                                             <th>&nbsp;</th>
+                                             <th>Descrição</th>
+                                             <th>Extensão</th>
+                                             <th>Data</th>
+                                             <th>Tamanho</th>
+                                             <th>Usuário</th>
+                                             <th>&nbsp;</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr ng-repeat="object in $publicFinancesListCtrl.objects" ng-class="{ 'public-finances-object-highlight': object._id === $publicFinancesListCtrl.highlightObjectId }">
+                                             <td ng-if="object.isFolder">
+                                                <a href="javascript:;" ui-sref="publicFinances.list({ folderId: object._id })">
+                                                   <span class="glyphicon glyphicon-folder-close folder_icon" aria-hidden="true"></span>
+                                                </a>
+                                             </td>
+                                             <td ng-if="!object.isFolder">
+                                                <a ng-href="{{$publicFinancesListCtrl.fileDownloadURL + object._id}}" target="_blank">
+                                                   <span id="fileIconTestId" class="glyphicon glyphicon-file file_icon" aria-hidden="true"></span>
+                                                </a>
+                                             </td>
+                                             <td ng-if="object.isFolder">
+                                                <a href="javascript:;" ui-sref="publicFinances.list({ folderId: object._id })">
+                                                   {{object.description}}
+                                                </a>
+                                             </td>
+                                             <td ng-if="!object.isFolder">
+                                                <a ng-href="{{$publicFinancesListCtrl.fileDownloadURL + object._id}}" target="_blank">
+                                                   {{object.description}}
+                                                </a>
+                                             </td>
+                                             <td ng-if="object.isFolder">&nbsp;-&nbsp;</td>
+                                             <td ng-if="!object.isFolder">{{ object.extension }}</td>
+                                             <td>{{ object.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                                             <td ng-if="object.isFolder">&nbsp;-&nbsp;</td>
+                                             <td ng-if="!object.isFolder">{{ $publicFinancesListCtrl.formatFileSize(object.length) }}</td>
+                                             <td>{{ object.creationUser.username }}</td>
+                                             <td>
+                                                <div class="btn-toolbar" role="toolbar">
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-primary" aria-label="Alterar descrição" ng-click="$publicFinancesListCtrl.openChangeFolderDescriptionModal(object)" title="Alterar descrição">
+                                                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                                   </button>
+                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-danger" aria-label="Remover" ng-click="$publicFinancesListCtrl.removeFile(object)"  title="Remover">
+                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                   </button>
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-danger" aria-label="Remover" ng-click="$publicFinancesListCtrl.removeFolder(object)"  title="Remover">
+                                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                   </button>
+
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFolderUp(object)" aria-label="Mover para cima" title="Mover para cima">
+                                                     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                                                   </button>
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFolderDown(object)" aria-label="Mover para baixo" title="Mover para baixo">
+                                                     <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                                                   </button>
+
+                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFileUp(object)" aria-label="Mover para cima" title="Mover para cima">
+                                                     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                                                   </button>
+                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFileDown(object)" aria-label="Mover para baixo" title="Mover para baixo">
+                                                     <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                                                   </button>
+                                                </div>
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div ng-if="$listNewsItemsCtrl.pager.totalItems">
+                     <ul uib-pagination id="newsListPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" ng-change="$listNewsItemsCtrl.pager.pageChanged()" total-items="$listNewsItemsCtrl.pager.totalItems" items-per-page="$listNewsItemsCtrl.pager.itemsPerPage" ng-model="$listNewsItemsCtrl.pager.currentPage" max-size="$listNewsItemsCtrl.pager.maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+                     <div style="margin-top: 5px" class="pull-right">
+                        {{ $listNewsItemsCtrl.pager.totalItems }}  items, página {{ $listNewsItemsCtrl.pager.currentPage }} de {{ $listNewsItemsCtrl.pager.totalPages }}
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END LIST PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

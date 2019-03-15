@@ -43,6 +43,22 @@
          }
       };
 
+      $newNewsItemCtrl.openSelectFlickrPhotoModal = function(froalaScope) {
+         var selectFlickrPhotoModal = $uibModal.open({
+                                          templateUrl: 'tpl/camara/froala/select-flickr-photo-froala.html',
+                                          animation: false,
+                                          size: 'lg',
+                                          controller: 'SelectFlickrPhotoFroalaModalInstanceController',
+                                          controllerAs: '$modalCtrl',
+                                          scope: $scope
+                                       });
+
+         selectFlickrPhotoModal.result.then(function(modalResult) {
+            console.log(modalResult);
+            froalaScope.html.insert('<img src=\"' + modalResult.url + '\"/>');
+         });
+      }
+
       //set the name of uploaded file
       $newNewsItemCtrl.uploader.onErrorItem  = function( item, response,
                                                          status, headers ) {
@@ -104,7 +120,18 @@
       }
 
       $newNewsItemCtrl.froalaOptions = {
-         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+         toolbarButtons : [ 'fullscreen', 'bold', 'italic', 'underline',
+                            'strikeThrough', 'subscript', 'superscript', '|',
+                            'fontFamily', 'fontSize', 'color', 'inlineClass',
+                            'inlineStyle', 'paragraphStyle', 'lineHeight',
+                            '|', 'paragraphFormat', 'align', 'formatOL',
+                            'formatUL', 'outdent', 'indent', 'quote', '-',
+                            'insertLink', 'insertImage', 'insertVideo',
+                            'embedly', 'insertFile', 'insertTable', '|',
+                            'emoticons', 'fontAwesome', 'specialCharacters',
+                            'insertHR', 'selectAll', 'clearFormatting',  '|',
+                            'print',    'getPDF', 'spellChecker',
+                            'help', 'html', '|', 'undo', 'redo', '|', 'alert'],
          placeholderText: messages.enterNewsText,
          imageStyles: {
           newsImageFloatRight: 'Float Right',

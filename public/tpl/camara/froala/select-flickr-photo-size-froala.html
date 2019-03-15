@@ -1,0 +1,144 @@
+<div class="modal-body" id="modal-body">
+     <div class="portlet box green portlet-in-modal">
+        <div class="portlet-title">
+           <div class="caption">
+               Seleção da resolução da foto do Flickr
+           </div>
+           <div class="tools">
+               <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+           </div>
+        </div>
+        <div class="portlet-body form">
+
+           <div class="mt-element-list">
+               <div class="mt-list-container list-news ext-1">
+                  <ul>
+                       <li class="mt-list-item">
+                          <span class="help-block">
+                             Selecione a resolução desejada para a foto.
+                          </span>
+                       </li>
+                       <li class="mt-list-item">
+                           <form role="form" name="selectFlickrPhotoSize" novalidate="">
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeSQ" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="sq">
+                                               </span>
+                                               <label for="sizeSQ">Quadrado 75 (75 x 75)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeQ" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="q">
+                                               </span>
+                                               <label for="sizeQ">Quadrado 150 (150 x 150)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeT" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="t">
+                                               </span>
+                                               <label for="sizeT">Miniatura (100 x 71)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeS" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="s">
+                                               </span>
+                                               <label for="sizeS">Pequeno 240 (240 x 171)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeN" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="n">
+                                               </span>
+                                               <label for="sizeN">Pequeno 320 (320 x 229)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeM" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="z">
+                                               </span>
+                                               <label for="sizeM">Médio 640 (640 x 458)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <div class="input-group input-icon">
+                                       <div class="row">
+                                          <div class="col-md-12 col-sm-12 col-xm-12">
+                                             <div class="input-group">
+                                               <span>
+                                                 <input id="sizeC" ng-model="$modalCtrl.size" name="imageSize" type="radio" value="c">
+                                               </span>
+                                               <label for="sizeC">Médio 800 (800 x 572)</label>
+                                             </div><!-- /input-group -->
+                                          </div><!-- /.col-lg-6 -->
+                                       </div><!-- /.row -->
+                                   </div>
+                               </div>
+                           </form>
+                       </li>
+                  </ul>
+               </div>
+           </div>
+
+           <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                       <button type="button" class="btn default" ng-click="$modalCtrl.ok()">Ok</button>
+                       <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                    </div>
+                </div>
+           </div>
+
+        </div>
+     </div>
+</div>
