@@ -11,7 +11,7 @@
                                                                 $uibModalInstance ) {
        var $modalCtrl = this;
 
-       $modalCtrl.size = 'm';
+       $modalCtrl.size = 'z';
 
        $modalCtrl.ok = function() {
           $uibModalInstance.close($modalCtrl.size);

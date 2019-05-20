@@ -4,9 +4,9 @@
 *  in the news section
 ******************************************************************************/
 $(function() {
-    $.FroalaEditor.DefineIcon('alert', { NAME: 'info' });
-    $.FroalaEditor.RegisterCommand('alert', {
-      title: 'Hello',
+    $.FroalaEditor.DefineIcon('camaraFlickr', { NAME: 'file-picture-o' });
+    $.FroalaEditor.RegisterCommand('camaraFlickr', {
+      title: 'Fotos do Flickr',
       focus: false,
       undo: false,
       refreshAfterCallback: false,

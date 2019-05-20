@@ -52,10 +52,18 @@
                                           controllerAs: '$modalCtrl',
                                           scope: $scope
                                        });
-
-         selectFlickrPhotoModal.result.then(function(modalResult) {
-            console.log(modalResult);
-            froalaScope.html.insert('<img src=\"' + modalResult.url + '\"/>');
+         selectFlickrPhotoModal.result.then(function(photoObject) {
+            var selectFlickrPhotoSizeModal = $uibModal.open({
+                                                templateUrl: 'tpl/camara/froala/select-flickr-photo-size-froala.html',
+                                                animation: false,
+                                                size: 'lg',
+                                                controller: 'SelectFlickrPhotoSizeFroalaModalInstanceController',
+                                                controllerAs: '$modalCtrl',
+                                                scope: $scope
+                                             });
+            selectFlickrPhotoSizeModal.result.then(function(chosenSize) {
+               froalaScope.html.insert('<img src=\"' + photoObject['url_' + chosenSize] + '\"/>');
+            });
          });
       }
 
@@ -131,11 +139,11 @@
                             'emoticons', 'fontAwesome', 'specialCharacters',
                             'insertHR', 'selectAll', 'clearFormatting',  '|',
                             'print',    'getPDF', 'spellChecker',
-                            'help', 'html', '|', 'undo', 'redo', '|', 'alert'],
+                            'help', 'html', '|', 'undo', 'redo', '|', 'camaraFlickr'],
          placeholderText: messages.enterNewsText,
          imageStyles: {
-          newsImageFloatRight: 'Float Right',
-          newsImageFloatLeft: 'Float Left'
+             newsImageFloatRight: 'Float Right',
+             newsImageFloatLeft: 'Float Left'
          },
          fileUploadParam: 'file',
          fileUploadMethod: 'PUT',

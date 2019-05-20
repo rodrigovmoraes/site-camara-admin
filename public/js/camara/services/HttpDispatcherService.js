@@ -29,7 +29,7 @@
          if(!error.data || !error.data.message) {
            //network error
            error.message = messages.serverCommunicationError;
-        } else {
+         } else {
            if (error.status == 401) {
               error.message = messages.security.accessDenied;
               AuthenticationService.logout();
@@ -38,8 +38,8 @@
            } else {
               error.message = error.data.message;
            }
-        }
-        throw error;
+         }
+         throw error;
       }
 
       //handle get http request

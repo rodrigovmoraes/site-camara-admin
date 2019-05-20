@@ -141,19 +141,26 @@
    legislativePropositionTagCreated: 'Classificação criada',
    legislativePropositionTagRemoved: 'Classificação \"<%=description%>\" removida',
 
-   publicFinancesFolderCreated: 'Diretório "<%=folderDescription%>" criado',
-   publicFinancesFileCreated: 'Arquivo "<%=fileDescription%>" criado',
+   publicFilesFolderCreated: 'Diretório "<%=folderDescription%>" criado',
+   publicFilesFileCreated: 'Arquivo "<%=fileDescription%>" criado',
 
-   publicFinancesFolderMovedUp: 'Diretório "<%=folderDescription%>" movido para cima',
-   publicFinancesFileMovedUp: 'Arquivo "<%=fileDescription%>" movido para cima',
+   publicFilesFolderMovedUp: 'Diretório "<%=folderDescription%>" movido para cima',
+   publicFilesFileMovedUp: 'Arquivo "<%=fileDescription%>" movido para cima',
 
-   publicFinancesFolderMovedDown: 'Diretório "<%=folderDescription%>" movido para baixo',
-   publicFinancesFileMovedDown: 'Arquivo "<%=fileDescription%>" movido para baixo',
+   publicFilesFolderMovedDown: 'Diretório "<%=folderDescription%>" movido para baixo',
+   publicFilesFileMovedDown: 'Arquivo "<%=fileDescription%>" movido para baixo',
 
-   publicFinancesFileRemoveDialogText: 'Deseja realmente remover este arquivo, "<%=fileDescription%>" ?',
-   publicFinancesFileRemoved: 'Arquivo "<%=fileDescription%>" removido',
-   publicFinancesFolderRemoveDialogText: 'Deseja realmente remover este diretório, "<%=folderDescription%>" ?',
-   publicFinancesFolderEmpty: 'Diretório vazio.',
-   publicFinancesFolderNotEmptyToBeRemovedDialogText: 'Este diretório contém arquivos e/ou subdiretórios e, portanto, não pode ser removido.',
-   publicFinancesFolderRemoved: 'Diretório "<%=folderDescription%>" removido',
+   publicFilesFileRemoveDialogText: 'Deseja realmente remover este arquivo, "<%=fileDescription%>" ?',
+   publicFilesFileRemoved: 'Arquivo "<%=fileDescription%>" removido',
+   publicFilesFolderRemoveDialogText: 'Deseja realmente remover este diretório, "<%=folderDescription%>" ?',
+   publicFilesFolderEmpty: 'Diretório vazio.',
+   publicFilesFolderNotEmptyToBeRemovedDialogText: 'Este diretório contém arquivos e/ou subdiretórios e, portanto, não pode ser removido.',
+   publicFilesFolderRemoved: 'Diretório "<%=folderDescription%>" removido',
+
+   clearIndexDialogText: 'Deseja realmente limpar o índice ?',
+   clearIndexRequested: 'Limpeza do índice requisitada.',
+   stopIndexingRequestedMessage: 'Solicitação para parar o processo de indexação foi enviado.',
+   indexExecutionLogsNotFound: 'Nenhum log de execução encontrado.',
+   clearLogsDialogText: 'Deseja realmente limpar o log ?',
+   clearLogsRequested: 'Limpeza do log solicitada.'
 }

@@ -26,7 +26,8 @@ var SiteCamaraAdminApp = angular.module("SiteCamaraAdminApp", [
     "angular-uuid",
     "btford.socket-io",
     "ui.calendar",
-    "ngClipboard"
+    "ngClipboard",
+    'angular-md5'
 ]);
 
 //Froala config
@@ -41,6 +42,7 @@ SiteCamaraAdminApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) 
         // global configs go here
     });
 }]);
+
 
 //AngularJS v1.3.x workaround for old style controller declarition in HTML
 SiteCamaraAdminApp.config(['$controllerProvider', function($controllerProvider) {
@@ -979,24 +981,24 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                 }]
             }
          })
-         //public finances
-         .state('publicFinances', {
-            url: "/publicFinances.html",
+         //public files
+         .state('publicFiles', {
+            url: "/publicFiles.html",
             abstract: true,
-            templateUrl: "views/public_finances/index.html",
-            data: { pageTitle: 'Sistema de Publicação de Contas Públicas' },
-            controller: "PublicFinancesController as $ctrl",
+            templateUrl: "views/public_files/index.html",
+            data: { pageTitle: 'Sistema de Publicação de Arquivos Públicos' },
+            controller: "PublicFilesController as $ctrl",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load( {
                         name: 'SiteCamaraAdminApp',
                         insertBefore: '#ng_load_plugins_before',
                         files: [
-                            'js/camara/controllers/public_finances/PublicFinancesController.js',
-                            'js/camara/controllers/public_finances/PublicFinancesListController.js',
-                            'js/camara/controllers/public_finances/NewFolderModalInstanceController.js',
-                            'js/camara/controllers/public_finances/UploadNewFileModalInstanceController.js',
-                            'js/camara/controllers/public_finances/ChangeFolderDescriptionModalInstanceController.js',
+                            'js/camara/controllers/public_files/PublicFilesController.js',
+                            'js/camara/controllers/public_files/PublicFilesListController.js',
+                            'js/camara/controllers/public_files/NewFolderModalInstanceController.js',
+                            'js/camara/controllers/public_files/UploadNewFileModalInstanceController.js',
+                            'js/camara/controllers/public_files/ChangeFolderDescriptionModalInstanceController.js',
                             'js/camara/controllers/ConfirmModalInstanceController.js',
                             'js/camara/controllers/MessageModalInstanceController.js',
                             '../assets/apps/css/todo-2.css'
@@ -1005,17 +1007,16 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                 }]
             }
          })
-         // proposition
-         .state('publicFinances.list', {
+         .state('publicFiles.list', {
             url: "/list/:folderId",
-            templateUrl: "views/public_finances/list.html",
-            controller: "PublicFinancesListController as $publicFinancesListCtrl",
+            templateUrl: "views/public_files/list.html",
+            controller: "PublicFilesListController as $publicFilesListCtrl",
             params: {
                folderId: null
             },
             resolve: {
-               objects: ['$stateParams', 'PublicFinancesService', function ($stateParams, PublicFinancesService) {
-                  return PublicFinancesService
+               objects: ['$stateParams', 'PublicFilesService', function ($stateParams, PublicFilesService) {
+                  return PublicFilesService
                   .getFolderContents($stateParams.folderId)
                   .then(function(result) {
                      return result.objects;
@@ -1024,9 +1025,9 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                      throw error;
                   });
                }],
-               folderPath: ['$stateParams', 'PublicFinancesService', function ($stateParams, PublicFinancesService) {
+               folderPath: ['$stateParams', 'PublicFilesService', function ($stateParams, PublicFilesService) {
                   if ($stateParams.folderId) {
-                     return PublicFinancesService
+                     return PublicFilesService
                             .getFolderPath($stateParams.folderId)
                             .then(function(result) {
                                return result.path;
@@ -1039,6 +1040,31 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                   }
 
                }]
+            }
+         })
+         //portal index management
+         .state('indexer', {
+            url: "/indexer.html",
+            templateUrl: "views/indexer/index.html",
+            data: {
+               pageTitle: 'Gerenciamento da Indexação do Portal'
+            },
+            controller: "IndexManagementController as $ctrl",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load( {
+                        name: 'SiteCamaraAdminApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/camara/directives/CamaraGridDateFilter.js',
+                            'js/camara/controllers/indexer/IndexManagementController.js',
+                            'js/camara/controllers/indexer/ModuleExecutionLogsModalController.js',
+                            'js/camara/controllers/ConfirmModalInstanceController.js',
+                            'js/camara/controllers/MessageModalInstanceController.js',
+                            '../assets/apps/css/todo-2.css'
+                        ]
+                    });
+                }]
             }
          })
          // Dashboard
@@ -1428,11 +1454,11 @@ SiteCamaraAdminApp.run(["$rootScope",
                         "messages",
                         "$state",
                         "AuthenticationService",
-                        function($rootScope,
-                                 settings,
-                                 messages,
-                                 $state,
-                                 AuthenticationService) {
+                        function( $rootScope,
+                                  settings,
+                                  messages,
+                                  $state,
+                                  AuthenticationService ) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
     //capture state changes in order to handle security issues
@@ -1456,10 +1482,10 @@ SiteCamaraAdminApp.run(["$rootScope",
 
         //check that the user is logged and he has access to the state page
         var role = null;
-        if(toState.data) {
+        if (toState.data) {
            role = toState.data.role ? toState.data.role : null;
         }
-        if(role) {
+        if (role) {
            AuthenticationService.checkAccess(role).then(function(result) {
              _redirectOrRevalidate(toState, result);
           }).catch(function(err) {

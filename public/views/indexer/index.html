@@ -1,0 +1,244 @@
+<!-- END MODULE EXECUTION LOGS MODAL CONTENT -->
+<div id="edit-user-modal">
+   <script type="text/ng-template" id="moduleExecutionLogsModalContent.html">
+          <div class="modal-body" id="modal-body">
+               <div class="portlet box green portlet-in-modal">
+                  <div class="portlet-title">
+                      <div class="caption">
+                          <i class="fa fa-plus"></i>Logs de Execução dos Módulos: {{$modalCtrl.logStartDate | date:"dd/MM/yyyy hh:mm:ss"}} &mdash; {{$modalCtrl.logEndDate | date:"dd/MM/yyyy hh:mm:ss"}}
+                      </div>
+                      <div class="tools">
+                          <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+                      </div>
+                  </div>
+
+                  <div class="portlet-body form">
+                      <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$modalCtrl.errorMessage">
+                        {{$modalCtrl.errorMessage}}
+                      </div>
+                      <div class="form-group">
+                           <div class="col-md-12">
+                              <table class="table">
+                                 <thead>
+                                    <tr>
+                                       <th>Módulo</th>
+                                       <th>Início</th>
+                                       <th>Fim</th>
+                                       <th>Total</th>
+                                       <th>Processados</th>
+                                       <th>Novos</th>
+                                       <th>Atualizados</th>
+                                       <th>Com erro</th>
+                                       <th>Erro</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr ng-repeat="moduleExecutionLog in $modalCtrl.modulesExecutionLogs">
+                                       <td>{{ moduleExecutionLog.modulePath }}</td>
+                                       <td>{{ moduleExecutionLog.startDate | date:"dd/MM/yyyy hh:mm:ss" }}</td>
+                                       <td>{{ moduleExecutionLog.endDate | date:"dd/MM/yyyy hh:mm:ss" }}</td>
+                                       <td>{{ moduleExecutionLog.totalItems }}</td>
+                                       <td>{{ moduleExecutionLog.amountOfProcessedItems }}</td>
+                                       <td>{{ moduleExecutionLog.amountOfNewItems }}</td>
+                                       <td>{{ moduleExecutionLog.amountOfUpdatedItems }}</td>
+                                       <td>{{ moduleExecutionLog.amountOfItemsWithError }}</td>
+                                       <td>
+                                          <span ng-attr-title="{{moduleExecutionLog.error}}">{{ moduleExecutionLog.error }}</span>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                      </div>
+                      <!-- BEGIN FORM-->
+                      <form action="#" name="modulesExecutionLogsForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+                         <!-- BEGIN SAVE/CANCEL BUTTONS -->
+                         <div class="form-actions">
+                              <div class="row">
+                                  <div class="col-md-12 text-center">
+                                      <button type="button" class="btn green" ng-click="$modalCtrl.close()">
+                                          <i class="fa fa-check"></i>Fechar
+                                      </button>
+                                  </div>
+                              </div>
+                         </div>
+                         <!-- END SAVE/CANCEL BUTTONS -->
+                      </form>
+                      <!-- END FORM-->
+                  </div>
+                  <!-- ENDS TABS-->
+               </div>
+          </div>
+   </script>
+</div>
+<!-- END MODULE EXECUTION LOGS MODAL CONTENT -->
+
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="dashboard">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Datatables</a>
+        </li>
+        <li>
+            <a ui-sref="datatablesmanaged">Advanced Datatables - {{ $ctrl.usersCount }}</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true"> Actions
+                <i class="fa fa-angle-down"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<h3 class="page-title">
+   Administração do Portal da Câmara
+</h3>
+<!-- END PAGE HEADER-->
+
+
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN INDEX MANAGEMENT PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento de Indexação do Portal</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+               <div class="portlet-body form">
+                  <div class="row">
+                    <div class="col-md-12">
+                       <ul class="nav nav-tabs">
+                          <li ng-class="{active: $ctrl.statusTabActive}">
+                             <a href="#" ng-click="$ctrl.setStatusTabActive()">Status</a>
+                          </li>
+                          <li ng-class="{active: $ctrl.executionLogsTabActive}" ng-if="$ctrl.isOnline">
+                             <a href="#" ng-click="$ctrl.setExecutionLogsTabActive()">Logs de Execução</a>
+                          </li>
+                       </ul>
+
+                       <div class="alert alert-info alert-no-margin" role="alert" ng-if="$ctrl.message">
+                          {{ $ctrl.message }}
+                       </div>
+
+                       <div class="alert alert-warning alert-no-margin" role="alert" ng-if="$ctrl.warnMessage">
+                          {{$ctrl.warnMessage}}
+                       </div>
+
+                       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$ctrl.errorMessage">
+                          {{ $ctrl.errorMessage }}
+                       </div>
+
+                       <form action="#" name="$newLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+                           <div class="form-group" ng-if="$ctrl.statusTabActive">
+                              <div class="col-md-12">
+                                 <h3>Kibana <i>(administração do índice do Elastic Search)</i></h3>
+                                 <a target="_blank" ng-href="{{$ctrl.kibanaUrl}}">{{$ctrl.kibanaUrl}}</a>
+                              </div>
+                           </div>
+
+                           <div class="form-group" ng-if="$ctrl.statusTabActive || !$ctrl.isOnline">
+                                <div class="col-md-12">
+                                   <h3>Status do Módulo de Indexação</h3>
+                                   <img ng-if="!$ctrl.isOnline" src="/images/semaphore_red.jpg" width="10%"></img>
+                                   <img ng-if="$ctrl.isOnline" src="/images/semaphore_green.jpg" width="10%"></img>
+                                   <span ng-if="$ctrl.indexerError" style="font-style: italic;" class="label label-danger">{{$ctrl.indexerError}}</span>
+                                </div>
+                           </div>
+
+                           <div class="form-group"  ng-if="$ctrl.isOnline && !$ctrl.indexerBeingExecuted && $ctrl.statusTabActive"  ng-if="$ctrl.statusTabActive">
+                                <div class="col-md-12 note note-info text-center">
+                                   <span style="font-style: italic;">A indexação não está sendo executada no momento.</span>
+                                </div>
+                           </div>
+
+                           <div class="form-group" ng-if="$ctrl.isOnline && $ctrl.modulesCount && $ctrl.modulesCount > 0 && $ctrl.statusTabActive">
+                                <div class="col-md-12">
+                                   <h3>Módulos Executados / Total</h3>
+                                   <uib-progressbar class="progress-striped active" max="$ctrl.modulesCount" value="$ctrl.executedModules"><i>{{$ctrl.executedModules < $ctrl.modulesCount ? $ctrl.executedModules - 0.5 : $ctrl.executedModules}} / {{$ctrl.modulesCount}}</i></uib-progressbar>
+                                </div>
+                           </div>
+
+                            <div class="form-group"  ng-if="$ctrl.isOnline && $ctrl.indexerBeingExecuted && $indexManagementCtrl.currentModule !== '' && $ctrl.statusTabActive">
+                              <div class="col-md-12">
+                                 <h3>Módulo em Execução</h3>
+                                 <h4><i>&nbsp;&nbsp;&nbsp;{{$ctrl.currentModule}}</i></h4>
+                              </div>
+                           </div>
+
+                            <div class="form-group" ng-if="$ctrl.isOnline && $ctrl.indexerBeingExecuted && $indexManagementCtrl.currentModule !== '' && $ctrl.statusTabActive">
+                                 <div class="col-md-12">
+                                    <h3>Progresso do Módulo em Execução</h3>
+                                    <uib-progressbar class="progress-striped active" max="1" value="$ctrl.currentModuleProgress" type="success"><i>{{$ctrl.formatModuleProgress($ctrl.currentModuleProgress)}}</i></uib-progressbar>
+                                 </div>
+                            </div>
+
+                            <div class="form-actions" ng-if="$ctrl.isOnline && $ctrl.indexerBeingExecuted && $ctrl.statusTabActive">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <button type="button" class="btn red" ng-click="$ctrl.stopIndexing()">
+                                            Cancelar Indexação
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions"  ng-if="$ctrl.isOnline && !$ctrl.indexerBeingExecuted && $ctrl.statusTabActive">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <button type="button" class="btn blue" ng-click="$ctrl.index()">
+                                           Executar Indexação
+                                        </button>
+
+                                        <button type="button" class="btn red" ng-click="$ctrl.clearIndex()">
+                                           Limpar Índice
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-if="$ctrl.isOnline && $ctrl.executionLogsTabActive && $ctrl.instanceGrid.totalItems !== 0">
+                                 <div class="col-md-12">
+                                    <h3>Logs de Execução</h3>
+                                    <div id="executionLogsGrid" ui-grid="$ctrl.instanceGrid" ui-grid-pagination class="grid"></div>
+                                    <div ng-if="$ctrl.pager.totalItems">
+                                       <ul id="executionLogsGridPager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" uib-pagination total-items="$ctrl.pager.totalItems" items-per-page="$ctrl.pager.itemsPerPage" ng-model="$ctrl.pager.currentPage" max-size="$ctrl.pager.maxSize" class="pagination-sm  pull-right" boundary-links="true" rotate="false" ng-change="$ctrl.pager.pageChanged()"></ul>
+                                       {{$ctrl.pager.totalItems}}  items, página {{$ctrl.pager.currentPage}} de {{$ctrl.pager.totalPages}}
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="form-actions"  ng-if="$ctrl.executionLogsTabActive && $ctrl.isOnline">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <button type="button" class="btn blue" ng-click="$ctrl.refreshLogs()">
+                                           Atualizar
+                                        </button>
+
+                                        <button type="button" class="btn red" ng-click="$ctrl.clearLogs()">
+                                           Limpar logs
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                       </form>
+                    </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END INDEX MANAGEMENT PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->

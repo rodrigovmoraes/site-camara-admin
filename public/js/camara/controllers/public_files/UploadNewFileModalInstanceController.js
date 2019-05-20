@@ -4,10 +4,10 @@
    angular.module('SiteCamaraAdminApp').controller('UploadNewFileModalInstanceController', UploadNewFileModalInstanceController);
 
    UploadNewFileModalInstanceController.$inject = [ '$uibModalInstance', '$scope',
-                                                    'PublicFinancesService',
+                                                    'PublicFilesService',
                                                     'messages', 'Utils', 'params' ];
    function UploadNewFileModalInstanceController( $uibModalInstance, $scope,
-                                                  PublicFinancesService,
+                                                  PublicFilesService,
                                                   messages, Utils, params ) {
       var $modalCtrl = this;
 
@@ -16,12 +16,12 @@
          return Utils.templateMessage(messageTemplate, config);
       }
 
-      $modalCtrl.uploader = PublicFinancesService.getFileUploader(params.folderId);
+      $modalCtrl.uploader = PublicFilesService.getFileUploader(params.folderId);
       $modalCtrl.fileDescription = "";
       $modalCtrl.uniqueDescriptionValidator = function() {
          var description = $modalCtrl.uploadNewFileForm.fileDescription.$viewValue;
          if (description) {
-            return PublicFinancesService.checkUniqueDescription(params.folderId, description);
+            return PublicFilesService.checkUniqueDescription(params.folderId, description);
          } else {
             return true;
          }
@@ -36,7 +36,7 @@
             $modalCtrl.file = null;
             $modalCtrl.uploadFileErrorMessage = "";
             if (filePath) {
-               PublicFinancesService
+               PublicFilesService
                .removeRawFile(filePath)
                .catch(function(error) {
                   $modalCtrl.errorMessage = error.message;
@@ -70,7 +70,7 @@
          $modalCtrl.uploadNewFileForm.$setSubmitted();
          if ($modalCtrl.isValid()) {
             $modalCtrl.file.description = $modalCtrl.fileDescription;
-            PublicFinancesService
+            PublicFilesService
             .newFile($modalCtrl.file)
             .then(function(result) {
                $modalCtrl.file.id = result.id;

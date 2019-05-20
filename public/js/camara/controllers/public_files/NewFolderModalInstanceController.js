@@ -4,11 +4,11 @@
    angular.module('SiteCamaraAdminApp').controller('NewFolderModalInstanceController', NewFolderModalInstanceController);
 
    NewFolderModalInstanceController.$inject = [ '$uibModalInstance', '$scope',
-                                                'PublicFinancesService',
+                                                'PublicFilesService',
                                                 'messages', 'Utils',
                                                 'params', 'uuid' ];
    function NewFolderModalInstanceController( $uibModalInstance, $scope,
-                                              PublicFinancesService,
+                                              PublicFilesService,
                                               messages, Utils,
                                               params, uuid ) {
       var $modalCtrl = this;
@@ -23,7 +23,7 @@
       $modalCtrl.uniqueDescriptionValidator = function() {
          var description = $modalCtrl.newFolderForm.description.$viewValue;
          if (description) {
-            return PublicFinancesService.checkUniqueDescription(params.folderId, description);
+            return PublicFilesService.checkUniqueDescription(params.folderId, description);
          } else {
             return true;
          }
@@ -45,7 +45,7 @@
                description: $modalCtrl.description,
                folder: params.folderId
             }
-            PublicFinancesService
+            PublicFilesService
             .newFolder(newFolder)
             .then(function(result) {
                newFolder.id = result.id;

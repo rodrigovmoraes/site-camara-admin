@@ -16,7 +16,7 @@
                          {{ $modalCtrl.errorMessage }}
                       </div>
 
-                      <!-- BEGIN FORM-->
+                      <!-- BEGIN FORM -->
                       <form action="#" name="$modalCtrl.changeFolderDescriptionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
                           <div class="form-body">
                               <div class="form-group">
@@ -218,38 +218,38 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class=" icon-layers font-green"></i>
-                    <span class="caption-subject font-green bold uppercase">Gerenciamento da Divulgação de Contas Públicas</span>
+                    <span class="caption-subject font-green bold uppercase">Gerenciamento da Divulgação de Arquivos Públicos</span>
                 </div>
             </div>
             <div class="portlet-body">
-               <div class="table-toolbar public_finances">
+               <div class="table-toolbar public_files">
                   <div class="mt-element-list">
                       <div class="mt-list-head list-news ext-1 font-white bg-grey-gallery">
                           <div class="list-head-title-container">
                               <h3 class="list-title">Listagem de Diretório</h3>
                           </div>
-                          <div class="list-count pull-right bg-red">{{$publicFinancesListCtrl.objects.length}}</div>
+                          <div class="list-count pull-right bg-red">{{$publicFilesListCtrl.objects.length}}</div>
                       </div>
                       <div class="mt-list-container list-news ext-1">
                           <ul>
-                              <li class="mt-list-item" ng-if="$publicFinancesListCtrl.infoMessage">
+                              <li class="mt-list-item" ng-if="$publicFilesListCtrl.infoMessage">
                                  <div class="alert alert-info alert-no-margin" role="alert">
-                                    {{ $publicFinancesListCtrl.infoMessage }}
+                                    {{ $publicFilesListCtrl.infoMessage }}
                                  </div>
                               </li>
-                              <li class="mt-list-item" ng-if="$publicFinancesListCtrl.errorMessage">
+                              <li class="mt-list-item" ng-if="$publicFilesListCtrl.errorMessage">
                                  <div class="alert alert-danger alert-no-margin" role="alert">
-                                    {{ $publicFinancesListCtrl.errorMessage }}
+                                    {{ $publicFilesListCtrl.errorMessage }}
                                  </div>
                               </li>
                               <li class="mt-list-item">
                                 <div class="panel panel-default">
                                    <ol class="breadcrumb">
                                       <li>
-                                         <a href="javascript:;" ui-sref="publicFinances.list({ folderId: null })" title="Raiz">#</a>
+                                         <a href="javascript:;" ui-sref="publicFiles.list({ folderId: null })" title="Raiz">#</a>
                                       </li>
-                                      <li ng-repeat="folder in $publicFinancesListCtrl.folderPath">
-                                         <a href="javascript:;" ui-sref="publicFinances.list({ folderId: folder._id })">{{ folder.description }}</a>
+                                      <li ng-repeat="folder in $publicFilesListCtrl.folderPath">
+                                         <a href="javascript:;" ui-sref="publicFiles.list({ folderId: folder._id })">{{ folder.description }}</a>
                                       </li>
                                    </ol>
                                 </div>
@@ -261,19 +261,19 @@
                                     <div class="panel-body">
                                       <!--// <p>...</p> //-->
                                       <div class="btn-toolbar" role="toolbar" aria-label="...">
-                                         <button type="button" class="btn btn-primary" ng-click="$publicFinancesListCtrl.openNewFolderModal()"  aria-label="Criar diretório" title="Criar diretório">
+                                         <button type="button" class="btn btn-primary" ng-click="$publicFilesListCtrl.openNewFolderModal()"  aria-label="Criar diretório" title="Criar diretório">
                                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                                          </button>
-                                         <button type="button" class="btn btn-primary" ng-click="$publicFinancesListCtrl.openUploadNewFileModal()" aria-label="Fazer upload de arquivo" title="Fazer upload de arquivo">
+                                         <button type="button" class="btn btn-primary" ng-click="$publicFilesListCtrl.openUploadNewFileModal()" aria-label="Fazer upload de arquivo" title="Fazer upload de arquivo">
                                             <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
                                          </button>
                                        </div>
                                     </div>
-                                    <div class="alert alert-warning" role="alert" ng-if="!$publicFinancesListCtrl.objects || $publicFinancesListCtrl.objects.length === 0">
-                                       {{ $publicFinancesListCtrl.notFoundMessage }}
+                                    <div class="alert alert-warning" role="alert" ng-if="!$publicFilesListCtrl.objects || $publicFilesListCtrl.objects.length === 0">
+                                       {{ $publicFilesListCtrl.notFoundMessage }}
                                     </div>
                                     <!-- Table -->
-                                    <table class="table" ng-if="$publicFinancesListCtrl.objects && $publicFinancesListCtrl.objects.length > 0">
+                                    <table class="table" ng-if="$publicFilesListCtrl.objects && $publicFilesListCtrl.objects.length > 0">
                                        <thead>
                                           <tr>
                                              <th>&nbsp;</th>
@@ -286,24 +286,24 @@
                                           </tr>
                                        </thead>
                                        <tbody>
-                                          <tr ng-repeat="object in $publicFinancesListCtrl.objects" ng-class="{ 'public-finances-object-highlight': object._id === $publicFinancesListCtrl.highlightObjectId }">
+                                          <tr ng-repeat="object in $publicFilesListCtrl.objects" ng-class="{ 'public-files-object-highlight': object._id === $publicFilesListCtrl.highlightObjectId }">
                                              <td ng-if="object.isFolder">
-                                                <a href="javascript:;" ui-sref="publicFinances.list({ folderId: object._id })">
+                                                <a href="javascript:;" ui-sref="publicFiles.list({ folderId: object._id })">
                                                    <span class="glyphicon glyphicon-folder-close folder_icon" aria-hidden="true"></span>
                                                 </a>
                                              </td>
                                              <td ng-if="!object.isFolder">
-                                                <a ng-href="{{$publicFinancesListCtrl.fileDownloadURL + object._id}}" target="_blank">
+                                                <a ng-href="{{$publicFilesListCtrl.fileDownloadURL + object._id}}" target="_blank">
                                                    <span id="fileIconTestId" class="glyphicon glyphicon-file file_icon" aria-hidden="true"></span>
                                                 </a>
                                              </td>
                                              <td ng-if="object.isFolder">
-                                                <a href="javascript:;" ui-sref="publicFinances.list({ folderId: object._id })">
+                                                <a href="javascript:;" ui-sref="publicFiles.list({ folderId: object._id })">
                                                    {{object.description}}
                                                 </a>
                                              </td>
                                              <td ng-if="!object.isFolder">
-                                                <a ng-href="{{$publicFinancesListCtrl.fileDownloadURL + object._id}}" target="_blank">
+                                                <a ng-href="{{$publicFilesListCtrl.fileDownloadURL + object._id}}" target="_blank">
                                                    {{object.description}}
                                                 </a>
                                              </td>
@@ -311,31 +311,31 @@
                                              <td ng-if="!object.isFolder">{{ object.extension }}</td>
                                              <td>{{ object.creationDate | date: 'dd/MM/yyyy HH:mm' }}</td>
                                              <td ng-if="object.isFolder">&nbsp;-&nbsp;</td>
-                                             <td ng-if="!object.isFolder">{{ $publicFinancesListCtrl.formatFileSize(object.length) }}</td>
+                                             <td ng-if="!object.isFolder">{{ $publicFilesListCtrl.formatFileSize(object.length) }}</td>
                                              <td>{{ object.creationUser.username }}</td>
                                              <td>
                                                 <div class="btn-toolbar" role="toolbar">
-                                                   <button ng-if="object.isFolder" type="button" class="btn btn-primary" aria-label="Alterar descrição" ng-click="$publicFinancesListCtrl.openChangeFolderDescriptionModal(object)" title="Alterar descrição">
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-primary" aria-label="Alterar descrição" ng-click="$publicFilesListCtrl.openChangeFolderDescriptionModal(object)" title="Alterar descrição">
                                                      <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                                    </button>
-                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-danger" aria-label="Remover" ng-click="$publicFinancesListCtrl.removeFile(object)"  title="Remover">
+                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-danger" aria-label="Remover" ng-click="$publicFilesListCtrl.removeFile(object)"  title="Remover">
                                                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                    </button>
-                                                   <button ng-if="object.isFolder" type="button" class="btn btn-danger" aria-label="Remover" ng-click="$publicFinancesListCtrl.removeFolder(object)"  title="Remover">
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-danger" aria-label="Remover" ng-click="$publicFilesListCtrl.removeFolder(object)"  title="Remover">
                                                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                    </button>
 
-                                                   <button ng-if="object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFolderUp(object)" aria-label="Mover para cima" title="Mover para cima">
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-success" ng-click="$publicFilesListCtrl.moveFolderUp(object)" aria-label="Mover para cima" title="Mover para cima">
                                                      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                                                    </button>
-                                                   <button ng-if="object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFolderDown(object)" aria-label="Mover para baixo" title="Mover para baixo">
+                                                   <button ng-if="object.isFolder" type="button" class="btn btn-success" ng-click="$publicFilesListCtrl.moveFolderDown(object)" aria-label="Mover para baixo" title="Mover para baixo">
                                                      <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                                                    </button>
 
-                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFileUp(object)" aria-label="Mover para cima" title="Mover para cima">
+                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-success" ng-click="$publicFilesListCtrl.moveFileUp(object)" aria-label="Mover para cima" title="Mover para cima">
                                                      <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                                                    </button>
-                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-success" ng-click="$publicFinancesListCtrl.moveFileDown(object)" aria-label="Mover para baixo" title="Mover para baixo">
+                                                   <button ng-if="!object.isFolder" type="button" class="btn btn-success" ng-click="$publicFilesListCtrl.moveFileDown(object)" aria-label="Mover para baixo" title="Mover para baixo">
                                                      <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
                                                    </button>
                                                 </div>

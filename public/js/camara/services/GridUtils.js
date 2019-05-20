@@ -121,7 +121,7 @@
                      }
 
                   });
-               }else{
+               } else {
                   if(filter.term !== null) {
                      filteredDataSource = _.filter(filteredDataSource, [filter.field, filter.term]);
                   }

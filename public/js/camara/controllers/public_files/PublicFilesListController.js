@@ -1,22 +1,22 @@
 (function() {
    'use strict';
 
-   angular.module('SiteCamaraAdminApp').controller('PublicFinancesListController', PublicFinancesListController);
+   angular.module('SiteCamaraAdminApp').controller('PublicFilesListController', PublicFilesListController);
 
-   PublicFinancesListController.$inject = [ '$scope', 'messages',
-                                            'Utils', '$stateParams',
-                                            'PublicFinancesService',
-                                            'settings', 'objects',
-                                            'folderPath', '$uibModal']
-   function PublicFinancesListController( $scope, messages,
-                                          Utils, $stateParams,
-                                          PublicFinancesService,
-                                          settings, objects,
-                                          folderPath, $uibModal ) {
-      var $publicFinancesListCtrl = this;
+   PublicFilesListController.$inject = [ '$scope', 'messages',
+                                         'Utils', '$stateParams',
+                                         'PublicFilesService',
+                                         'settings', 'objects',
+                                         'folderPath', '$uibModal']
+   function PublicFilesListController( $scope, messages,
+                                       Utils, $stateParams,
+                                       PublicFilesService,
+                                       settings, objects,
+                                       folderPath, $uibModal ) {
+      var $publicFilesListCtrl = this;
 
       //messages control
-      Utils.applyMessageControls($publicFinancesListCtrl);
+      Utils.applyMessageControls($publicFilesListCtrl);
 
       //function for template messages
       var _templateMessage = function (messageTemplate, config) {
@@ -25,28 +25,28 @@
 
       //refresh the content of the current folder
       var _refresh = function () {
-         return PublicFinancesService
+         return PublicFilesService
                .getFolderContents($stateParams.folderId)
                .then(function(result) {
-                  $publicFinancesListCtrl.highlightObjectId = PublicFinancesService.getHighlightObjectId();
-                  $publicFinancesListCtrl.objects = result.objects;
+                  $publicFilesListCtrl.highlightObjectId = PublicFilesService.getHighlightObjectId();
+                  $publicFilesListCtrl.objects = result.objects;
                });
       }
 
       //messages
-      $publicFinancesListCtrl.errorMessage = $stateParams.errorMessage;
-      $publicFinancesListCtrl.infoMessage = $stateParams.infoMessage;
-      $publicFinancesListCtrl.notFoundMessage = messages.publicFinancesFolderEmpty;
-      $publicFinancesListCtrl.objects = objects;
-      $publicFinancesListCtrl.folderPath = folderPath;
-      $publicFinancesListCtrl.highlightObjectId = null;
-      $publicFinancesListCtrl.formatFileSize = function(size) {
+      $publicFilesListCtrl.errorMessage = $stateParams.errorMessage;
+      $publicFilesListCtrl.infoMessage = $stateParams.infoMessage;
+      $publicFilesListCtrl.notFoundMessage = messages.publicFilesFolderEmpty;
+      $publicFilesListCtrl.objects = objects;
+      $publicFilesListCtrl.folderPath = folderPath;
+      $publicFilesListCtrl.highlightObjectId = null;
+      $publicFilesListCtrl.formatFileSize = function(size) {
          return Utils.formatFileSize(size);
       };
-      $publicFinancesListCtrl.fileDownloadURL = settings.baseUrlSiteCamaraApi + settings.PublicFinances.fileDownloadPath;
+      $publicFilesListCtrl.fileDownloadURL = settings.baseUrlSiteCamaraApi + settings.PublicFiles.fileDownloadPath;
 
-      $publicFinancesListCtrl.openNewFolderModal = function() {
-         $publicFinancesListCtrl.newFolderModalInstance = $uibModal.open({
+      $publicFilesListCtrl.openNewFolderModal = function() {
+         $publicFilesListCtrl.newFolderModalInstance = $uibModal.open({
            templateUrl: 'newFolder.html',
            animation: false,
            size: 'l',
@@ -60,21 +60,21 @@
            }
          });
 
-         $publicFinancesListCtrl
+         $publicFilesListCtrl
             .newFolderModalInstance
             .result
             .then(function(folderItem) {
-               PublicFinancesService.setHighlightObjectId(folderItem.id);
-               $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFolderCreated,
+               PublicFilesService.setHighlightObjectId(folderItem.id);
+               $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFolderCreated,
                                                                        { 'folderDescription': folderItem.description } );
                return _refresh();
             }).catch(function(error) {
-               $publicFinancesListCtrl.errorMessage = error.message;
+               $publicFilesListCtrl.errorMessage = error.message;
             });
       }
 
-      $publicFinancesListCtrl.openUploadNewFileModal = function() {
-         $publicFinancesListCtrl.uploadNewFileModalInstance = $uibModal.open({
+      $publicFilesListCtrl.openUploadNewFileModal = function() {
+         $publicFilesListCtrl.uploadNewFileModalInstance = $uibModal.open({
            templateUrl: 'uploadNewFile.html',
            animation: false,
            size: 'lg',
@@ -88,21 +88,21 @@
            }
          });
 
-         $publicFinancesListCtrl
+         $publicFilesListCtrl
             .uploadNewFileModalInstance
             .result
             .then(function(fileItem) {
-               PublicFinancesService.setHighlightObjectId(fileItem.id);
-               $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFileCreated,
+               PublicFilesService.setHighlightObjectId(fileItem.id);
+               $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFileCreated,
                                                                        { 'fileDescription': fileItem.description } );
                return _refresh();
             }).catch(function(error) {
-               $publicFinancesListCtrl.errorMessage = error.message;
+               $publicFilesListCtrl.errorMessage = error.message;
             });
       }
 
-      $publicFinancesListCtrl.openChangeFolderDescriptionModal = function(folderItem) {
-         $publicFinancesListCtrl.changeFolderDescriptionModalInstance = $uibModal.open({
+      $publicFilesListCtrl.openChangeFolderDescriptionModal = function(folderItem) {
+         $publicFilesListCtrl.changeFolderDescriptionModalInstance = $uibModal.open({
            templateUrl: 'changeFolderDescription.html',
            animation: false,
            size: 'l',
@@ -117,20 +117,20 @@
            }
          });
 
-         $publicFinancesListCtrl
+         $publicFilesListCtrl
             .changeFolderDescriptionModalInstance
             .result
             .then(function(folderItem) {
-               PublicFinancesService.setHighlightObjectId(folderItem.id);
-               $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFolderCreated,
+               PublicFilesService.setHighlightObjectId(folderItem.id);
+               $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFolderCreated,
                                                                        { 'folderDescription': folderItem.description } );
                return _refresh();
             }).catch(function(error) {
-               $publicFinancesListCtrl.errorMessage = error.message;
+               $publicFilesListCtrl.errorMessage = error.message;
             });
       }
 
-      $publicFinancesListCtrl.removeFile = function(fileItem) {
+      $publicFilesListCtrl.removeFile = function(fileItem) {
          $uibModal.open({
             templateUrl: 'tpl/camara/includes/confirm.html',
             animation: false,
@@ -140,27 +140,27 @@
             scope: $scope,
             resolve: {
                texts: {
-                  'message': _templateMessage( messages.publicFinancesFileRemoveDialogText,
+                  'message': _templateMessage( messages.publicFilesFileRemoveDialogText,
                                                { 'fileDescription': fileItem.description } )
                }
             }
          }).result.then(function() {
-            return PublicFinancesService
+            return PublicFilesService
                    .removeFile(fileItem._id)
                    .then(function(result) {
-                     PublicFinancesService.setHighlightObjectId(null);
-                     $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFileRemoved,
+                     PublicFilesService.setHighlightObjectId(null);
+                     $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFileRemoved,
                                                                              { 'fileDescription': fileItem.description } )
                      return _refresh();
                   }).catch(function(error) {
-                     $publicFinancesListCtrl.errorMessage = error.message;
+                     $publicFilesListCtrl.errorMessage = error.message;
                   });
          });
 
       }
 
-      $publicFinancesListCtrl.removeFolder = function(folderItem) {
-         PublicFinancesService
+      $publicFilesListCtrl.removeFolder = function(folderItem) {
+         PublicFilesService
          .getAmountOfObjectsInFolder(folderItem._id)
          .then(function(result) {
             var amount = result.amount;
@@ -175,7 +175,7 @@
                   scope: $scope,
                   resolve: {
                      texts: {
-                        'message': _templateMessage( messages.publicFinancesFolderNotEmptyToBeRemovedDialogText )
+                        'message': _templateMessage( messages.publicFilesFolderNotEmptyToBeRemovedDialogText )
                      }
                   }
                });
@@ -189,80 +189,80 @@
                   scope: $scope,
                   resolve: {
                      texts: {
-                        'message': _templateMessage( messages.publicFinancesFolderRemoveDialogText,
+                        'message': _templateMessage( messages.publicFilesFolderRemoveDialogText,
                                                      { 'folderDescription': folderItem.description } )
                      }
                   }
                }).result.then(function() {
-                  return PublicFinancesService
+                  return PublicFilesService
                          .removeFolder(folderItem._id)
                          .then(function(result) {
-                           PublicFinancesService.setHighlightObjectId(null);
-                           $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFolderRemoved,
+                           PublicFilesService.setHighlightObjectId(null);
+                           $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFolderRemoved,
                                                                                    { 'folderDescription': folderItem.description } )
                            return _refresh();
                         }).catch(function(error) {
-                           $publicFinancesListCtrl.errorMessage = error.message;
+                           $publicFilesListCtrl.errorMessage = error.message;
                         });
                });
             }
 
          }).catch(function(error) {
-            $publicFinancesListCtrl.errorMessage = error.message;
+            $publicFilesListCtrl.errorMessage = error.message;
          });
       }
 
 
 
-      $publicFinancesListCtrl.moveFolderUp = function(folderItem) {
-         PublicFinancesService
+      $publicFilesListCtrl.moveFolderUp = function(folderItem) {
+         PublicFilesService
          .moveFolderUp(folderItem._id)
          .then(function(result) {
-            PublicFinancesService.setHighlightObjectId(folderItem._id);
-            $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFolderMovedUp,
+            PublicFilesService.setHighlightObjectId(folderItem._id);
+            $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFolderMovedUp,
                                                                     { 'folderDescription': folderItem.description } );
             return _refresh();
          }).catch(function(error) {
-            $publicFinancesListCtrl.errorMessage = error.message;
+            $publicFilesListCtrl.errorMessage = error.message;
          });
       }
 
-      $publicFinancesListCtrl.moveFolderDown = function(folderItem) {
-         PublicFinancesService
+      $publicFilesListCtrl.moveFolderDown = function(folderItem) {
+         PublicFilesService
          .moveFolderDown(folderItem._id)
          .then(function(result) {
-            PublicFinancesService.setHighlightObjectId(folderItem._id);
-            $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFolderMovedDown,
+            PublicFilesService.setHighlightObjectId(folderItem._id);
+            $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFolderMovedDown,
                                                                     { 'folderDescription': folderItem.description } );
             return _refresh();
          }).catch(function(error) {
-            $publicFinancesListCtrl.errorMessage = error.message;
+            $publicFilesListCtrl.errorMessage = error.message;
          });
       }
 
-      $publicFinancesListCtrl.moveFileUp = function(fileItem) {
-         PublicFinancesService
+      $publicFilesListCtrl.moveFileUp = function(fileItem) {
+         PublicFilesService
          .moveFileUp(fileItem._id)
          .then(function(result) {
-            PublicFinancesService.setHighlightObjectId(fileItem._id);
-            $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFileMovedUp,
+            PublicFilesService.setHighlightObjectId(fileItem._id);
+            $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFileMovedUp,
                                                                     { 'fileDescription': fileItem.description } );
             return _refresh();
          }).catch(function(error) {
-            $publicFinancesListCtrl.errorMessage = error.message;
+            $publicFilesListCtrl.errorMessage = error.message;
          });
       }
 
-      $publicFinancesListCtrl.moveFileDown = function(fileItem) {
-         PublicFinancesService
+      $publicFilesListCtrl.moveFileDown = function(fileItem) {
+         PublicFilesService
          .moveFileDown(fileItem._id)
          .then(function(result) {
-            PublicFinancesService.setHighlightObjectId(fileItem._id);
-            $publicFinancesListCtrl.infoMessage = _templateMessage( messages.publicFinancesFileMovedDown,
+            PublicFilesService.setHighlightObjectId(fileItem._id);
+            $publicFilesListCtrl.infoMessage = _templateMessage( messages.publicFilesFileMovedDown,
                                                                     { 'fileDescription': fileItem.description } );
             return _refresh();
          }).catch(function(error) {
-            $publicFinancesListCtrl.errorMessage = error.message;
+            $publicFilesListCtrl.errorMessage = error.message;
          });
       }
 

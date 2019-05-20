@@ -1,21 +1,21 @@
 (function() {
 "use strict";
 
-   angular.module('SiteCamaraAdminApp').service('PublicFinancesService', PublicFinancesService);
+   angular.module('SiteCamaraAdminApp').service('PublicFilesService', PublicFilesService);
 
-   PublicFinancesService.$inject = [ 'HttpDispatcherService', 'settings',
-                                     'FileUploader', 'uuid',
-                                     'AuthenticationService', '$q'
+   PublicFilesService.$inject = [ 'HttpDispatcherService', 'settings',
+                                  'FileUploader', 'uuid',
+                                  'AuthenticationService', '$q'
                                    ];
-   function PublicFinancesService( HttpDispatcherService, settings,
-                                   FileUploader, uuid,
-                                   AuthenticationService, $q
-                                 ) {
-      var publicFinancesService = this;
+   function PublicFilesService( HttpDispatcherService, settings,
+                                FileUploader, uuid,
+                                AuthenticationService, $q
+                              ) {
+      var publicFilesService = this;
 
-      publicFinancesService.getFolderContents = function (folderId) {
+      publicFilesService.getFolderContents = function (folderId) {
          return HttpDispatcherService.get(
-                                          '/publicFinances/folder' + ( folderId ? '/' + folderId : '' )
+                                          '/publicFiles/folder' + ( folderId ? '/' + folderId : '' )
                                       ).then(function(result) {
                                         return result.data;
                                      }).catch(function(error) {
@@ -23,9 +23,9 @@
                                      });
       };
 
-      publicFinancesService.getFolderPath = function (folderId) {
+      publicFilesService.getFolderPath = function (folderId) {
          return HttpDispatcherService.get(
-                                          '/publicFinances/folderPath/' + folderId
+                                          '/publicFiles/folderPath/' + folderId
                                       ).then(function(result) {
                                         return result.data;
                                      }).catch(function(error) {
@@ -33,9 +33,9 @@
                                      });
       };
 
-      publicFinancesService.moveFolderUp = function (folderId) {
+      publicFilesService.moveFolderUp = function (folderId) {
          return HttpDispatcherService.get(
-                                          '/publicFinances/moveFolder/up/' + folderId
+                                          '/publicFiles/moveFolder/up/' + folderId
                                       ).then(function(result) {
                                         return result.data;
                                      }).catch(function(error) {
@@ -43,9 +43,9 @@
                                      });
       };
 
-      publicFinancesService.moveFolderDown = function (folderId) {
+      publicFilesService.moveFolderDown = function (folderId) {
          return HttpDispatcherService.get(
-                                          '/publicFinances/moveFolder/down/' + folderId
+                                          '/publicFiles/moveFolder/down/' + folderId
                                       ).then(function(result) {
                                         return result.data;
                                      }).catch(function(error) {
@@ -53,9 +53,9 @@
                                      });
       };
 
-      publicFinancesService.moveFileUp = function (fileId) {
+      publicFilesService.moveFileUp = function (fileId) {
          return HttpDispatcherService.get(
-                                          '/publicFinances/moveFile/up/' + fileId
+                                          '/publicFiles/moveFile/up/' + fileId
                                       ).then(function(result) {
                                         return result.data;
                                      }).catch(function(error) {
@@ -63,9 +63,9 @@
                                      });
       };
 
-      publicFinancesService.moveFileDown = function (fileId) {
+      publicFilesService.moveFileDown = function (fileId) {
          return HttpDispatcherService.get(
-                                          '/publicFinances/moveFile/down/' + fileId
+                                          '/publicFiles/moveFile/down/' + fileId
                                       ).then(function(result) {
                                         return result.data;
                                      }).catch(function(error) {
@@ -73,8 +73,8 @@
                                      });
       };
 
-      publicFinancesService.newFile = function (file) {
-         return HttpDispatcherService.put('/publicFinances/file',
+      publicFilesService.newFile = function (file) {
+         return HttpDispatcherService.put('/publicFiles/file',
                                           { 'file':  file }
                                      ).then(function(result) {
                                          return result.data;
@@ -83,8 +83,8 @@
                                      });
       }
 
-      publicFinancesService.newFolder = function (folder) {
-         return HttpDispatcherService.put('/publicFinances/folder',
+      publicFilesService.newFolder = function (folder) {
+         return HttpDispatcherService.put('/publicFiles/folder',
                                           { 'folder':  folder }
                                      ).then(function(result) {
                                          return result.data;
@@ -93,8 +93,8 @@
                                      });
       }
 
-      publicFinancesService.editFolder = function (folder) {
-         return HttpDispatcherService.post('/publicFinances/folder',
+      publicFilesService.editFolder = function (folder) {
+         return HttpDispatcherService.post('/publicFiles/folder',
                                           { 'folder' : folder }
                                      ).then(function(result) {
                                          return result.data;
@@ -103,9 +103,9 @@
                                      });
       }
 
-      publicFinancesService.removeRawFile = function (filePath) {
+      publicFilesService.removeRawFile = function (filePath) {
          return HttpDispatcherService.delete(
-                                       '/publicFinances/file/raw',
+                                       '/publicFiles/file/raw',
                                        {  params: {
                                             filePath: filePath
                                           }
@@ -117,9 +117,9 @@
                                      });
       }
 
-      publicFinancesService.removeFile = function (fileId) {
+      publicFilesService.removeFile = function (fileId) {
          return HttpDispatcherService.delete(
-                                       '/publicFinances/file/' + fileId
+                                       '/publicFiles/file/' + fileId
                                      ).then(function(result) {
                                          return result.data;
                                      }).catch(function(error) {
@@ -127,9 +127,9 @@
                                      });
       }
 
-      publicFinancesService.removeFolder = function (folderId) {
+      publicFilesService.removeFolder = function (folderId) {
          return HttpDispatcherService.delete(
-                                       '/publicFinances/folder/' + folderId
+                                       '/publicFiles/folder/' + folderId
                                      ).then(function(result) {
                                          return result.data;
                                      }).catch(function(error) {
@@ -137,9 +137,9 @@
                                      });
       }
 
-      publicFinancesService.getAmountOfObjectsInFolder = function (folderId) {
+      publicFilesService.getAmountOfObjectsInFolder = function (folderId) {
          return HttpDispatcherService
-                .get('/publicFinances/folder/amountOfElements' + (folderId ? "/" + folderId : ""))
+                .get('/publicFiles/folder/amountOfElements' + (folderId ? "/" + folderId : ""))
                 .then(function(result) {
                    return result.data;
                 }).catch(function(error) {
@@ -147,10 +147,10 @@
                 });
       }
 
-      publicFinancesService.checkUniqueDescription = function (folderId, description) {
+      publicFilesService.checkUniqueDescription = function (folderId, description) {
          var defer = $q.defer();
          HttpDispatcherService
-         .get('/publicFinances/checkUniqueDescription/' + folderId, {
+         .get('/publicFiles/checkUniqueDescription/' + folderId, {
             params: {
                description: description
             }
@@ -167,7 +167,7 @@
          return  defer.promise;
       }
 
-      publicFinancesService.getFileUploader = function (folderId) {
+      publicFilesService.getFileUploader = function (folderId) {
          //new upload handler
          var uploader = new FileUploader({
               autoUpload: true,
@@ -196,18 +196,18 @@
                 //append the extension file
                 extension =  fileNameParts[fileNameParts.length - 1];
              }
-             fileItem.url = settings.baseUrlSiteCamaraApi + '/publicFinances/file/upload/' + folderId + "/" + uuid.v4() + (extension !== "" ? "." + extension : "");
+             fileItem.url = settings.baseUrlSiteCamaraApi + '/publicFiles/file/upload/' + folderId + "/" + uuid.v4() + (extension !== "" ? "." + extension : "");
          };
 
          return uploader;
       };
 
       var _highlightObjectId = null;
-      publicFinancesService.getHighlightObjectId = function() {
+      publicFilesService.getHighlightObjectId = function() {
          return _highlightObjectId;
       }
 
-      publicFinancesService.setHighlightObjectId = function(objectId) {
+      publicFilesService.setHighlightObjectId = function(objectId) {
          _highlightObjectId = objectId;
       }
    }
