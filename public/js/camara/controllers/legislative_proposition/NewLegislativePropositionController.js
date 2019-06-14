@@ -137,7 +137,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
           newsImageFloatRight: 'Float Right',
           newsImageFloatLeft: 'Float Left'
@@ -164,7 +164,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
           newsImageFloatRight: 'Float Right',
           newsImageFloatLeft: 'Float Left'
@@ -191,7 +191,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
           newsImageFloatRight: 'Float Right',
           newsImageFloatLeft: 'Float Left'
@@ -218,7 +218,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
           newsImageFloatRight: 'Float Right',
           newsImageFloatLeft: 'Float Left'
@@ -238,18 +238,28 @@
          $newLegislativePropositionCtrl.isGeneralTabActive = true;
          $newLegislativePropositionCtrl.isConsolidationTabActive = false;
          $newLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $newLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
       }
 
       $newLegislativePropositionCtrl.setConsolidationTabActive = function() {
          $newLegislativePropositionCtrl.isGeneralTabActive = false;
          $newLegislativePropositionCtrl.isConsolidationTabActive = true;
          $newLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $newLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
       }
 
       $newLegislativePropositionCtrl.setRelationshipsTabActive = function() {
          $newLegislativePropositionCtrl.isGeneralTabActive = false;
          $newLegislativePropositionCtrl.isConsolidationTabActive = false;
          $newLegislativePropositionCtrl.isRelationshipsTabActive = true;
+         $newLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
+      }
+
+      $newLegislativePropositionCtrl.selectLegislativeProcessTabActive = function() {
+         $newLegislativePropositionCtrl.isGeneralTabActive = false;
+         $newLegislativePropositionCtrl.isConsolidationTabActive = false;
+         $newLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $newLegislativePropositionCtrl.isLegislativeProcessTabActive = true;
       }
 
       $newLegislativePropositionCtrl.uniqueNumberValidator = function() {
@@ -297,6 +307,37 @@
                      //dimissed window
                });
          }
+      }
+
+      $newLegislativePropositionCtrl.openSelectLegislativeProcessModal = function() {
+         var selectLegislativeProcessModal = $uibModal.open({
+                                          templateUrl: 'views/legislative_proposition/select-legislative-process.html',
+                                          animation: false,
+                                          size: 'lg',
+                                          controller: 'SelectLegislativeProcessModalInstanceController',
+                                          controllerAs: '$modalCtrl',
+                                          scope: $scope
+                                       });
+         selectLegislativeProcessModal.result.then(function(legislativeProposition) {
+            froalaScope.html.insert(legislativeProposition.typeDescription + "&nbsp;nº&nbsp;" + '<a href=\"http://localhost:3001/propositura.html?id=' + legislativeProposition._id  + '\">' + legislativeProposition.number + "/" + legislativeProposition.year + '</a>');
+         });
+      }
+
+      $newLegislativePropositionCtrl.openSelectLegislativePropositionModal = function(froalaScope) {
+         var selectLegislativePropositionModal = $uibModal.open({
+                                          templateUrl: 'tpl/camara/froala/select-legislative-proposition.html',
+                                          animation: false,
+                                          size: 'lg',
+                                          controller: 'SelectLegislativePropositionModalInstanceController',
+                                          controllerAs: '$modalCtrl',
+                                          scope: $scope,
+                                          resolve: {
+                                             'legislativePropositionType': $newLegislativePropositionCtrl.selectedType
+                                          }
+                                       });
+         selectLegislativePropositionModal.result.then(function(legislativeProposition) {
+            froalaScope.html.insert(legislativeProposition.typeDescription + "&nbsp;nº&nbsp;" + '<a href=\"http://localhost:3001/propositura.html?id=' + legislativeProposition._id  + '\">' + legislativeProposition.number + "/" + legislativeProposition.year + '</a>');
+         });
       }
 
       $newLegislativePropositionCtrl.isValid = function() {

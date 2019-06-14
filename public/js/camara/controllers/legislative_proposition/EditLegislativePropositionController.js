@@ -154,7 +154,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
            newsImageFloatRight: 'Float Right',
            newsImageFloatLeft: 'Float Left'
@@ -181,7 +181,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
            newsImageFloatRight: 'Float Right',
            newsImageFloatLeft: 'Float Left'
@@ -208,7 +208,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
            newsImageFloatRight: 'Float Right',
            newsImageFloatLeft: 'Float Left'
@@ -235,7 +235,7 @@
                            'outdent', 'indent', 'quote', '-', 'insertLink',
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
-                           'html', '|', 'undo', 'redo' ],
+                           'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
          imageStyles: {
            newsImageFloatRight: 'Float Right',
            newsImageFloatLeft: 'Float Left'
@@ -303,6 +303,23 @@
                         }
                      }
                   }).result.then(function() {
+                     //20019-06-04 - Rodrigo Moraes
+                     //Apenas remove a referência (propriedade fileAttachments) para o arquivo,
+                     //o usuário precisa salvar para efetivar e o arquivo não é
+                     //removido, ele apenas fica orfão. Embora o arquivo fique orfão, esta
+                     //abordagem é mais funcional para o usuário
+                     $editLegislativePropositionCtrl.fileAttachments.splice(index, 1);
+
+                     /*
+                     Código para implementar a remoção completa do arquivo
+                     (o que difere da implementação acima),
+                     ainda é necessário realizar um save automático
+                     na propositura para remover a referência para o arquivo,
+                     pois se o usuário cancelar a alteração, a
+                     lista de referências para os arquivos
+                     (propriedade fileAttachments) não será atualizada e
+                     a lista conterá uma referência para um arquivo já removido,
+                     o que é um BUG, logo a CODIGO ABAIXO NÃO ESTÁ COMPLETO:
 
                      LegislativePropositionService
                         .deleteAttachmentFile(fileAttachment._id)
@@ -313,6 +330,7 @@
                         }).catch(function(err) {
                            $editLegislativePropositionCtrl.uploadFileAttachmentErrorMessage = err.message;
                         });
+                    */
                   });
 
          }
@@ -471,6 +489,23 @@
          }
       }
 
+      $editLegislativePropositionCtrl.openSelectLegislativePropositionModal = function(froalaScope) {
+         var selectLegislativePropositionModal = $uibModal.open({
+                                          templateUrl: 'tpl/camara/froala/select-legislative-proposition.html',
+                                          animation: false,
+                                          size: 'lg',
+                                          controller: 'SelectLegislativePropositionModalInstanceController',
+                                          controllerAs: '$modalCtrl',
+                                          scope: $scope,
+                                          resolve: {
+                                             'legislativePropositionType': $editLegislativePropositionCtrl.selectedType
+                                          }
+                                       });
+         selectLegislativePropositionModal.result.then(function(legislativeProposition) {
+            froalaScope.html.insert(legislativeProposition.typeDescription + "&nbsp;nº&nbsp;" + '<a href=\"http://localhost:3001/propositura.html?id=' + legislativeProposition._id  + '\">' + legislativeProposition.number + "/" + legislativeProposition.year + '</a>');
+         });
+      }
+
       $editLegislativePropositionCtrl.isValid = function() {
          var formValid = $editLegislativePropositionCtrl.newLegislativePropositionForm.$valid;
          if(!formValid) {
@@ -537,7 +572,6 @@
                }
             }
          }).result.then(function() {
-
             LegislativePropositionService
                .deleteLegislativeProposition(legislativeProposition._id)
                .then(function(result) {

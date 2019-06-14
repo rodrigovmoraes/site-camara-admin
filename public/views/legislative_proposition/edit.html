@@ -96,7 +96,7 @@
                <div class="form-group">
                    <label class="control-label col-md-3">Texto</label>
                    <div class="col-md-9">
-                        <textarea froala="$editLegislativePropositionCtrl.textFroalaOptions" name="text" ng-model="$editLegislativePropositionCtrl.text" required="true"></textarea>
+                        <textarea froala="$editLegislativePropositionCtrl.textFroalaOptions" fn-open-select-legislative-proposition="$editLegislativePropositionCtrl.openSelectLegislativePropositionModal" name="text"  ng-model="$editLegislativePropositionCtrl.text" required="true"></textarea>
                         <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.text.$error.required && ($editLegislativePropositionCtrl.newLegislativePropositionForm.text.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
                            O texto precisa ser preenchido.
                         </div>
@@ -108,7 +108,7 @@
                <div class="form-group">
                    <label class="control-label col-md-3">Texto Anexo</label>
                    <div class="col-md-9">
-                        <textarea froala="$editLegislativePropositionCtrl.textAttachmentFroalaOptions" name="textAttachment" ng-model="$editLegislativePropositionCtrl.textAttachment"></textarea>
+                        <textarea froala="$editLegislativePropositionCtrl.textAttachmentFroalaOptions" fn-open-select-legislative-proposition="$editLegislativePropositionCtrl.openSelectLegislativePropositionModal" name="textAttachment" ng-model="$editLegislativePropositionCtrl.textAttachment"></textarea>
                    </div>
                </div>
            </div>
@@ -201,7 +201,7 @@
                <div class="form-group">
                    <label class="control-label col-md-3">Texto Consolidado</label>
                    <div class="col-md-9">
-                      <textarea froala="$editLegislativePropositionCtrl.consolidatedTextFroalaOptions" name="consolidatedText" ng-model="$editLegislativePropositionCtrl.consolidatedText"></textarea>
+                      <textarea froala="$editLegislativePropositionCtrl.consolidatedTextFroalaOptions" fn-open-select-legislative-proposition="$editLegislativePropositionCtrl.openSelectLegislativePropositionModal" name="consolidatedText" ng-model="$editLegislativePropositionCtrl.consolidatedText"></textarea>
                       <span class="help-block">
                         Caso seja digitado algum conteúdo para o texto consolidado neste campo, durante a apresentação da propositura
                         para o internauta no Portal da Câmara, o texto original (na aba Geral) será substituído pelo texto digitado.
@@ -304,7 +304,7 @@
                <div class="form-group">
                    <label class="control-label col-md-3">Texto Anexo Consolidado</label>
                    <div class="col-md-9">
-                        <textarea froala="$editLegislativePropositionCtrl.consolidatedTextAttachmentFroalaOptions" name="consolidatedTextAttachment" ng-model="$editLegislativePropositionCtrl.consolidatedTextAttachment"></textarea>
+                        <textarea froala="$editLegislativePropositionCtrl.consolidatedTextAttachmentFroalaOptions" fn-open-select-legislative-proposition="$editLegislativePropositionCtrl.openSelectLegislativePropositionModal" name="consolidatedTextAttachment" ng-model="$editLegislativePropositionCtrl.consolidatedTextAttachment"></textarea>
                    </div>
                </div>
            </div>

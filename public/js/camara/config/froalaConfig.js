@@ -30,4 +30,31 @@ $(function() {
          fnOpenSelectFlickrPhoto(this);
       }
     });
+
+    $.FroalaEditor.DefineIcon('camaraSelectLegislativeProposition', { NAME: 'file-text-o' });
+    $.FroalaEditor.RegisterCommand('camaraSelectLegislativeProposition', {
+      title: 'Link para outra propositura',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
+      callback: function () {
+         var htmlElement = null;
+         var useScope = null;
+         var fnOpenSelectLegislativeProposition = null;
+
+         htmlElement = this.$oel;
+         if (!htmlElement) {
+            return;
+         }
+         useScope = htmlElement.attr('fn-open-select-legislative-proposition');
+         if (!useScope) {
+            return;
+         }
+         fnOpenSelectLegislativeProposition = _.get(htmlElement.scope(), useScope);
+         if(!fnOpenSelectLegislativeProposition) {
+            return;
+         }
+         fnOpenSelectLegislativeProposition(this);
+      }
+    });
 });

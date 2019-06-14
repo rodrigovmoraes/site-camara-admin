@@ -1,0 +1,139 @@
+<div class="modal-body" id="modal-body">
+     <div class="portlet box green portlet-in-modal">
+        <div class="portlet-title">
+           <div class="caption">
+               Seleção de Propositura
+           </div>
+           <div class="tools">
+               <a href="" class="remove" data-original-title="" title="" ng-click="$modalCtrl.close()"> </a>
+           </div>
+        </div>
+        <div class="portlet-body form">
+
+           <div class="mt-element-list">
+               <div class="mt-list-container list-news ext-1">
+                  <ul>
+                       <li class="mt-list-item">
+                          <span class="help-block">
+                             Procure e clique na propositura desejada a fim de adicionar um link para ela.
+                          </span>
+                       </li>
+                       <li class="mt-list-item">
+                           <form class="form-inline" role="form">
+                               <div class="form-group" style="padding-right: 7px">
+                                   <div class="input-group input-icon">
+                                       <i class="fa fa-search"></i>
+                                       <input type="number" style="width: 120px" ng-model="$modalCtrl.number" class="form-control" id="numberInput" placeholder="número">
+                                    </div>
+                               </div>
+                               <div class="form-group" style="padding-right: 7px">
+                                   <div class="input-group input-icon">
+                                       <i class="fa fa-search"></i>
+                                       <input type="number" style="width: 120px" ng-model="$modalCtrl.year" class="form-control" id="yearInput" placeholder="ano">
+                                    </div>
+                               </div>
+
+                               <div class="form-group">
+                                  <div class="input-group">
+
+                                     <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="typeFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          <span>Tipo de Propositura</span>
+                                          <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                          <li ng-repeat="legislativePropositionType in $modalCtrl.legislativePropositionTypes">
+                                             <a href="#" ng-click="$modalCtrl.selectLegislativePropositionType(legislativePropositionType)">
+                                                {{ legislativePropositionType.description }}
+                                                <i class="fa fa-check"  ng-if="$modalCtrl.selectedLegislativePropositionType && $modalCtrl.selectedLegislativePropositionType._id === legislativePropositionType._id"></i>
+                                             </a>
+                                          </li>
+                                        </ul>
+                                     </div>
+
+                                  </div>
+                               </div>
+
+                               <div class="form-group" style="padding-right: 7px">
+                                  <div class="input-group">
+                                    <span class="input-group-btn">
+                                       <button type="button" title="Pesquisar proposituras" class="btn btn-default" ng-click="$modalCtrl.search()">
+                                          <i class="glyphicon glyphicon-search"></i>
+                                       </button>
+                                    </span>
+                                 </div>
+                               </div>
+
+                               <div class="form-group" ng-if="$modalCtrl.selectedLegislativePropositionType">
+                                  <div class="input-group input-icon">
+                                       <span class="help-block">Tipo de Propositura: {{ $modalCtrl.selectedLegislativePropositionType.description }}</span>
+                                  </div>
+                               </div>
+                           </form>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.notFoundMessage">
+                          <div class="alert alert-warning alert-no-margin" role="alert">
+                             {{ $modalCtrl.notFoundMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.infoMessage">
+                          <div class="alert alert-info alert-no-margin" role="alert">
+                             {{ $modalCtrl.infoMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.errorMessage">
+                          <div class="alert alert-danger alert-no-margin" role="alert">
+                             {{ $modalCtrl.errorMessage }}
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-repeat="legislativeProposition in $modalCtrl.legislativePropositions" ng-class="{ 'video-banner-highlight': $modalCtrl.selectedLegislativeProposition && legislativeProposition._id === $modalCtrl.selectedLegislativeProposition._id }">
+                          <div class="list-icon-container">
+                             <a href="javascript:;" ng-click="$modalCtrl.selectLegislativeProposition(legislativeProposition)">
+                                <i class="fa fa-angle-right"></i>
+                             </a>
+                          </div>
+
+                          <div class="list-datetime page-item-datetime bold uppercase">
+                             <i class="fa fa-navicon font-black"></i><span class="font-black">{{ legislativeProposition.typeDescription }}: {{ $modalCtrl.formatLegislativePropositionNumber(legislativeProposition.number, legislativeProposition.year) }}</span>
+                          </div>
+
+                          <div class="list-item-content page-item-content">
+                             <p class="uppercase">
+                                 <a href="javascript:;" class="black-link" ng-click="$modalCtrl.selectLegislativeProposition(legislativeProposition)" ng-bind-html="legislativeProposition.description"></a>
+                             </p>
+                          </div>
+
+                          <div class="list-datetime page-item-datetime bold uppercase">
+                             <i class="fa fa-clock-o font-black"></i>
+                             <span class="font-black">Data: {{ legislativeProposition.date | date: 'dd/MM/yyyy' }}</span>
+                             <i class="fa fa-info-circle font-blue-madison" style="margin-left: 10px" ng-if="legislativeProposition.creationDate"></i>
+                             <span class="font-blue-madison" ng-if="legislativeProposition.creationDate">Criação: {{ legislativeProposition.creationDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                             <i class="fa fa-info-circle font-red" style="margin-left: 10px" ng-if="legislativeProposition.changedDate"></i>
+                             <span class="font-red" ng-if="legislativeProposition.changedDate">Alteração: {{ legislativeProposition.changedDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                          </div>
+                       </li>
+                       <li class="mt-list-item" ng-if="$modalCtrl.pager.totalPages > 1">
+                          <div class="row">
+                             <div class="col-xm-12">
+                                <ul style="margin-top: 5px; margin-left: 5px" uib-pagination id="pager" first-text="Primeiro" next-text="Próximo" previous-text="Anterior" last-text="Último" ng-change="$modalCtrl.pager.pageChanged()" total-items="$modalCtrl.pager.totalItems" items-per-page="$modalCtrl.pager.itemsPerPage" ng-model="$modalCtrl.pager.page" max-size="$modalCtrl.pager.maxSize" class="pagination-sm" boundary-links="true" rotate="false"></ul>
+                                <div style="margin-top: 5px; margin-right: 5px" class="pull-right">
+                                   {{ $modalCtrl.pager.totalItems }}  items, página {{ $modalCtrl.pager.currentPage }} de {{ $modalCtrl.pager.totalPages }}
+                                </div>
+                             </div>
+                          </div>
+                       </li>
+                  </ul>
+               </div>
+           </div>
+
+           <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                       <button type="button" class="btn default" ng-click="$modalCtrl.close()">Cancelar</button>
+                    </div>
+                </div>
+           </div>
+
+        </div>
+     </div>
+</div>

@@ -862,6 +862,8 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                             'js/camara/controllers/legislative_proposition/EditLegislativePropositionController.js',
                             'js/camara/controllers/legislative_proposition/ListLegislativePropositionsController.js',
                             'js/camara/controllers/legislative_proposition/NewRelationshipModalInstanceController.js',
+                            'js/camara/controllers/legislative_proposition/SelectLegislativeProcessModalInstanceController.js',
+                            'js/camara/controllers/froala/SelectLegislativePropositionModalInstanceController.js',
                             'js/camara/controllers/ConfirmModalInstanceController.js',
                             'js/camara/controllers/MessageModalInstanceController.js',
                             '../assets/apps/css/todo-2.css'
