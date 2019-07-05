@@ -71,7 +71,7 @@
                         $modalCtrl.pager.totalItems = 0;
                         $modalCtrl.pager.currentPage = 1;
                         $modalCtrl.pager.totalPages = 0;
-                        $modalCtrl.notFoundMessage = messages.selectLegislativaPropositionsNotFound;
+                        $modalCtrl.notFoundMessage = messages.selectLegislativePropositionsNotFound;
                      }
                   });
       }
@@ -148,5 +148,27 @@
            $modalCtrl.errorMessage = error.message;
          });
       }
+
+      //number update
+      $scope.$watch("$modalCtrl.number", function (newValue, oldValue) {
+         //keywords updated
+         if (newValue != oldValue) {
+            $modalCtrl.clearMessage();
+            _update().catch(function(error) {
+              $modalCtrl.errorMessage = error.message;
+            });
+         }
+      });
+
+      //year update
+      $scope.$watch("$modalCtrl.year", function (newValue, oldValue) {
+         //keywords updated
+         if (newValue != oldValue) {
+            $modalCtrl.clearMessage();
+            _update().catch(function(error) {
+              $modalCtrl.errorMessage = error.message;
+            });
+         }
+      });
    }
 })();

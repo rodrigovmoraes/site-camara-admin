@@ -140,8 +140,8 @@
                                      });
       };
 
-      LicitacoesService.getNextNumberOfTheYear = function (year) {
-         return  HttpDispatcherService.get('/licitacao/nextNumber/' + year)
+      LicitacoesService.getNextNumberOfTheYear = function (year, category) {
+         return  HttpDispatcherService.get('/licitacao/nextNumber/' + year + "/" + category)
                                       .then(function(result) {
                                           return result.data;
                                        }).catch(function(error) {
@@ -149,9 +149,9 @@
                                        });
       };
 
-      LicitacoesService.checkUniqueNumber = function (year, number) {
+      LicitacoesService.checkUniqueNumber = function (year, number, category) {
          return $q(function(resolve, reject) {
-            HttpDispatcherService.get('/licitacao/checkUniqueNumber/' + year + "/" + number)
+            HttpDispatcherService.get('/licitacao/checkUniqueNumber/' + year + "/" + number + "/" + category)
                                  .then(function(result) {
                                     var resultData = result.data;
                                     if (!resultData.exists) {

@@ -55,8 +55,7 @@
          if ($editLicitacaoCtrl.isValid()) {
             var editedLicitacao = {
                id: licitacao._id,
-               description: $editLicitacaoCtrl.description,
-               category: $editLicitacaoCtrl.selectedCategory._id
+               description: $editLicitacaoCtrl.description
             }
             LicitacoesService.saveLicitacao(editedLicitacao).then(function(result) {
                  $state.go('licitacao.view', {

@@ -26,6 +26,10 @@
          return Utils.templateMessage(messageTemplate, config);
       }
 
+      $newLegislativePropositionCtrl.formatLegislativeProcessNumber = function(number, year) {
+         return _.padStart(number, 3, "0") + "/" + year
+      }
+
       //return the actual date, set seconds and milliseconds to 0
       var _getNow = function() {
          var now = new Date();
@@ -114,6 +118,7 @@
       $newLegislativePropositionCtrl.relationshipsToBeIncluded = [];
       $newLegislativePropositionCtrl.legislativePropositionRelationshipTypes = null;
       $newLegislativePropositionCtrl.relationshipTypeNotEntered = false;
+      $newLegislativePropositionCtrl.legislativeProcess = null;
       //select the first legislative proposition type
       if( $newLegislativePropositionCtrl.legislativePropositionTypes &&
           $newLegislativePropositionCtrl.legislativePropositionTypes.length > 0 ) {
@@ -255,7 +260,7 @@
          $newLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
       }
 
-      $newLegislativePropositionCtrl.selectLegislativeProcessTabActive = function() {
+      $newLegislativePropositionCtrl.setLegislativeProcessTabActive = function() {
          $newLegislativePropositionCtrl.isGeneralTabActive = false;
          $newLegislativePropositionCtrl.isConsolidationTabActive = false;
          $newLegislativePropositionCtrl.isRelationshipsTabActive = false;
@@ -319,7 +324,7 @@
                                           scope: $scope
                                        });
          selectLegislativeProcessModal.result.then(function(legislativeProposition) {
-            froalaScope.html.insert(legislativeProposition.typeDescription + "&nbsp;nº&nbsp;" + '<a href=\"http://localhost:3001/propositura.html?id=' + legislativeProposition._id  + '\">' + legislativeProposition.number + "/" + legislativeProposition.year + '</a>');
+            $newLegislativePropositionCtrl.legislativeProcess = legislativeProposition;
          });
       }
 
@@ -363,7 +368,8 @@
                consolidatedTextAttachment: $newLegislativePropositionCtrl.consolidatedTextAttachment,
                relationships: _extractRelationshipIds($newLegislativePropositionCtrl.relationshipsToBeIncluded),
                fileAttachments: [],
-               consolidatedFileAttachments: []
+               consolidatedFileAttachments: [],
+               legislativeProcessId: $newLegislativePropositionCtrl.legislativeProcess ? $newLegislativePropositionCtrl.legislativeProcess.id : null
             };
             LegislativePropositionService
                         .newLegislativeProposition(legislativeProposition)
@@ -378,6 +384,10 @@
                $newLegislativePropositionCtrl.errorMessage = error.message;
             });
          }
+      }
+
+      $newLegislativePropositionCtrl.unlinkLegislativeProcess = function() {
+         $newLegislativePropositionCtrl.legislativeProcess = null;
       }
 
       $newLegislativePropositionCtrl.removeRelationship = function(index) {

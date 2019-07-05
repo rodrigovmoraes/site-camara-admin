@@ -15,6 +15,23 @@
        <!-- BEGIN FORM-->
        <form action="#" name="$editLicitacaoCtrl.editLicitacaoForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
 
+           <div class="form-group">
+            <label class="control-label col-md-3">Modalidade</label>
+            <div class="col-md-5">
+
+              <ui-select name="category" required="true" disabled="true" ng-model="$editLicitacaoCtrl.selectedCategory" theme="bootstrap">
+                   <ui-select-match placeholder="Digite a modalidade da licitação ...">{{ $select.selected.description }}</ui-select-match>
+                   <ui-select-choices repeat="category in $editLicitacaoCtrl.categories | filter: $select.search">
+                      <div ng-bind-html="category.description | highlight: $select.search"></div>
+                   </ui-select-choices>
+              </ui-select>
+
+              <div class="alert alert-danger" role="alert" ng-if="$editLicitacaoCtrl.editLicitacaoForm.category.$error.required && ($editLicitacaoCtrl.editLicitacaoForm.category.$touched || $editLicitacaoCtrl.editLicitacaoForm.$submitted)">
+                 Selecione uma modalidade para a licitação.
+              </div>
+            </div>
+           </div>
+
            <div class="form-body">
                <div class="form-group">
                    <label class="control-label col-md-3">Ano</label>
@@ -45,27 +62,6 @@
                         <span class="help-block">Digite o objeto da licitação.</span>
                    </div>
                </div>
-           </div>
-
-           <div class="form-group">
-              <label class="control-label col-md-3">Modalidade</label>
-              <div class="col-md-5">
-
-                <ui-select name="category" required="true" ng-model="$editLicitacaoCtrl.selectedCategory" theme="bootstrap">
-                     <ui-select-match placeholder="Digite a modalidade da licitação ...">{{ $select.selected.description }}</ui-select-match>
-                     <ui-select-choices repeat="category in $editLicitacaoCtrl.categories | filter: $select.search">
-                        <div ng-bind-html="category.description | highlight: $select.search"></div>
-                     </ui-select-choices>
-                </ui-select>
-
-                <div class="alert alert-danger" role="alert" ng-if="$editLicitacaoCtrl.editLicitacaoForm.category.$error.required && ($editLicitacaoCtrl.editLicitacaoForm.category.$touched || $editLicitacaoCtrl.editLicitacaoForm.$submitted)">
-                   Selecione uma modalidade para a licitação.
-                </div>
-
-                <span class="help-block">
-                   Selecione a modalidade da licitação.
-                </span>
-              </div>
            </div>
 
            <div class="form-actions">

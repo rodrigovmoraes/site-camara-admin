@@ -5,13 +5,17 @@
 
    EditLegislativePropositionController.$inject = [ '$scope', 'messages',
                                                     'Utils', '$state',
-                                                    'LegislativePropositionService', 'LegislativePropositionTagsService',
+                                                    'LegislativePropositionService',
+                                                    'SyslegisService',
+                                                    'LegislativePropositionTagsService',
                                                     'legislativePropositionTypes',
                                                     '$filter', 'settings',
                                                     '$uibModal', 'legislativeProposition',  ];
    function EditLegislativePropositionController( $scope, messages,
                                                   Utils, $state,
-                                                  LegislativePropositionService, LegislativePropositionTagsService,
+                                                  LegislativePropositionService,
+                                                  SyslegisService,
+                                                  LegislativePropositionTagsService,
                                                   legislativePropositionTypes,
                                                   $filter, settings,
                                                   $uibModal, legislativeProposition ) {
@@ -26,6 +30,10 @@
       //function for template messages
       var _templateMessage = function (messageTemplate, config) {
          return Utils.templateMessage(messageTemplate, config);
+      }
+
+      $editLegislativePropositionCtrl.formatLegislativeProcessNumber = function(number, year) {
+         return _.padStart(number, 3, "0") + "/" + year
       }
 
       //return the actual date, set seconds and milliseconds to 0
@@ -124,9 +132,18 @@
       $editLegislativePropositionCtrl.consolidatedText = legislativeProposition.consolidatedText;
       $editLegislativePropositionCtrl.consolidatedTextAttachment = legislativeProposition.consolidatedTextAttachment;
       $editLegislativePropositionCtrl.legislativePropositionTypes = legislativePropositionTypes;
+      $editLegislativePropositionCtrl.legislativeProcess = null;
       $editLegislativePropositionCtrl.legislativePropositionTags = null;
       $editLegislativePropositionCtrl.selectedRelationshipType = null;
       $editLegislativePropositionCtrl.relationshipsToBeIncluded = legislativeProposition.relationships;
+      $editLegislativePropositionCtrl.legislativeProcess = null;
+      SyslegisService
+         .getLegislativeProcess(legislativeProposition.legislativeProcessId)
+         .then(function(result) {
+            $editLegislativePropositionCtrl.legislativeProcess = result.materia;
+         }).catch(function(error) {
+            $editLegislativePropositionCtrl.errorMessage = error.message;
+         });
       $editLegislativePropositionCtrl.legislativePropositionRelationshipTypes = null;
       $editLegislativePropositionCtrl.relationshipTypeNotEntered = false;
       $editLegislativePropositionCtrl.fileAttachments = legislativeProposition.fileAttachments ? legislativeProposition.fileAttachments : [];
@@ -406,6 +423,7 @@
          $editLegislativePropositionCtrl.isConsolidationTabActive = false;
          $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = false;
          $editLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
          $editLegislativePropositionCtrl.isRemoveTabActive = false;
       }
 
@@ -415,6 +433,7 @@
          $editLegislativePropositionCtrl.isConsolidationTabActive = false;
          $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = false;
          $editLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
          $editLegislativePropositionCtrl.isRemoveTabActive = false;
       }
 
@@ -424,6 +443,7 @@
          $editLegislativePropositionCtrl.isConsolidationTabActive = true;
          $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = false;
          $editLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
          $editLegislativePropositionCtrl.isRemoveTabActive = false;
       }
 
@@ -433,6 +453,7 @@
          $editLegislativePropositionCtrl.isConsolidationTabActive = false;
          $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = true;
          $editLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
          $editLegislativePropositionCtrl.isRemoveTabActive = false;
       }
 
@@ -442,6 +463,7 @@
          $editLegislativePropositionCtrl.isConsolidationTabActive = false;
          $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = false;
          $editLegislativePropositionCtrl.isRelationshipsTabActive = true;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
          $editLegislativePropositionCtrl.isRemoveTabActive = false;
       }
 
@@ -451,7 +473,18 @@
          $editLegislativePropositionCtrl.isConsolidationTabActive = false;
          $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = false;
          $editLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = false;
          $editLegislativePropositionCtrl.isRemoveTabActive = true;
+      }
+
+      $editLegislativePropositionCtrl.setLegislativeProcessTabActive = function() {
+         $editLegislativePropositionCtrl.isGeneralTabActive = false;
+         $editLegislativePropositionCtrl.isAttachmentTabActive = false;
+         $editLegislativePropositionCtrl.isConsolidationTabActive = false;
+         $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive = false;
+         $editLegislativePropositionCtrl.isRelationshipsTabActive = false;
+         $editLegislativePropositionCtrl.isLegislativeProcessTabActive = true;
+         $editLegislativePropositionCtrl.isRemoveTabActive = false;
       }
 
       $editLegislativePropositionCtrl.addRelationship = function(relationshipType) {
@@ -487,6 +520,20 @@
                      //dimissed window
                });
          }
+      }
+
+      $editLegislativePropositionCtrl.openSelectLegislativeProcessModal = function() {
+         var selectLegislativeProcessModal = $uibModal.open({
+                                          templateUrl: 'views/legislative_proposition/select-legislative-process.html',
+                                          animation: false,
+                                          size: 'lg',
+                                          controller: 'SelectLegislativeProcessModalInstanceController',
+                                          controllerAs: '$modalCtrl',
+                                          scope: $scope
+                                       });
+         selectLegislativeProcessModal.result.then(function(legislativeProposition) {
+            $editLegislativePropositionCtrl.legislativeProcess = legislativeProposition;
+         });
       }
 
       $editLegislativePropositionCtrl.openSelectLegislativePropositionModal = function(froalaScope) {
@@ -530,7 +577,8 @@
                consolidatedTextAttachment: $editLegislativePropositionCtrl.consolidatedTextAttachment,
                relationships: _extractRelationshipIds($editLegislativePropositionCtrl.relationshipsToBeIncluded),
                fileAttachments: _extractFileAttachmentsIds($editLegislativePropositionCtrl.fileAttachments),
-               consolidatedFileAttachments: _extractFileAttachmentsIds($editLegislativePropositionCtrl.consolidatedFileAttachments)
+               consolidatedFileAttachments: _extractFileAttachmentsIds($editLegislativePropositionCtrl.consolidatedFileAttachments),
+               legislativeProcessId: $editLegislativePropositionCtrl.legislativeProcess ? $editLegislativePropositionCtrl.legislativeProcess.id : null
             };
 
             LegislativePropositionService
@@ -547,6 +595,10 @@
             });
 
          }
+      }
+
+      $editLegislativePropositionCtrl.unlinkLegislativeProcess = function() {
+         $editLegislativePropositionCtrl.legislativeProcess = null;
       }
 
       $editLegislativePropositionCtrl.removeRelationship = function(index) {

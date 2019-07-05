@@ -15,6 +15,7 @@
           <li ng-class="{active: $editLegislativePropositionCtrl.isConsolidationTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setConsolidationTabActive()">Consolidação</a></li>
           <li ng-class="{active: $editLegislativePropositionCtrl.isConsolidatedAttachmentTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setConsolidatedAttachmentTabActive()">Anexo Consolidados</a></li>
           <li ng-class="{active: $editLegislativePropositionCtrl.isRelationshipsTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType && $editLegislativePropositionCtrl.selectedType.code === 1"><a href="#"  ng-click="$editLegislativePropositionCtrl.setRelationshipsTabActive()">Relacionamentos</a></li>
+          <li ng-class="{active: $editLegislativePropositionCtrl.isLegislativeProcessTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setLegislativeProcessTabActive()">Matéria Legislativa de Origem</a></li>
           <li ng-class="{active: $editLegislativePropositionCtrl.isRemoveTabActive}" ng-if="$editLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$editLegislativePropositionCtrl.setRemoveTabActive()">Remoção</a></li>
        </ul>
 
@@ -378,6 +379,42 @@
                      </div>
                   </div>
                </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isLegislativeProcessTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
+             <label class="control-label col-md-3">Matéria Legislativa de Origem</label>
+             <div class="col-md-9">
+               <button type="button" class="btn blue" ng-click="$editLegislativePropositionCtrl.openSelectLegislativeProcessModal()">
+                 <i class="fa fa-check"></i>Procurar Matéria
+               </button>
+               <span class="help-block">
+                  Selecione a Matéria Legislativa que deu origem a esta propositura.
+               </span>
+             </div>
+           </div>
+
+           <div class="form-group" ng-show="$editLegislativePropositionCtrl.isLegislativeProcessTabActive" ng-if="$editLegislativePropositionCtrl.selectedType && $editLegislativePropositionCtrl.legislativeProcess">
+              <div class="col-md-12" ng-if="$editLegislativePropositionCtrl.legislativeProcess">
+                <div class="list-datetime page-item-datetime bold uppercase">
+                    <i class="fa fa-navicon font-black"></i><span class="font-black">&nbsp;{{ $editLegislativePropositionCtrl.legislativeProcess.tipoDocumento }}: {{ $editLegislativePropositionCtrl.formatLegislativeProcessNumber($editLegislativePropositionCtrl.legislativeProcess.numero, $editLegislativePropositionCtrl.legislativeProcess.ano) }}</span>
+                </div>
+
+                <div class="list-item-content page-item-content">
+                    <p class="uppercase">
+                       {{ $editLegislativePropositionCtrl.legislativeProcess.ementa }}
+                    </p>
+                </div>
+
+                <div class="list-datetime page-item-datetime bold uppercase">
+                    <i class="fa fa-clock-o font-black"></i>
+                    <span class="font-black">Data: {{ $editLegislativePropositionCtrl.legislativeProcess.data_apresentacao | date: 'dd/MM/yyyy' }}</span>
+                    <i class="fa fa-info-circle font-blue-madison" style="margin-left: 10px" ng-if="$editLegislativePropositionCtrl.legislativeProcess.creationDate"></i>
+                    <a href="#" style="text-decoration: none; margin-left: 10px" ng-click="$editLegislativePropositionCtrl.unlinkLegislativeProcess()">
+                       <i class="fa fa-close font-red"></i>
+                       <span class="font-red">Desassociar</span>
+                    </a>
+                </div>
+              </div>
            </div>
 
            <div class="form-body" ng-show="$editLegislativePropositionCtrl.isRemoveTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">

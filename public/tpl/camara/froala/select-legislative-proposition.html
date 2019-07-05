@@ -41,7 +41,7 @@
                                           <span>Tipo de Propositura</span>
                                           <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <ul class="dropdown-menu" aria-labelledby="typeFilter">
                                           <li ng-repeat="legislativePropositionType in $modalCtrl.legislativePropositionTypes">
                                              <a href="#" ng-click="$modalCtrl.selectLegislativePropositionType(legislativePropositionType)">
                                                 {{ legislativePropositionType.description }}
@@ -54,6 +54,7 @@
                                   </div>
                                </div>
 
+<!--
                                <div class="form-group" style="padding-right: 7px">
                                   <div class="input-group">
                                     <span class="input-group-btn">
@@ -63,7 +64,7 @@
                                     </span>
                                  </div>
                                </div>
-
+//-->
                                <div class="form-group" ng-if="$modalCtrl.selectedLegislativePropositionType">
                                   <div class="input-group input-icon">
                                        <span class="help-block">Tipo de Propositura: {{ $modalCtrl.selectedLegislativePropositionType.description }}</span>

@@ -30,6 +30,9 @@
       }
 
       var _update = function() {
+         var page = $modalCtrl.pager.page ? $modalCtrl.pager.page : 1;
+         var pageSize = $modalCtrl.pager.itemsPerPage ? $modalCtrl.pager.itemsPerPage : 3;
+
          $modalCtrl.clearMessage();
          $modalCtrl.notFoundMessage = null
          var filterOptions = {};
@@ -49,31 +52,27 @@
          } else {
             filterOptions['anoMateria'] = null;
          }
-         return Promise.resolve();
-/*
-         return LegislativePropositionService
-                  .getLegislativePropositions(  {
-                     page: $modalCtrl.pager.page,
-                     pageSize: $modalCtrl.pager.itemsPerPage
-                  }, filterOptions,
-                  {
-                     'sort': 'date',
-                     'sortDirection': -1
-                  }).then(function(result) {
-                     if (result.legislativePropositions && result.legislativePropositions.length > 0) {
-                        $modalCtrl.legislativePropositions = result.legislativePropositions;
-                        $modalCtrl.pager.totalItems = result.totalLength;
-                        $modalCtrl.pager.currentPage = result.page;
-                        $modalCtrl.pager.totalPages = Math.ceil(result.totalLength / result.pageSize);
+         //pagination options
+         filterOptions['offset'] = page * pageSize - pageSize;
+         filterOptions['limit'] = pageSize;
+
+         return SyslegisService
+                  .getLegislativeProcesses(filterOptions)
+                  .then(function(result) {
+                     if (result.materiasLegislativas && result.materiasLegislativas.length > 0) {
+                        $modalCtrl.legislativeProcesses = result.materiasLegislativas;
+                        $modalCtrl.pager.totalItems = result.total;
+                        $modalCtrl.pager.currentPage = page;
+                        $modalCtrl.pager.totalPages = Math.ceil(result.total / pageSize);
                      } else {
-                        $modalCtrl.legislativePropositions = [];
+                        $modalCtrl.legislativeProcesses = [];
                         $modalCtrl.pager.totalItems = 0;
                         $modalCtrl.pager.currentPage = 1;
                         $modalCtrl.pager.totalPages = 0;
-                        $modalCtrl.notFoundMessage = messages.selectLegislativaPropositionsNotFound;
+                        $modalCtrl.notFoundMessage = messages.selectLegislativeProcessNotFound;
                      }
                   });
-*/
+
       }
 
       $modalCtrl.formatLegislativeProcessNumber = function(number, year) {
@@ -100,7 +99,8 @@
       $modalCtrl.pager.pageChanged = function() {
           //update
           $modalCtrl.clearMessage();
-          _update().catch(function(error) {
+          _update()
+          .catch(function(error) {
              $modalCtrl.errorMessage = error.message;
           });
       }
@@ -148,5 +148,27 @@
            $modalCtrl.errorMessage = error.message;
          });
       }
+
+      //number update
+      $scope.$watch("$modalCtrl.number", function (newValue, oldValue) {
+         //keywords updated
+         if (newValue != oldValue) {
+            $modalCtrl.clearMessage();
+            _update().catch(function(error) {
+              $modalCtrl.errorMessage = error.message;
+            });
+         }
+      });
+
+      //year update
+      $scope.$watch("$modalCtrl.year", function (newValue, oldValue) {
+         //keywords updated
+         if (newValue != oldValue) {
+            $modalCtrl.clearMessage();
+            _update().catch(function(error) {
+              $modalCtrl.errorMessage = error.message;
+            });
+         }
+      });
    }
 })();

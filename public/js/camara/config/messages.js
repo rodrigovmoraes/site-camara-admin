@@ -164,5 +164,6 @@
    clearLogsDialogText: 'Deseja realmente limpar o log ?',
    clearLogsRequested: 'Limpeza do log solicitada.',
 
-   selectLegislativaPropositionsNotFound: 'Nenhuma propositura encontrada.'
+   selectLegislativePropositionsNotFound: 'Nenhuma propositura encontrada.',
+   selectLegislativeProcessNotFound: 'Nenhuma matéria encontrada.'
 }

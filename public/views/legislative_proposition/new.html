@@ -13,7 +13,7 @@
           <li ng-class="{active: $newLegislativePropositionCtrl.isGeneralTabActive}"><a href="#" ng-click="$newLegislativePropositionCtrl.setGeneralTabActive()">Geral</a></li>
           <li ng-class="{active: $newLegislativePropositionCtrl.isConsolidationTabActive}" ng-if="$newLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$newLegislativePropositionCtrl.setConsolidationTabActive()">Consolidação</a></li>
           <li ng-class="{active: $newLegislativePropositionCtrl.isRelationshipsTabActive}" ng-if="$newLegislativePropositionCtrl.selectedType && $newLegislativePropositionCtrl.selectedType.code === 1"><a href="#"  ng-click="$newLegislativePropositionCtrl.setRelationshipsTabActive()">Relacionamentos</a></li>
-          <li ng-class="{active: $newLegislativePropositionCtrl.isLegislativeProcessTabActive}" ng-if="$newLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$newLegislativePropositionCtrl.selectLegislativeProcessTabActive()">Matéria Legislativa de Origem</a></li>
+          <li ng-class="{active: $newLegislativePropositionCtrl.isLegislativeProcessTabActive}" ng-if="$newLegislativePropositionCtrl.selectedType"><a href="#"  ng-click="$newLegislativePropositionCtrl.setLegislativeProcessTabActive()">Matéria Legislativa de Origem</a></li>
        </ul>
 
        <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$newLegislativePropositionCtrl.errorMessage">
@@ -224,17 +224,38 @@
 
            <div class="form-group" ng-show="$newLegislativePropositionCtrl.isLegislativeProcessTabActive" ng-if="$newLegislativePropositionCtrl.selectedType">
              <label class="control-label col-md-3">Matéria Legislativa de Origem</label>
-             <div class="col-md-5">
+             <div class="col-md-9">
                <button type="button" class="btn blue" ng-click="$newLegislativePropositionCtrl.openSelectLegislativeProcessModal()">
                  <i class="fa fa-check"></i>Procurar Matéria
-               </button>
-               <button type="button" class="btn red" ng-click="$newLegislativePropositionCtrl.clearSelectedLegislativeProcess">
-                 <i class="fa fa-check"></i>Limpar Seleção
                </button>
                <span class="help-block">
                   Selecione a Matéria Legislativa que deu origem a esta propositura.
                </span>
              </div>
+           </div>
+
+           <div class="form-group" ng-show="$newLegislativePropositionCtrl.isLegislativeProcessTabActive" ng-if="$newLegislativePropositionCtrl.selectedType && $newLegislativePropositionCtrl.legislativeProcess">
+              <div class="col-md-12" ng-if="$newLegislativePropositionCtrl.legislativeProcess">
+                <div class="list-datetime page-item-datetime bold uppercase">
+                    <i class="fa fa-navicon font-black"></i><span class="font-black">&nbsp;{{ $newLegislativePropositionCtrl.legislativeProcess.tipoDocumento }}: {{ $newLegislativePropositionCtrl.formatLegislativeProcessNumber($newLegislativePropositionCtrl.legislativeProcess.numero, $newLegislativePropositionCtrl.legislativeProcess.ano) }}</span>
+                </div>
+
+                <div class="list-item-content page-item-content">
+                    <p class="uppercase">
+                       {{ $newLegislativePropositionCtrl.legislativeProcess.ementa }}
+                    </p>
+                </div>
+
+                <div class="list-datetime page-item-datetime bold uppercase">
+                    <i class="fa fa-clock-o font-black"></i>
+                    <span class="font-black">Data: {{ $newLegislativePropositionCtrl.legislativeProcess.data_apresentacao | date: 'dd/MM/yyyy' }}</span>
+                    <i class="fa fa-info-circle font-blue-madison" style="margin-left: 10px" ng-if="$newLegislativePropositionCtrl.legislativeProcess.creationDate"></i>
+                    <a href="#" style="text-decoration: none; margin-left: 10px" ng-click="$newLegislativePropositionCtrl.unlinkLegislativeProcess()">
+                       <i class="fa fa-close font-red"></i>
+                       <span class="font-red">Desassociar</span>
+                    </a>
+                </div>
+              </div>
            </div>
 
            <div class="form-actions">

@@ -35,16 +35,10 @@
       //news data
       var _now = _getNow();
       $newLicitacaoCtrl.year = _now.getFullYear();
-      $newLicitacaoCtrl.number = 1;
-      LicitacoesService
-              .getNextNumberOfTheYear($newLicitacaoCtrl.year)
-              .then(function(result) {
-                 $newLicitacaoCtrl.number = result.nextNumber;
-              }).catch(function(error) {
-                 $newLicitacaoCtrl.errorMessage = error.message;
-              });
+      $newLicitacaoCtrl.number = null;
       $newLicitacaoCtrl.description = $newLicitacaoCtrl.description;
       $newLicitacaoCtrl.categories = licitacoesCategories;
+      $newLicitacaoCtrl.selectedCategory = null;
       $newLicitacaoCtrl.publish = false;
       $newLicitacaoCtrl.uploader = LicitacoesService.getEventFileUploader();
       $newLicitacaoCtrl.viewRawFileEventUrlBase = settings.baseUrlSiteCamaraApi + settings.LicitacoesEvents.rawDownloadPath;
@@ -59,8 +53,9 @@
       $newLicitacaoCtrl.uniqueNumberValidator = function() {
          var year = $newLicitacaoCtrl.year;
          var number = $newLicitacaoCtrl.newLicitacaoForm.number.$viewValue;
-         if(number) {
-            return LicitacoesService.checkUniqueNumber(year, number);
+         var category = $newLicitacaoCtrl.selectedCategory ? $newLicitacaoCtrl.selectedCategory._id : null;
+         if(number && category) {
+            return LicitacoesService.checkUniqueNumber(year, number, category);
          } else {
             return true;
          }
@@ -147,13 +142,32 @@
          //keywords updated
          if(newValue != oldValue) {
             $newLicitacaoCtrl.clearMessage();
-            LicitacoesService
-                    .getNextNumberOfTheYear($newLicitacaoCtrl.year)
-                    .then(function(result) {
-                       $newLicitacaoCtrl.number = result.nextNumber;
-                    }).catch(function(error) {
-                       $newLicitacaoCtrl.errorMessage = error.message;
-                    });
+            if ($newLicitacaoCtrl.year && $newLicitacaoCtrl.selectedCategory) {
+               LicitacoesService
+                       .getNextNumberOfTheYear($newLicitacaoCtrl.year, $newLicitacaoCtrl.selectedCategory._id)
+                       .then(function(result) {
+                          $newLicitacaoCtrl.number = result.nextNumber;
+                       }).catch(function(error) {
+                          $newLicitacaoCtrl.errorMessage = error.message;
+                       });
+            }
+         }
+      });
+
+      //publication date, end
+      $scope.$watch("$newLicitacaoCtrl.selectedCategory", function (newValue, oldValue) {
+         //keywords updated
+         if(newValue != oldValue) {
+            $newLicitacaoCtrl.clearMessage();
+            if ($newLicitacaoCtrl.year && $newLicitacaoCtrl.selectedCategory) {
+               LicitacoesService
+                       .getNextNumberOfTheYear($newLicitacaoCtrl.year, $newLicitacaoCtrl.selectedCategory._id)
+                       .then(function(result) {
+                          $newLicitacaoCtrl.number = result.nextNumber;
+                       }).catch(function(error) {
+                          $newLicitacaoCtrl.errorMessage = error.message;
+                       });
+            }
          }
       });
    }
