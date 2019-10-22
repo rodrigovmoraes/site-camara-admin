@@ -35,6 +35,8 @@
       //news data
       $newPageCtrl.title = "";
       $newPageCtrl.body = "";
+      $newPageCtrl.enableFacebookComments = false;
+      $newPageCtrl.enableFacebookShareButton = false;
 
       $newPageCtrl.froalaOptions = {
         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
@@ -54,8 +56,21 @@
         videoUploadMethod: 'PUT',
         videoUploadParam: 'file',
         videoUploadURL:  PagesService.getUploadWysiwygFileVideoAttachmentURL(),
-        videoMaxSize: 1024 * 1024 * 100 //10MB
+        videoMaxSize: 1024 * 1024 * 100, //10MB
+        requestHeaders: {
+           Authorization: Utils.getAuthorizationHeader()
+        }
       };
+
+      $newPageCtrl.uniqueTagValidator = function () {
+         var tag = $scope.newPageForm.tag.$viewValue;
+         if (tag) {
+            //check if a page exists with the same tag
+            return PagesService.checkUniqueTag(tag);
+         } else {
+            return true;
+         }
+      }
 
       $newPageCtrl.isValid = function() {
          return $scope.newPageForm.$valid
@@ -66,7 +81,13 @@
          if ($newPageCtrl.isValid()) {
             var newPage = {
                title: $newPageCtrl.title,
-               body: $newPageCtrl.body
+               body: $newPageCtrl.body,
+               enableFacebookComments: $newPageCtrl.enableFacebookComments,
+               enableFacebookShareButton: $newPageCtrl.enableFacebookShareButton
+            }
+            //set tag
+            if ($newPageCtrl.tag) {
+               newPage.tag = $newPageCtrl.tag;
             }
 
             PagesService.newPage(newPage).then(function(result) {

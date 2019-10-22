@@ -14,6 +14,12 @@
                                 page, settings,
                                 $uibModal, ngClipboard
                               ) {
+      //set original tag
+      var _originalTag =  null;
+      if (page.tag) {
+         _originalTag = page.tag;
+      }
+
       var $editPageItemCtrl = this;
 
       //function for template messages
@@ -32,6 +38,12 @@
       //news data
       $editPageItemCtrl.title = page.title;
       $editPageItemCtrl.body = page.body;
+      $editPageItemCtrl.enableFacebookComments = page.enableFacebookComments;
+      $editPageItemCtrl.enableFacebookShareButton = page.enableFacebookShareButton;
+      //set tag
+      if (page.tag) {
+         $editPageItemCtrl.tag = page.tag;
+      }
       $editPageItemCtrl.pageLink = settings.Pages.pageUrlBase + page._id;
 
       $editPageItemCtrl.froalaOptions = {
@@ -52,8 +64,21 @@
         videoUploadMethod: 'PUT',
         videoUploadParam: 'file',
         videoUploadURL:  PagesService.getUploadWysiwygFileVideoAttachmentURL(),
-        videoMaxSize: 1024 * 1024 * 100 //10MB
+        videoMaxSize: 1024 * 1024 * 100, //10MB
+        requestHeaders: {
+           Authorization: Utils.getAuthorizationHeader()
+        }
      };
+
+     $editPageItemCtrl.uniqueTagValidator = function () {
+        var tag = $scope.editPageForm.tag.$viewValue;
+        if (tag && tag !== _originalTag) {
+           //check if a page exists with the same tag
+           return PagesService.checkUniqueTag(tag);
+        } else {
+           return true;
+        }
+     }
 
       $editPageItemCtrl.isValid = function() {
          return $scope.editPageForm.$valid
@@ -77,7 +102,13 @@
                thumbnailFile: $editPageItemCtrl.thumbnailFilename,
                publish: $editPageItemCtrl.publish,
                publicationDate: $editPageItemCtrl.publicationDate
-                                          ? $editPageItemCtrl.publicationDate : null
+                                          ? $editPageItemCtrl.publicationDate : null,
+               enableFacebookComments: $editPageItemCtrl.enableFacebookComments,
+               enableFacebookShareButton: $editPageItemCtrl.enableFacebookShareButton
+            }
+            //set tag
+            if ($editPageItemCtrl.tag) {
+               newpage.tag = $editPageItemCtrl.tag;
             }
 
             PagesService.savePage(newpage).then(function(result) {

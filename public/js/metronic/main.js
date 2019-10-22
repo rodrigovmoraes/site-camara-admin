@@ -78,6 +78,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
              errorMessage: null
            },
            templateUrl: "views/login.html",
+           data: { pageTitle: 'Login' },
            controller: "LoginController",
            controllerAs: 'loginCtrl',
            resolve: {
@@ -133,6 +134,23 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                            'js/camara/controllers/users/UsersController.js',
                            'js/camara/controllers/users/NewUserModalInstanceController.js',
                            'js/camara/controllers/users/EditUserModalInstanceController.js'
+                       ]
+                   });
+               }]
+           }
+        })
+        .state('changepassword', {
+           url: "/changepassword.html",
+           templateUrl: "views/changepassword.html",
+           data: { pageTitle: 'Alterar Senha' },
+           controller: "ChangeUserPasswordController as $userChangePasswordCtrl",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                   return $ocLazyLoad.load( {
+                       name: 'SiteCamaraAdminApp',
+                       insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                       files: [
+                           'js/camara/controllers/user/ChangeUserPasswordController.js'
                        ]
                    });
                }]
@@ -418,6 +436,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
            url: "/banner.html",
            templateUrl: "views/banners/index.html",
            controller: "BannersController as $bannersController",
+           data: { pageTitle: 'Gerenciamento de Banners' },
            resolve: {
                deps: ['$ocLazyLoad', function($ocLazyLoad) {
                    return $ocLazyLoad.load({
@@ -476,6 +495,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
             url: "/breaking_news.html",
             templateUrl: "views/breaking_news/index.html",
             controller: "BreakingNewsController as $breakingNewsController",
+            data: { pageTitle: 'Gerenciamento de Destaques Rotativos' },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -534,6 +554,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
              url: "/fixed_breaking_news.html",
              templateUrl: "views/fixed_breaking_news/index.html",
              controller: "FBreakingNewsController as $fbreakingNewsController",
+             data: { pageTitle: 'Gerenciamento de Destaques Fixos' },
              resolve: {
                  deps: ['$ocLazyLoad', function($ocLazyLoad) {
                      return $ocLazyLoad.load({
@@ -585,6 +606,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
             url: "/hotNews.html",
             templateUrl: "views/hot_news/index.html",
             controller: "HotNewsController as $hotNewsController",
+            data: { pageTitle: 'Gerenciamento de Destaques de Cabeçalho' },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -968,6 +990,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
             url: "/legislativePropositionTags.html",
             templateUrl: "views/legislative_proposition_tags.html",
             controller: "LegislativePropositionTagsController as $ctrl",
+            data: { pageTitle: 'Gerenciamento de Classificações de Propositura' },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1073,7 +1096,7 @@ SiteCamaraAdminApp.config([ '$stateProvider',
          .state('dashboard', {
             url: "/dashboard.html",
             templateUrl: "views/dashboard.html",
-            data: { pageTitle: 'Admin Dashboard Template' },
+            data: { pageTitle: 'Home' },
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -1463,6 +1486,7 @@ SiteCamaraAdminApp.run(["$rootScope",
                                   AuthenticationService ) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+    $rootScope.$currentUserData = AuthenticationService.currentUser();
     //capture state changes in order to handle security issues
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
         var _redirectOrRevalidate = function (prmToState, prmHasAccess) {

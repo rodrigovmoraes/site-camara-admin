@@ -46,13 +46,14 @@
       $editLicitacaoEventCtrl.eventFileContentType = licitacaoEvent.contentType;
       $editLicitacaoEventCtrl.uploader = LicitacoesService.getEventFileUploader();
       $editLicitacaoEventCtrl.viewFileEventUrlBase = settings.baseUrlSiteCamaraApi + settings.LicitacoesEvents.downloadPath;
-      $editLicitacaoEventCtrl.viewRawFileEventUrlBase = settings.baseUrlSiteCamaraApi + settings.LicitacoesEvents.rawDownloadPath;
+      $editLicitacaoEventCtrl.uploadedFile = null;
 
       //set the name of uploaded file
       $editLicitacaoEventCtrl.uploader.onSuccessItem  = function( item, response,
                                                                   status, headers ) {
          $editLicitacaoEventCtrl.uploadEventFileErrorMessage = "";
          $editLicitacaoEventCtrl.eventFilename = response.filename;
+         $editLicitacaoEventCtrl.uploadedFile = response;
          $editLicitacaoEventCtrl.eventOriginalFilename = item.file.name;
          $editLicitacaoEventCtrl.eventFileContentType = response.contentType;
       };
@@ -62,6 +63,7 @@
                                                                 status, headers ) {
          $editLicitacaoEventCtrl.uploadEventFileErrorMessage = response.message;
          $editLicitacaoEventCtrl.eventFilename = licitacaoEvent.file;
+         $editLicitacaoEventCtrl.uploadedFile = null;
          $editLicitacaoEventCtrl.eventOriginalFilename = licitacaoEvent.originalFilename;
          $editLicitacaoEventCtrl.eventFileContentType = licitacaoEvent.contentType;
       };
@@ -71,6 +73,7 @@
          item.remove();
          var fileName = $editLicitacaoEventCtrl.eventFilename;
          $editLicitacaoEventCtrl.eventFilename = licitacaoEvent.file;
+         $editLicitacaoEventCtrl.uploadedFile = null;
          $editLicitacaoEventCtrl.eventOriginalFilename = licitacaoEvent.originalFilename;
          $editLicitacaoEventCtrl.eventFileContentType = licitacaoEvent.contentType;
          LicitacoesService.deleteEventFile(fileName).catch(function(err) {

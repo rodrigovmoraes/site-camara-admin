@@ -34,7 +34,7 @@
                size: 'md'
             });
             NewsService.requestThumbnailToBeResized($newNewsItemCtrl.thumbnailFilename, function(err) {
-               if(err) {
+               if (err) {
                   console.log("Error while processing image: " + err.message);
                   $newNewsItemCtrl.uploadThumbnailErrorMessage = err.message;
                }
@@ -118,6 +118,8 @@
       $newNewsItemCtrl.thumbnailHeightRatio = imageRatio.height;
       $newNewsItemCtrl.thumbnailWidthRatio = imageRatio.width;
       $newNewsItemCtrl.futurePublicationDateEnabled = false;
+      $newNewsItemCtrl.enableFacebookComments = false;
+      $newNewsItemCtrl.enableFacebookShareButton = true;
       _setFuturePublicationDateRestrictions();
 
       $newNewsItemCtrl.futurePublicationDateEnabledChanged = function() {
@@ -156,7 +158,10 @@
          videoUploadMethod: 'PUT',
          videoUploadParam: 'file',
          videoUploadURL:  NewsService.getUploadWysiwygFileVideoAttachmentURL(),
-         videoMaxSize: 1024 * 1024 * 100 //10MB
+         videoMaxSize: 1024 * 1024 * 100, //10MB
+         requestHeaders: {
+             Authorization: Utils.getAuthorizationHeader()
+         }
       };
 
       $newNewsItemCtrl.isValid = function() {
@@ -174,7 +179,9 @@
                thumbnailFile: $newNewsItemCtrl.thumbnailFilename,
                publish: $newNewsItemCtrl.publish,
                publicationDate: $newNewsItemCtrl.futurePublicationDateEnabled
-                                          ? $newNewsItemCtrl.futurePublicationDate : null
+                                          ? $newNewsItemCtrl.futurePublicationDate : null,
+               enableFacebookComments: $newNewsItemCtrl.enableFacebookComments,
+               enableFacebookShareButton: $newNewsItemCtrl.enableFacebookShareButton
             }
 
             NewsService.newNewsItem(newNewsItem).then(function(result) {

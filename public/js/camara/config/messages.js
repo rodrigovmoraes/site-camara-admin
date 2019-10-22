@@ -1,4 +1,4 @@
-{
+﻿{
    'serverCommunicationError' : 'Não foi possível estabelecer uma conexão com o servidor.',
     login: {
       'invalidCredentials': 'Login inválido, verifique seu usuário e sua senha.',
@@ -11,6 +11,8 @@
    userNotFound: 'Usuário não encontrado',
    userCreated: 'Usuário <%= username %> criado',
    userChanged: 'Usuário <%= username %> alterado',
+   userPasswordChanged: 'Sua senha foi alterada com sucesso',
+   userPasswordChangedActualPasswordError: 'A senha atual digitada está errada',
 
    userGroupRemoved: 'Grupo <%= groupName %> removido',
    roleRemoveFromGroup: 'Permissão <%= roleName %> removida do grupo <%= groupName %>',

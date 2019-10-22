@@ -181,7 +181,7 @@
                name: 'imageFilter',
                fn: function(item /*{File|FileLikeObject}*/, options) {
                    var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                   return '|vnd.openxmlformats-officedocument.spreadsheetml.sheet|vnd.ms-excel|vnd.openxmlformats-officedocument.wordprocessingml.document|msword|pdf|plain|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                   return '|vnd.openxmlformats-officedocument.spreadsheetml.sheet|vnd.ms-excel|vnd.openxmlformats-officedocument.wordprocessingml.document|msword|pdf|plain|jpg|png|jpeg|bmp|gif|html|htm|'.indexOf(type) !== -1;
                }
          });
          //keep just the last element in the queue

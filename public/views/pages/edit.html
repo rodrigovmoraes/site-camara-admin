@@ -19,12 +19,62 @@
                <div class="form-group">
                    <label class="control-label col-md-3">Título</label>
                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="title" required="true" maxlength="150" ng-model="$editPageCtrl.title">
+                        <input type="text" class="form-control" name="title" required="true" maxlength="150" ng-model="$editPageCtrl.title" ui-validate='{ uniqueTag : $editPageCtrl.uniqueTagValidator }'>
+                        <div class="alert alert-danger" role="alert" ng-if="newPageForm.tag.$error.uniqueTag && (newPageForm.tag.$touched || newPageForm.$submitted)">
+                           Já existe uma página com esta tag.
+                        </div>
                         <div class="alert alert-danger" role="alert" ng-if="editPageForm.title.$error.required && (editPageForm.title.$touched || editPageForm.$submitted)">
                            O título da página não pode ser vazio.
                         </div>
                         <span class="help-block">Digite o título da página.</span>
                    </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                   <label class="control-label col-md-3">Tag</label>
+                   <div class="col-md-9">
+                        <input type="text" style="width: 300px" class="form-control" name="tag" maxlength="25" ng-model="$editPageCtrl.tag" ui-validate='{ uniqueTag : $editPageCtrl.uniqueTagValidator }'>
+                        <div class="alert alert-danger" role="alert" ng-if="editPageForm.tag.$error.uniqueTag && (editPageForm.tag.$touched || editPageForm.$submitted)">
+                           Já existe uma página com esta tag.
+                        </div>
+                        <span class="help-block">
+                           Caso desejar, entre com uma tag para esta página.
+                           Uma tag pode ser utilizada para acessar a página
+                           por meio de um link mais amigável do que um link
+                           que faz referência ao id da página.
+                           Exemplo, uma página com a tag <i>contato</i> pode ser acessada através da url <i>/page/contato</i>.
+                        </span>
+                   </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                  <label class="control-label col-md-3">Habilitar comentários ?</label>
+                  <div class="col-md-9">
+                     <toggle-switch ng-model="$editPageCtrl.enableFacebookComments" on-label="Sim" off-label="Não">
+                     </toggle-switch>
+                     <span class="help-block">
+                        Caso deseje que os internautas tenham a possibilidade de comentar
+                        esta página utilizando a conta do Facebook, selecione "Sim".
+                     </span>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                  <label class="control-label col-md-3">Habilitar Compartilhamento e Curtir ?</label>
+                  <div class="col-md-9">
+                     <toggle-switch ng-model="$editPageCtrl.enableFacebookShareButton" on-label="Sim" off-label="Não">
+                     </toggle-switch>
+                     <span class="help-block">
+                        Caso deseje que sejam exibidos para os internautas botões para compartilhar e "curtir"
+                        esta página utilizando a conta do Facebook, selecione "Sim".
+                     </span>
+                  </div>
                </div>
            </div>
 

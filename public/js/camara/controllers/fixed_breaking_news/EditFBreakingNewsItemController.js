@@ -21,21 +21,43 @@
       var _templateMessage = function (messageTemplate, config) {
          return Utils.templateMessage(messageTemplate, config);
       }
-
+      //save old date if it is not null
+      var _oldDate = fbreakingNewsItem.date ? new Date(fbreakingNewsItem.date) : null;
+      if (fbreakingNewsItem.date) {
+         _oldDate.setSeconds(0);
+         _oldDate.setMilliseconds(0);
+      }
       $editFBreakingNewsItemCtrl.fbreakingNewsItem = fbreakingNewsItem;
       $editFBreakingNewsItemCtrl.order = fbreakingNewsItem.order;
       $editFBreakingNewsItemCtrl.headline = fbreakingNewsItem.headline;
       $editFBreakingNewsItemCtrl.selectedHeadlineIcon = fbreakingNewsItem.headlineIcon;
       $editFBreakingNewsItemCtrl.title = fbreakingNewsItem.title;
       var _date = fbreakingNewsItem.date ? new Date(fbreakingNewsItem.date) : null;
-      _date.setSeconds(0);
-      _date.setMilliseconds(0);
+      if (_date) {
+         _date.setSeconds(0);
+         _date.setMilliseconds(0);
+      }
       $editFBreakingNewsItemCtrl.date = fbreakingNewsItem.date ? _date : null;
+      $editFBreakingNewsItemCtrl.dateDisabled = fbreakingNewsItem.date ? false : true;
       $editFBreakingNewsItemCtrl.headlineIcons = IonIconsService.getIconClasses();
       //the file name of the image chosen to be the banner
       $editFBreakingNewsItemCtrl.fbreakingNewsItemImageFilename = fbreakingNewsItem.imageFile;
       $editFBreakingNewsItemCtrl.fbreakingNewsItemImageURL = fbreakingNewsItem.imageFileURL;
       $editFBreakingNewsItemCtrl.uploader = FBreakingNewsService.getNewFBreakingNewsItemImageUploader();
+
+      $editFBreakingNewsItemCtrl.dateDisabledChanged = function() {
+         if ($editFBreakingNewsItemCtrl.dateDisabled) {
+            $editFBreakingNewsItemCtrl.date = null;
+         } else {
+            if (_oldDate) {
+               $editFBreakingNewsItemCtrl.date = _oldDate;
+            } else {
+               $editFBreakingNewsItemCtrl.date = new Date();
+               $editFBreakingNewsItemCtrl.date.setSeconds(0);
+               $editFBreakingNewsItemCtrl.date.setMilliseconds(0);
+            }
+         }
+      }
 
       //set the name of uploaded file
       $editFBreakingNewsItemCtrl.uploader.onSuccessItem  = function( item, response,
@@ -96,7 +118,7 @@
                   $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidth = settings.FBreakingNews.dimension2.width;
                   break;
 
-         case 3:  imageRatio = Utils.getImageRatio(settings.FBreakingNews.dimension1.width, settings.FBreakingNews.dimension3.height);
+         case 3:  imageRatio = Utils.getImageRatio(settings.FBreakingNews.dimension3.width, settings.FBreakingNews.dimension3.height);
                   $editFBreakingNewsItemCtrl.fbreakingNewsItemImageHeight = settings.FBreakingNews.dimension3.height;
                   $editFBreakingNewsItemCtrl.fbreakingNewsItemImageWidth = settings.FBreakingNews.dimension3.width;
                   break;
@@ -121,10 +143,18 @@
                FBreakingNewsService.setHighlightFBreakingNewsItemId(returnedFBreakingNewsItem.id);
                $state.go('fixedBreakingNews.list', { infoMessage: _templateMessage( messages.fbreakingNewsItemChanged,
                                                                                     { 'order': fbreakingNewsItem.order })
-                                        });
+                                                   });
             }).catch(function(error) {
                $editFBreakingNewsItemCtrl.errorMessage = error.message;
             });
+         }
+      }
+
+      $editFBreakingNewsItemCtrl.dateValidator = function() {
+         if (!$editFBreakingNewsItemCtrl.dateDisabled) {
+            return $editFBreakingNewsItemCtrl.editFBreakingNewsItemForm.date.$viewValue;
+         } else {
+            return true;
          }
       }
 

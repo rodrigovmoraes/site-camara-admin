@@ -21,22 +21,43 @@
       var _templateMessage = function (messageTemplate, config) {
          return Utils.templateMessage(messageTemplate, config);
       }
-
+      //save old date if it is not null
+      var _oldDate = breakingNewsItem.date ? new Date(breakingNewsItem.date) : null;
+      if (breakingNewsItem.date) {
+         _oldDate.setSeconds(0);
+         _oldDate.setMilliseconds(0);
+      }
       $editBreakingNewsItemCtrl.breakingNewsItem = breakingNewsItem;
       $editBreakingNewsItemCtrl.order = breakingNewsItem.order;
       $editBreakingNewsItemCtrl.headline = breakingNewsItem.headline;
       $editBreakingNewsItemCtrl.selectedHeadlineIcon = breakingNewsItem.headlineIcon;
       $editBreakingNewsItemCtrl.title = breakingNewsItem.title;
       var _date = breakingNewsItem.date ? new Date(breakingNewsItem.date) : null;
-      _date.setSeconds(0);
-      _date.setMilliseconds(0);
+      if (breakingNewsItem.date) {
+         _date.setSeconds(0);
+         _date.setMilliseconds(0);
+      }
       $editBreakingNewsItemCtrl.date = breakingNewsItem.date ? _date : null;
+      $editBreakingNewsItemCtrl.dateDisabled = breakingNewsItem.date ? false : true;
       $editBreakingNewsItemCtrl.headlineIcons = IonIconsService.getIconClasses();
       //the file name of the image chosen to be the banner
       $editBreakingNewsItemCtrl.breakingNewsItemImageFilename = breakingNewsItem.imageFile;
       $editBreakingNewsItemCtrl.breakingNewsItemImageURL = breakingNewsItem.imageFileURL;
       $editBreakingNewsItemCtrl.uploader = BreakingNewsService.getNewBreakingNewsItemImageUploader();
+      $editBreakingNewsItemCtrl.dateDisabledChanged = function() {
+         if ($editBreakingNewsItemCtrl.dateDisabled) {
+            $editBreakingNewsItemCtrl.date = null;
+         } else {
+            if (_oldDate) {
+               $editBreakingNewsItemCtrl.date = _oldDate;
+            } else {
+               $editBreakingNewsItemCtrl.date = new Date();
+               $editBreakingNewsItemCtrl.date.setSeconds(0);
+               $editBreakingNewsItemCtrl.date.setMilliseconds(0);
+            }
 
+         }
+      }
       //set the name of uploaded file
       $editBreakingNewsItemCtrl.uploader.onSuccessItem  = function( item, response,
                                                                     status, headers ) {
@@ -102,6 +123,14 @@
             }).catch(function(error) {
                $editBreakingNewsItemCtrl.errorMessage = error.message;
             });
+         }
+      }
+
+      $editBreakingNewsItemCtrl.dateValidator = function() {
+         if (!$editBreakingNewsItemCtrl.dateDisabled) {
+            return $editBreakingNewsItemCtrl.editBreakingNewsItemForm.date.$viewValue;
+         } else {
+            return true;
          }
       }
 

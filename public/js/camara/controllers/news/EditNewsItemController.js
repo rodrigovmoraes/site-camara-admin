@@ -92,6 +92,8 @@
       $editNewsItemCtrl.thumbnailWidth = settings.News.thumbnail.width;
       $editNewsItemCtrl.thumbnailHeightRatio = imageRatio.height;
       $editNewsItemCtrl.thumbnailWidthRatio = imageRatio.width;
+      $editNewsItemCtrl.enableFacebookComments = newsItem.enableFacebookComments;
+      $editNewsItemCtrl.enableFacebookShareButton = newsItem.enableFacebookShareButton;
 
       $editNewsItemCtrl.froalaOptions = {
         toolbarButtons : [ 'fullscreen', 'bold', 'italic', 'underline',
@@ -122,7 +124,10 @@
         videoUploadMethod: 'PUT',
         videoUploadParam: 'file',
         videoUploadURL:  NewsService.getUploadWysiwygFileVideoAttachmentURL(),
-        videoMaxSize: 1024 * 1024 * 100 //10MB
+        videoMaxSize: 1024 * 1024 * 100, //10MB
+        requestHeaders: {
+           Authorization: Utils.getAuthorizationHeader()
+        }
      };
 
       $editNewsItemCtrl.isValid = function() {
@@ -172,7 +177,9 @@
                thumbnailFile: $editNewsItemCtrl.thumbnailFilename,
                publish: $editNewsItemCtrl.publish,
                publicationDate: $editNewsItemCtrl.publicationDate
-                                          ? $editNewsItemCtrl.publicationDate : null
+                                          ? $editNewsItemCtrl.publicationDate : null,
+               enableFacebookComments: $editNewsItemCtrl.enableFacebookComments,
+               enableFacebookShareButton: $editNewsItemCtrl.enableFacebookShareButton
             }
 
             NewsService.saveNewsItem(newNewsItem).then(function(result) {

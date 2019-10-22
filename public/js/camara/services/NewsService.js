@@ -82,7 +82,8 @@
 
       newsService.requestThumbnailToBeResized = function(fileName, callback) {
          imageProcessingSocketIO.emit( 'resizeNewsThumbnail',
-                                       { 'fileName': fileName },
+                                       { 'fileName': fileName,
+                                         'jwtToken': AuthenticationService.getToken() },
          function(data) {
                callback(data);
          });

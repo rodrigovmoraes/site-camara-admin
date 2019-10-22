@@ -111,7 +111,7 @@
                                                        <tbody>
                                                            <tr ng-repeat="item in $editLicitacaoEventCtrl.uploader.queue">
                                                                <td>
-                                                                   <a ng-href="{{$editLicitacaoEventCtrl.viewRawFileEventUrlBase}}{{$editLicitacaoEventCtrl.eventFilename}}?originalFilename={{$editLicitacaoEventCtrl.eventOriginalFilename}}" target="_blank"><strong>{{ item.file.name }}</strong></a>
+                                                                   <a ng-href="{{$editLicitacaoEventCtrl.uploadedFile.url}}" target="_blank"><strong>{{ item.file.name }}</strong></a>
                                                                </td>
                                                                <td ng-show="$editLicitacaoEventCtrl.uploader.isHTML5" nowrap>{{ item.file.size / 1024 /1024 | number: 2 }} MB</td>
                                                                <td class="text-center">

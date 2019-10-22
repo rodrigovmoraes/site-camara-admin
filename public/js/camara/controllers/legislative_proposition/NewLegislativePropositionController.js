@@ -154,7 +154,10 @@
          imageUploadMethod: 'PUT',
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygTextFileImageAttachmentURL(),
-         imageMaxSize: 1024 * 1024 * 10 //10MB
+         imageMaxSize: 1024 * 1024 * 10, //10MB
+         requestHeaders: {
+             Authorization: Utils.getAuthorizationHeader()
+         }
       };
 
       $newLegislativePropositionCtrl.textAttachmentFroalaOptions = {
@@ -181,7 +184,10 @@
          imageUploadMethod: 'PUT',
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygTextAttachmentFileImageAttachmentURL(),
-         imageMaxSize: 1024 * 1024 * 10 //10MB
+         imageMaxSize: 1024 * 1024 * 10, //10MB
+         requestHeaders: {
+             Authorization: Utils.getAuthorizationHeader()
+         }
       };
 
       $newLegislativePropositionCtrl.consolidatedTextFroalaOptions = {
@@ -208,7 +214,10 @@
          imageUploadMethod: 'PUT',
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygConsolidatedTextFileImageAttachmentURL(),
-         imageMaxSize: 1024 * 1024 * 10 //10MB
+         imageMaxSize: 1024 * 1024 * 10, //10MB
+         requestHeaders: {
+             Authorization: Utils.getAuthorizationHeader()
+         }
       };
 
       $newLegislativePropositionCtrl.consolidatedTextAttachmentFroalaOptions = {
@@ -235,7 +244,10 @@
          imageUploadMethod: 'PUT',
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygConsolidatedTextAttachmentFileImageAttachmentURL(),
-         imageMaxSize: 1024 * 1024 * 10 //10MB
+         imageMaxSize: 1024 * 1024 * 10, //10MB
+         requestHeaders: {
+             Authorization: Utils.getAuthorizationHeader()
+         }
       };
 
 

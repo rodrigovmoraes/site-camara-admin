@@ -22,7 +22,20 @@
       $newBreakingNewsItemCtrl.selectedHeadlineIcon = null;
       $newBreakingNewsItemCtrl.title = null;
       $newBreakingNewsItemCtrl.date = new Date();
+      $newBreakingNewsItemCtrl.date.setSeconds(0);
+      $newBreakingNewsItemCtrl.date.setMilliseconds(0);
+      $newBreakingNewsItemCtrl.dateDisabled = false;
       $newBreakingNewsItemCtrl.headlineIcons = IonIconsService.getIconClasses();
+
+      $newBreakingNewsItemCtrl.dateDisabledChanged = function() {
+         if ($newBreakingNewsItemCtrl.dateDisabled) {
+            $newBreakingNewsItemCtrl.date = null;
+         } else {
+            $newBreakingNewsItemCtrl.date = new Date();
+            $newBreakingNewsItemCtrl.date.setSeconds(0);
+            $newBreakingNewsItemCtrl.date.setMilliseconds(0);
+         }
+      }
 
       //the file name of the image chosen to be the banner
       $newBreakingNewsItemCtrl.breakingNewsItemImageFilename = undefined;
@@ -89,6 +102,14 @@
             }).catch(function(error) {
                $newBreakingNewsItemCtrl.errorMessage = error.message;
             });
+         }
+      }
+
+      $newBreakingNewsItemCtrl.dateValidator = function() {
+         if (!$newBreakingNewsItemCtrl.dateDisabled) {
+            return $newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$viewValue;
+         } else {
+            return true;
          }
       }
 

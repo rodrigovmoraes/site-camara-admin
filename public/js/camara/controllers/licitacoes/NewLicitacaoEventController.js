@@ -42,13 +42,14 @@
       $newLicitacaoEventCtrl.eventOriginalFilename = undefined;
       $newLicitacaoEventCtrl.eventFileContentType = undefined;
       $newLicitacaoEventCtrl.uploader = LicitacoesService.getEventFileUploader();
-      $newLicitacaoEventCtrl.viewRawFileEventUrlBase = settings.baseUrlSiteCamaraApi + settings.LicitacoesEvents.rawDownloadPath;
+      $newLicitacaoEventCtrl.uploadedFile = null;
 
       //set the name of uploaded file
       $newLicitacaoEventCtrl.uploader.onSuccessItem  = function( item, response,
                                                                  status, headers ) {
          $newLicitacaoEventCtrl.uploadEventFileErrorMessage = "";
          $newLicitacaoEventCtrl.eventFilename = response.filename;
+         $newLicitacaoEventCtrl.uploadedFile = response;
          $newLicitacaoEventCtrl.eventOriginalFilename = item.file.name;
          $newLicitacaoEventCtrl.eventFileContentType = response.contentType;
       };
@@ -58,6 +59,7 @@
                                                                status, headers ) {
          $newLicitacaoEventCtrl.uploadEventFileErrorMessage = response.message;
          $newLicitacaoEventCtrl.eventFilename = undefined;
+         $newLicitacaoEventCtrl.uploadedFile = null;
          $newLicitacaoEventCtrl.eventOriginalFilename = undefined;
          $newLicitacaoEventCtrl.eventFileContentType = undefined;
       };
@@ -67,6 +69,7 @@
          item.remove();
          var fileName = $newLicitacaoEventCtrl.eventFilename;
          $newLicitacaoEventCtrl.eventFilename = null;
+         $newLicitacaoEventCtrl.uploadedFile = null;
          LicitacoesService.deleteEventFile(fileName).catch(function(err) {
             console.log(err);
          });

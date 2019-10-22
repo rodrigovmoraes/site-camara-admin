@@ -71,5 +71,17 @@
                                                 throw error
                                            });
       }
+
+      userService.changePassword = function(password, newPassword) {
+         return HttpDispatcherService.post('/changePassword',
+                                           {
+                                              'password': password,
+                                              'newPassword': newPassword
+                                           }).then(function(result) {
+                                                  return result.data;
+                                           }).catch(function(error) {
+                                                throw error
+                                           });
+      }
    }
 })();

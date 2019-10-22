@@ -95,7 +95,8 @@
          imageProcessingSocketIO.emit( 'resizeFBreakingNewsImage',
                                      { 'fileName': fileName,
                                        'width': width,
-                                       'height': height },
+                                       'height': height,
+                                       'jwtToken': AuthenticationService.getToken() },
          function (data) {
                callback(data);
          });

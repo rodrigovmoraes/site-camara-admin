@@ -119,7 +119,8 @@
 
       breakingNewsService.requestBreakingNewsItemImageToBeResized = function(fileName, callback) {
          imageProcessingSocketIO.emit( 'resizeBreakingNewsImage',
-                                       { 'fileName': fileName },
+                                       { 'fileName': fileName,
+                                         'jwtToken': AuthenticationService.getToken() },
          function(data) {
                callback(data);
          });

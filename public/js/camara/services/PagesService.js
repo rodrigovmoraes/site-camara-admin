@@ -5,11 +5,11 @@
 
    PagesService.$inject = [ 'HttpDispatcherService', 'settings',
                             'FileUploader', 'uuid',
-                            'ImageProcessingSocketIO', 'AuthenticationService'
+                            'ImageProcessingSocketIO', 'AuthenticationService', '$q'
                           ];
    function PagesService( HttpDispatcherService, settings,
                           FileUploader, uuid,
-                          imageProcessingSocketIO, AuthenticationService
+                          imageProcessingSocketIO, AuthenticationService, $q
                         ) {
       var PagesService = this;
 
@@ -151,6 +151,21 @@
 
       PagesService.clearHighlightPageId  = function () {
          _highlightPageId = null;
+      }
+
+      PagesService.checkUniqueTag = function(tag) {
+         var defer = $q.defer();
+         HttpDispatcherService.get('/page/checkUnique/' + tag).then(function(result) {
+                                      var resultData = result.data;
+                                      if(!resultData.exists) {
+                                         defer.resolve(result.data)
+                                      } else {
+                                         defer.reject(result.data);
+                                      }
+                                  }).catch(function(error) {
+                                       defer.reject(error);
+                                  });
+         return defer.promise;
       }
 
    }

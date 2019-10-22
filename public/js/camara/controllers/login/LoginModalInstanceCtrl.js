@@ -3,8 +3,8 @@
 
    angular.module('SiteCamaraAdminApp').controller('LoginModalInstanceCtrl', LoginModalInstanceCtrl);
 
-   LoginModalInstanceCtrl.$inject = ['$uibModalInstance', '$scope', '$state', '$stateParams', 'AuthenticationService'];
-   function LoginModalInstanceCtrl($uibModalInstance, $scope, $state, $stateParams, AuthenticationService) {
+   LoginModalInstanceCtrl.$inject = ['$uibModalInstance', '$rootScope', '$scope', '$state', '$stateParams', 'AuthenticationService'];
+   function LoginModalInstanceCtrl($uibModalInstance, $rootScope, $scope, $state, $stateParams, AuthenticationService) {
       var $modalCtrl = this;
       $modalCtrl.username = "";
       $modalCtrl.password = "";
@@ -25,6 +25,7 @@
          }, $modalCtrl.savePassword)
          .then(function(data){
             $modalCtrl.close();
+            $rootScope.$currentUserData = AuthenticationService.currentUser();
             $state.go($scope.page || 'dashboard', $stateParams, { reload: true, inherit: false, notify: true });
             $scope.$emit('metronicReloadSidebar');
          })

@@ -3,8 +3,8 @@
 
    angular.module('SiteCamaraAdminApp').service('Utils', Utils);
 
-   Utils.$inject = [];
-   function Utils() {
+   Utils.$inject = ['AuthenticationService'];
+   function Utils(AuthenticationService) {
       var Utils = this;
 
       Utils.randomFrom = function(arr) {
@@ -284,6 +284,11 @@
             size = auxSize;
             return _.round(size, 2) + " GB"
          }
+      }
+
+      //get authorization header
+      Utils.getAuthorizationHeader = function() {
+         return 'Bearer ' + AuthenticationService.getToken();
       }
    }
 })();

@@ -71,16 +71,20 @@
                 <div class="form-group">
                   <label class="control-label col-md-3">Data</label>
                   <div class="col-md-9">
-                     <input type="date" id="date" name="date" ng-model="$newBreakingNewsItemCtrl.date" placeholder="yyyy-MM-dd" required/>
+                     <input type="date" id="date" name="date" ng-model="$newBreakingNewsItemCtrl.date" ng-disabled="$newBreakingNewsItemCtrl.dateDisabled" placeholder="yyyy-MM-dd" ui-validate='{ validDate : $newBreakingNewsItemCtrl.dateValidator }'/>
+                     <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" ng-model="$newBreakingNewsItemCtrl.dateDisabled" ng-change="$newBreakingNewsItemCtrl.dateDisabledChanged()">&nbsp;Não exibir data
+                        </label>
+                     </div>
                      <div class="alert alert-danger" role="alert" ng-if="$newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$error.date && ($newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$touched || $newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.$submitted)">
                         Data inválida.
                      </div>
-                     <div class="alert alert-danger" role="alert" ng-if="$newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$error.required && ($newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$touched || $newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.$submitted)">
+                     <div class="alert alert-danger" role="alert" ng-if="$newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$error.validDate && ($newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.date.$touched || $newBreakingNewsItemCtrl.insertNewBreakingNewsItemForm.$submitted)">
                         Digite uma data.
                      </div>
                      <span class="help-block">
-                        Digite uma data que represente este destaque e que irá aparecer no rodapé
-                        do item de destaque rotativo.
+                        Digite uma data que represente este destaque e que aparecerá no rodapé.
                      </span>
                   </div>
                 </div>

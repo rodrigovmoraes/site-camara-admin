@@ -75,6 +75,34 @@
            </div>
 
            <div class="form-body">
+               <div class="form-group">
+                  <label class="control-label col-md-3">Habilitar comentários ?</label>
+                  <div class="col-md-9">
+                     <toggle-switch ng-model="$editNewsItemCtrl.enableFacebookComments" on-label="Sim" off-label="Não">
+                     </toggle-switch>
+                     <span class="help-block">
+                        Caso deseje que os internautas tenham a possibilidade de comentar
+                        esta notícia utilizando a conta do Facebook, selecione "Sim".
+                     </span>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-body">
+               <div class="form-group">
+                  <label class="control-label col-md-3">Habilitar Compartilhamento e Curtir ?</label>
+                  <div class="col-md-9">
+                     <toggle-switch ng-model="$editNewsItemCtrl.enableFacebookShareButton" on-label="Sim" off-label="Não">
+                     </toggle-switch>
+                     <span class="help-block">
+                        Caso deseje que seja exibido para os internautas botões para compartilhar e "curtir"
+                        esta notícia utilizando a conta do Facebook, selecione "Sim".
+                     </span>
+                  </div>
+               </div>
+           </div>
+
+           <div class="form-body">
              <div class="form-group">
                <label class="control-label col-md-3">Data da Publicação</label>
                <div class="col-md-9">

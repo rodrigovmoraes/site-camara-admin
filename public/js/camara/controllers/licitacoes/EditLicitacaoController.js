@@ -21,7 +21,7 @@
       //messages control
       Utils.applyMessageControls($editLicitacaoCtrl);
 
-      $editLicitacaoCtrl.formatLicitacaoNumber = function(number, year) {
+      $editLicitacaoCtrl.formatLicitacaoNumber = function (number, year) {
          return _.padStart(number, 2, "0") + "/" + year
       }
 

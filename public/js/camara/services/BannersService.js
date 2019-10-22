@@ -119,7 +119,8 @@
 
       bannersService.requestBannerImageToBeResized = function(fileName, callback) {
          imageProcessingSocketIO.emit( 'resizeBannerImage',
-                                       { 'fileName': fileName },
+                                       { 'fileName': fileName,
+                                         'jwtToken': AuthenticationService.getToken() },
          function(data) {
                callback(data);
          });

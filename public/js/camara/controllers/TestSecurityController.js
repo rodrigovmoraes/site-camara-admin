@@ -11,6 +11,7 @@
       $ctrl.message = "";
 
       $ctrl.testRole = false;
+
       AuthenticationService.checkAccess("role15").then(function(result) {
             $ctrl.testRole = !result;
       });

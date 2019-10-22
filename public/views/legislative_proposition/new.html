@@ -46,7 +46,7 @@
                <div class="form-group">
                    <label class="control-label col-md-3">Número</label>
                    <div class="col-md-9">
-                        <input type="number" style="width: 80px" class="form-control" name="number" required="true" maxlength="4" ng-model="$newLegislativePropositionCtrl.number" ui-validate='{ uniqueNumber : $newLegislativePropositionCtrl.uniqueNumberValidator }'>
+                        <input type="number" style="width: 90px" class="form-control" name="number" required="true" maxlength="6" ng-model="$newLegislativePropositionCtrl.number" ui-validate='{ uniqueNumber : $newLegislativePropositionCtrl.uniqueNumberValidator }'>
                         <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.number.$error.uniqueNumber && ($newLegislativePropositionCtrl.newLegislativePropositionForm.number.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
                            Já foi cadastrada uma propositura deste tipo com este número.
                         </div>
