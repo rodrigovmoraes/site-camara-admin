@@ -17,7 +17,7 @@
       }
 
       var _selectDefaultChannel = function(channels) {
-         if(channels) {
+         if (channels) {
             var i;
             for(i = 0; i < channels.length; i++) {
                if(channels[i].default) {
@@ -42,20 +42,29 @@
       };
       $modalCtrl.searchSent = false;
       $modalCtrl.youtubeUrlBase = settings.YoutubeConnect.youtubeUrlBase;
+      //set initial searchOptions
+      searchOptions.channelId = $modalCtrl.selectedChannel ? $modalCtrl.selectedChannel.id : null;
+      searchOptions.playlistId = $modalCtrl.selectedChannel ? $modalCtrl.selectedChannel.playlistId : null;
 
       var _updateResult = function() {
-         if (searchOptions.query) {
-
+            searchOptions.channelId = $modalCtrl.selectedChannel ? $modalCtrl.selectedChannel.id : null;
+            searchOptions.playlistId = $modalCtrl.selectedChannel ? $modalCtrl.selectedChannel.playlistId : null;
+            searchOptions.query = $modalCtrl.keywords;
             //BEGIN - searchVideos
             var __searchVideos = function() {
-               return YoutubeService.searchVideos( searchOptions )
-                             .then(function(result) {
-                  $modalCtrl.videos = result.videos;
-                  $modalCtrl.searchResult = result;
-                  if (!result.videos || result.videos.length === 0) {
-                     $modalCtrl.notFoundMessage = messages.bannerYoutubeVideosNotFound;
-                  }
-               });
+               if (searchOptions.playlistId) {
+                  return YoutubeService.searchVideos( searchOptions )
+                                .then(function(result) {
+                     $modalCtrl.videos = result.videos;
+                     $modalCtrl.searchResult = result;
+                     if (!result.videos || result.videos.length === 0) {
+                        $modalCtrl.notFoundMessage = messages.bannerYoutubeVideosNotFound;
+                     }
+                  });
+               } else {
+                  _clear();
+                  $modalCtrl.videos = [];
+               }
             }
             //END - searchVideos
 
@@ -79,8 +88,6 @@
             } else {
                __searchVideos();
             }
-         }
-
       };
 
       var _clear = function() {
@@ -97,13 +104,13 @@
 
       $modalCtrl.selectChannel = function(channel) {
          $modalCtrl.selectedChannel = channel;
+         searchOptions.pageToken = null; //reset the pagination
+         _updateResult();
       };
 
       $modalCtrl.search = function() {
          $modalCtrl.searchSent = true;
          _clear();
-         searchOptions.channelId = $modalCtrl.selectedChannel ? $modalCtrl.selectedChannel.id : null;
-         searchOptions.query = $modalCtrl.keywords;
          searchOptions.pageToken = null; //reset the pagination
          _updateResult();
       };
@@ -122,6 +129,8 @@
       $modalCtrl.close = function() {
          $uibModalInstance.dismiss('cancel');
       };
+
+      _updateResult();
 
    }
 })();

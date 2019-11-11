@@ -18,7 +18,7 @@
                                <div class="form-group">
                                    <div class="input-group input-icon">
                                        <i class="fa fa-search"></i>
-                                       <input type="keywords" size="45" ng-model="$modalCtrl.keywords" class="form-control" id="keywordsInput" placeholder="Palavras-chaves">
+                                       <input type="keywords" size="45" ng-model="$modalCtrl.keywords" class="form-control" id="keywordsInput" placeholder="Cole aqui o ID do vídeo desejado">
                                     </div>
                                </div>
 
@@ -33,9 +33,6 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                           <li ng-repeat="channel in $modalCtrl.channels">
                                              <a href="#" ng-click="$modalCtrl.selectChannel(channel)">{{ channel.description }}<i class="fa fa-check"  ng-if="$modalCtrl.selectedChannel && $modalCtrl.selectedChannel.id === channel.id"></i></a>
-                                          </li>
-                                          <li>
-                                             <a href="#" ng-click="$modalCtrl.selectChannel(null)">Qualquer canal <i class="fa fa-check" ng-if="!$modalCtrl.selectedChannel"></i></a>
                                           </li>
                                         </ul>
                                      </div>

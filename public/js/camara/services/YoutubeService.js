@@ -19,30 +19,6 @@
       }
 
       //check if there are elements in the page
-      var _checkPage = function(pageToken, searchOptions, check) {
-         if(check === undefined) {
-            check = true;
-         }
-         if(check) {
-            if(pageToken) {
-               searchOptions.pageToken = pageToken;
-               return youtubeService.searchVideos(searchOptions, false).then(function(result) {
-                  if(result) {
-                     return result.videos && result.videos.length > 0;
-                  } else {
-                     return false;
-                  }
-               });
-            } else {
-               return false;
-            }
-         } else {
-            return false;
-         }
-
-      };
-
-      //check if there are elements in the page
       var _checkPageForChannels = function(pageToken, searchOptions, check) {
          if(check === undefined) {
             check = true;
@@ -147,18 +123,9 @@
          var params = {
             'part' : "snippet",
             'maxResults' : searchOptions.maxResults,
-            'order': "date",
-            'type': "video",
-            'key' : settings.YoutubeConnect.Api.key
+            'key' : settings.YoutubeConnect.Api.key,
+            'playlistId' : searchOptions.playlistId
          };
-         //youtube channel
-         if(searchOptions.channelId) {
-            params['channelId'] = searchOptions.channelId
-         }
-         //query
-         if(searchOptions.query) {
-            params['q'] = searchOptions.query;
-         }
          //pageToken
          if(searchOptions.pageToken) {
             params['pageToken'] = searchOptions.pageToken;
@@ -172,7 +139,7 @@
          //nextPageToken
          return $http
                   .get( settings.YoutubeConnect.Api.urlBase + "/" +
-                        settings.YoutubeConnect.Api.urlsMethods.search, {
+                        settings.YoutubeConnect.Api.urlsMethods.playlistItems, {
                         'params': params
                   }).then(function(result) {
                      if(result &&  result.data && result.data.items) {
@@ -182,34 +149,24 @@
                         for(i = 0; i < items.length; i++) {
                            var resultItem = items[i];
                            videos.push({
-                              'videoId': resultItem.id.videoId,
-                              'channelId' : resultItem.snippet.channelId,
-                              'thumbnailUrl' : resultItem.snippet.thumbnails.default.url,
-                              'title' : resultItem.snippet.title,
-                              'description' : resultItem.snippet.description,
-                              'publishedAt' : resultItem.snippet.publishedAt
+                              'videoId': resultItem.snippet && resultItem.snippet.resourceId && resultItem.snippet.resourceId.videoId ? resultItem.snippet.resourceId.videoId : '' ,
+                              'channelId' : resultItem.snippet && resultItem.snippet.channelId ? resultItem.snippet.channelId : '',
+                              'thumbnailUrl' : resultItem.snippet && resultItem.snippet.thumbnails &&  resultItem.snippet.thumbnails.default && resultItem.snippet.thumbnails.default.url ? resultItem.snippet.thumbnails.default.url : '',
+                              'title' : resultItem.snippet && resultItem.snippet.title ?  resultItem.snippet.title : '',
+                              'description' : resultItem.snippet && resultItem.snippet.description ? resultItem.snippet.description : '',
+                              'publishedAt' : resultItem.snippet && resultItem.snippet.publishedAt ? resultItem.snippet.publishedAt : ''
                            });
                         }
                         prevPageToken = result.data.prevPageToken;
                         nextPageToken = result.data.nextPageToken;
-                        return _checkPage(prevPageToken, searchOptions, checkPages);
+                        return { 'prevPageToken' : prevPageToken ? prevPageToken : null,
+                                 'nextPageToken' : nextPageToken ? nextPageToken : null,
+                                 'videos' : videos };
+
                      } else {
                         mainResult = null;
                         return null;
                      }
-                  }).then(function(result) { //prev page check
-                     if(mainResult) {
-                        prevPageCheck = result;
-                        return _checkPage(nextPageToken, searchOptions, checkPages);
-                     } else {
-                        prevPageCheck = false;
-                        return false;
-                     }
-                  }).then(function(result) { //next page check
-                     nextPageCheck = result;
-                     return { 'prevPageToken' : prevPageCheck ? prevPageToken : null,
-                              'nextPageToken' : nextPageCheck ? nextPageToken : null,
-                              'videos' : videos };
                   }).catch(function(error) {
                         _handleError(error);
                   });
