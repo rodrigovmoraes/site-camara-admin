@@ -9,7 +9,7 @@
 
       //map errors received from the server to appropriate error message
       var _handleError = function(error) {
-         if(!error.data) {
+        if (!error.data) {
            //network error
            error.message = messages.serverCommunicationError;
         } else {
