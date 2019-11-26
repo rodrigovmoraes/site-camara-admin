@@ -32,7 +32,7 @@
             return PurgeCacheService
                      .purge()
                      .then(function(result) {
-                        $purgeCacheCtrl.infoMessage = messages.cachePurged;
+                        $purgeCacheCtrl.message = messages.cachePurged;
                      }).catch(function (error) {
                         $purgeCacheCtrl.errorMessage = error.message;
                      });
