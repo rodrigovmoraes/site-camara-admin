@@ -167,5 +167,7 @@
    clearLogsRequested: 'Limpeza do log solicitada.',
 
    selectLegislativePropositionsNotFound: 'Nenhuma propositura encontrada.',
-   selectLegislativeProcessNotFound: 'Nenhuma matéria encontrada.'
+   selectLegislativeProcessNotFound: 'Nenhuma matéria encontrada.',
+
+   cachePurged: 'O cache do Portal foi limpo.'
 }

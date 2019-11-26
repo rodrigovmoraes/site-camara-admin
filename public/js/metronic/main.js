@@ -1092,6 +1092,27 @@ SiteCamaraAdminApp.config([ '$stateProvider',
                 }]
             }
          })
+         //purge cache
+         .state('purgecache', {
+            url: "/purgecache.html",
+            templateUrl: "views/purge_cache/index.html",
+            data: {
+               pageTitle: 'Limpeza de Cache do Portal'
+            },
+            controller: "PurgeCacheController as $ctrl",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load( {
+                        name: 'SiteCamaraAdminApp',
+                        insertBefore: '#ng_load_plugins_before',
+                        files: [
+                            'js/camara/controllers/purge_cache/PurgeCacheController.js',
+                            'js/camara/controllers/ConfirmModalInstanceController.js'
+                        ]
+                    });
+                }]
+            }
+         })
          // Dashboard
          .state('dashboard', {
             url: "/dashboard.html",

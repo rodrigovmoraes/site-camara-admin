@@ -1,0 +1,76 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="dashboard">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a ui-sref="indexer">Limpeza de Cache</a>
+        </li>
+    </ul>
+</div>
+
+<h3 class="page-title">
+   Administração do Portal da Câmara
+</h3>
+<!-- END PAGE HEADER-->
+
+
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN INDEX MANAGEMENT PORTLET-->
+        <div class="portlet light portlet-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" icon-layers font-green"></i>
+                    <span class="caption-subject font-green bold uppercase">Limpeza de Cache</span>
+                </div>
+            </div>
+            <div class="portlet-body form">
+               <div class="portlet-body form">
+                  <div class="row">
+                    <div class="col-md-12">
+
+                       <div class="alert alert-info alert-no-margin" role="alert" ng-if="$ctrl.message">
+                          {{ $ctrl.message }}
+                       </div>
+
+                       <div class="alert alert-warning alert-no-margin" role="alert" ng-if="$ctrl.warnMessage">
+                          {{$ctrl.warnMessage}}
+                       </div>
+
+                       <div class="alert alert-danger alert-no-margin" role="alert" ng-if="$ctrl.errorMessage">
+                          {{ $ctrl.errorMessage }}
+                       </div>
+
+                       <form action="#" name="$purgeCacheForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+
+                           <div class="form-group">
+                                <div class="col-md-12 note note-info text-center">
+                                   <span style="font-style: italic;">Caso queira limpar o cache do Portal da Câmara, clique no botão abaixo.</span>
+                                </div>
+                           </div>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <button type="button" class="btn blue" ng-click="$ctrl.purgeCache()">
+                                           Limpar Cache
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                       </form>
+                    </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+        <!-- END INDEX MANAGEMENT PORTLET-->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
