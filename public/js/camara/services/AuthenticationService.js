@@ -83,10 +83,18 @@
          authenticationService._sessionDateExpiration = Date.now() / 1000 + _sessionTimeoutInSeconds;
       };
 
-      authenticationService.currentUser = function() {
+      authenticationService.currentUser = function() {         
+         function decodePayload (payload) {
+            JSON.parse(decodeURIComponent( atob(payload).split('').map(function(c) {
+                                              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                                           }).join('')
+                                         )
+                      )
+         }
+
         if(authenticationService.isLoggedIn()) {
           var token = authenticationService.getToken();
-          var payload = JSON.parse($window.atob(token.split('.')[1]));
+          var payload = decodePayload(token.split('.')[1]);
           return {
             email : payload.email,
             name : payload.name,
