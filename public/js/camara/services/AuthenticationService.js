@@ -13,6 +13,9 @@
       var _sessionDateExpiration;
       var _tokenName = "camara-site-token";
       var _savePasswordOptionName = "camara-site-savepassword";
+      var decodePayload = function (payload) {
+         return JSON.parse(decodeURIComponent( $window.atob(payload) ) );
+      }
 
       authenticationService.setSessionTimeoutInSeconds = function(sessionTimeoutInSeconds) {
          _sessionTimeoutInSeconds = sessionTimeoutInSeconds;
@@ -31,7 +34,7 @@
             var token = authenticationService.getToken();
 
             if(token) {
-              var payload = JSON.parse($window.atob(token.split('.')[1]));
+              var payload = decodePayload(token.split('.')[1]);
               if(payload.exp > Date.now() / 1000) { //check jwt expiration
                  //check session expiration, only if the password hasn't been saved
                  if(!authenticationService.isPasswordSaved()) {
@@ -84,10 +87,6 @@
       };
 
       authenticationService.currentUser = function() {
-        function decodePayload (payload) {
-            return JSON.parse(decodeURIComponent( atob(payload) ) );
-        }
-
         if(authenticationService.isLoggedIn()) {
           var token = authenticationService.getToken();
           var payload = decodePayload(token.split('.')[1]);
