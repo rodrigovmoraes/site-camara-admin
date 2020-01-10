@@ -1,6 +1,4 @@
 node_modules/**
-config/development.json
+config/**
 public/js/camara/config/settings.js
-
-
-
+.env
