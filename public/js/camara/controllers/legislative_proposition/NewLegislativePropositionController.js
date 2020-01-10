@@ -353,7 +353,7 @@
                                           }
                                        });
          selectLegislativePropositionModal.result.then(function(legislativeProposition) {
-            froalaScope.html.insert(legislativeProposition.typeDescription + "&nbsp;nº&nbsp;" + '<a href=\"http://localhost:3001/propositura.html?id=' + legislativeProposition._id  + '\">' + legislativeProposition.number + "/" + legislativeProposition.year + '</a>');
+            froalaScope.html.insert(legislativeProposition.typeDescription + "&nbsp;nº&nbsp;" + '<a href=\"' + settings.LegislativeProposition.froalaInsertLegislativePropositionUrlBase + legislativeProposition._id  + '\">' + legislativeProposition.number + "/" + legislativeProposition.year + '</a>');
          });
       }
 
