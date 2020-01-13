@@ -276,8 +276,8 @@
       }
 
       var _sortOptions = {
-         field: 'creationDate',
-         direction: 1
+         field: 'number',
+         direction: -1
       }
 
       LicitacoesService.getSortOptions = function () {
