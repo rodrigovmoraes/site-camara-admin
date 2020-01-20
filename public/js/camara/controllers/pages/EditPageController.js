@@ -49,10 +49,7 @@
       $editPageItemCtrl.froalaOptions = {
         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
         placeholderText: messages.enterPageText,
-        imageStyles: {
-         newsImageFloatRight: 'Float Right',
-         newsImageFloatLeft: 'Float Left'
-        },
+        imageEditButtons: ['imageReplace', 'imageAlign', 'imageCaption', 'imageRemove', '|', 'imageLink', 'linkOpen', 'linkEdit', 'linkRemove', '-', 'imageDisplay', 'imageAlt', 'imageSize'],
         fileUploadParam: 'file',
         fileUploadMethod: 'PUT',
         fileUploadURL: PagesService.getUploadWysiwygFileAttachmentURL(),

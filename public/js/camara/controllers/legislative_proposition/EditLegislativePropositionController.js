@@ -172,10 +172,7 @@
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
                            'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
-         imageStyles: {
-           newsImageFloatRight: 'Float Right',
-           newsImageFloatLeft: 'Float Left'
-         },
+         imageEditButtons: ['imageReplace', 'imageAlign', 'imageCaption', 'imageRemove', '|', 'imageLink', 'linkOpen', 'linkEdit', 'linkRemove', '-', 'imageDisplay', 'imageAlt', 'imageSize'],
          fileUploadParam: 'file',
          fileUploadMethod: 'PUT',
          fileUploadURL: LegislativePropositionService.getUploadWysiwygTextFileAttachmentURL(),
@@ -202,10 +199,7 @@
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
                            'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
-         imageStyles: {
-           newsImageFloatRight: 'Float Right',
-           newsImageFloatLeft: 'Float Left'
-         },
+         imageEditButtons: ['imageReplace', 'imageAlign', 'imageCaption', 'imageRemove', '|', 'imageLink', 'linkOpen', 'linkEdit', 'linkRemove', '-', 'imageDisplay', 'imageAlt', 'imageSize'],
          fileUploadParam: 'file',
          fileUploadMethod: 'PUT',
          fileUploadURL: LegislativePropositionService.getUploadWysiwygTextAttachmentFileAttachmentURL(),
@@ -232,10 +226,7 @@
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
                            'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
-         imageStyles: {
-           newsImageFloatRight: 'Float Right',
-           newsImageFloatLeft: 'Float Left'
-         },
+         imageEditButtons: ['imageReplace', 'imageAlign', 'imageCaption', 'imageRemove', '|', 'imageLink', 'linkOpen', 'linkEdit', 'linkRemove', '-', 'imageDisplay', 'imageAlt', 'imageSize'],
          fileUploadParam: 'file',
          fileUploadMethod: 'PUT',
          fileUploadURL: LegislativePropositionService.getUploadWysiwygConsolidatedTextFileAttachmentURL(),
@@ -262,10 +253,7 @@
                            'insertImage', 'insertFile', 'insertTable', '|',
                            'emoticons', 'insertHR', 'clearFormatting', '|',
                            'html', '|', 'undo', 'redo', '|', 'camaraSelectLegislativeProposition' ],
-         imageStyles: {
-           newsImageFloatRight: 'Float Right',
-           newsImageFloatLeft: 'Float Left'
-         },
+         imageEditButtons: ['imageReplace', 'imageAlign', 'imageCaption', 'imageRemove', '|', 'imageLink', 'linkOpen', 'linkEdit', 'linkRemove', '-', 'imageDisplay', 'imageAlt', 'imageSize'],
          fileUploadParam: 'file',
          fileUploadMethod: 'PUT',
          fileUploadURL: LegislativePropositionService.getUploadWysiwygConsolidatedTextAttachmentFileAttachmentURL(),
