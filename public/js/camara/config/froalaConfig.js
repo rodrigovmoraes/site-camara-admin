@@ -30,6 +30,33 @@ $(function() {
          fnOpenSelectFlickrPhoto(this);
       }
     });
+    $.FroalaEditor.DefineIcon('makeVideoResponsive', { NAME: 'mobile' });
+    $.FroalaEditor.RegisterCommand('makeVideoResponsive', {
+      title: 'Tornar vídeo responsivo',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
+      callback: function () {
+         var videoElement;
+         var iframeElement;
+
+         if (this.video) {
+            videoElement = this.video.get();
+         }
+
+         if (videoElement) {
+            if (videoElement.context) {
+               iframeElement = videoElement.context.firstElementChild;
+               if (iframeElement && videoElement.context.classList) {
+                  iframeElement.removeAttribute("style");
+                  iframeElement.removeAttribute("width");
+                  iframeElement.removeAttribute("height");
+                  videoElement.context.classList.add("responsiveFroalaVideo");
+               }
+            }
+         }
+      }
+    });
 
     $.FroalaEditor.DefineIcon('camaraSelectLegislativeProposition', { NAME: 'file-text-o' });
     $.FroalaEditor.RegisterCommand('camaraSelectLegislativeProposition', {

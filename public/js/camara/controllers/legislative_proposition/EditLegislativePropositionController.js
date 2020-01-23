@@ -181,6 +181,7 @@
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygTextFileImageAttachmentURL(),
          imageMaxSize: 1024 * 1024 * 10, //10MB
+         videoEditButtons: ['videoReplace', 'videoRemove', '|', 'videoDisplay', 'videoAlign', 'videoSize', '|', 'makeVideoResponsive'],
          requestHeaders: {
              Authorization: Utils.getAuthorizationHeader()
          }
@@ -208,6 +209,7 @@
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygTextAttachmentFileImageAttachmentURL(),
          imageMaxSize: 1024 * 1024 * 10, //10MB
+         videoEditButtons: ['videoReplace', 'videoRemove', '|', 'videoDisplay', 'videoAlign', 'videoSize', '|', 'makeVideoResponsive'],
          requestHeaders: {
              Authorization: Utils.getAuthorizationHeader()
          }
@@ -235,6 +237,7 @@
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygConsolidatedTextFileImageAttachmentURL(),
          imageMaxSize: 1024 * 1024 * 10, //10MB
+         videoEditButtons: ['videoReplace', 'videoRemove', '|', 'videoDisplay', 'videoAlign', 'videoSize', '|', 'makeVideoResponsive'],
          requestHeaders: {
              Authorization: Utils.getAuthorizationHeader()
          }
@@ -262,6 +265,7 @@
          imageUploadParam: 'file',
          imageUploadURL:  LegislativePropositionService.getUploadWysiwygConsolidatedTextAttachmentFileImageAttachmentURL(),
          imageMaxSize: 1024 * 1024 * 10, //10MB
+         videoEditButtons: ['videoReplace', 'videoRemove', '|', 'videoDisplay', 'videoAlign', 'videoSize', '|', 'makeVideoResponsive'],
          requestHeaders: {
              Authorization: Utils.getAuthorizationHeader()
          }

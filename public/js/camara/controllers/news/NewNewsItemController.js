@@ -156,6 +156,7 @@
          videoUploadParam: 'file',
          videoUploadURL:  NewsService.getUploadWysiwygFileVideoAttachmentURL(),
          videoMaxSize: 1024 * 1024 * 100, //10MB
+         videoEditButtons: ['videoReplace', 'videoRemove', '|', 'videoDisplay', 'videoAlign', 'videoSize', '|', 'makeVideoResponsive'],
          requestHeaders: {
              Authorization: Utils.getAuthorizationHeader()
          }
