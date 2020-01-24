@@ -228,3 +228,7 @@ a.black-link:active {
 .brasao-camara {
    margin-top: 5%
 }
+
+form.cms-froala-secom .fr-box.fr-basic .fr-element.fr-view {
+  font-size: 18px;
+}

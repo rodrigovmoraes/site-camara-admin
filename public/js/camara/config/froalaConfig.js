@@ -56,7 +56,7 @@ $(function() {
             }
          }
       }
-    }); 
+    });
 
     $.FroalaEditor.DefineIcon('camaraSelectLegislativeProposition', { NAME: 'file-text-o' });
     $.FroalaEditor.RegisterCommand('camaraSelectLegislativeProposition', {
