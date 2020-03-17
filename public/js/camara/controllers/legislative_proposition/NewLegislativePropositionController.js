@@ -131,7 +131,15 @@
       }
 
       $newLegislativePropositionCtrl.textFroalaOptions = {
-         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+         fontFamily: {
+            'Calibri,sans-serif': 'Calibri',
+            'Arial,Helvetica,sans-serif': 'Arial',
+            'Georgia,serif': 'Georgia',
+            'Impact,Charcoal,sans-serif': 'Impact',
+            'Tahoma,Geneva,sans-serif': 'Tahoma',
+            "'Times New Roman',Times,serif": 'Times New Roman',
+            'Verdana,Geneva,sans-serif': 'Verdana'
+         },
          height: 300,
          placeholderText: messages.legislativePropositionEnterText,
          toolbarButtons: [ 'fullscreen', 'bold', 'italic', 'underline',
@@ -168,7 +176,15 @@
       };
 
       $newLegislativePropositionCtrl.textAttachmentFroalaOptions = {
-         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+         fontFamily: {
+            'Calibri,sans-serif': 'Calibri',
+            'Arial,Helvetica,sans-serif': 'Arial',
+            'Georgia,serif': 'Georgia',
+            'Impact,Charcoal,sans-serif': 'Impact',
+            'Tahoma,Geneva,sans-serif': 'Tahoma',
+            "'Times New Roman',Times,serif": 'Times New Roman',
+            'Verdana,Geneva,sans-serif': 'Verdana'
+         },
          height: 300,
          placeholderText: messages.legislativePropositionEnterTexAttachment,
          toolbarButtons: [ 'fullscreen', 'bold', 'italic', 'underline',
@@ -205,7 +221,15 @@
       };
 
       $newLegislativePropositionCtrl.consolidatedTextFroalaOptions = {
-         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+         fontFamily: {
+            'Calibri,sans-serif': 'Calibri',
+            'Arial,Helvetica,sans-serif': 'Arial',
+            'Georgia,serif': 'Georgia',
+            'Impact,Charcoal,sans-serif': 'Impact',
+            'Tahoma,Geneva,sans-serif': 'Tahoma',
+            "'Times New Roman',Times,serif": 'Times New Roman',
+            'Verdana,Geneva,sans-serif': 'Verdana'
+         },
          height: 300,
          placeholderText: messages.legislativePropositionEnterConsolidatedText,
          toolbarButtons: [ 'fullscreen', 'bold', 'italic', 'underline',
@@ -242,7 +266,15 @@
       };
 
       $newLegislativePropositionCtrl.consolidatedTextAttachmentFroalaOptions = {
-         //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+         fontFamily: {
+            'Calibri,sans-serif': 'Calibri',
+            'Arial,Helvetica,sans-serif': 'Arial',
+            'Georgia,serif': 'Georgia',
+            'Impact,Charcoal,sans-serif': 'Impact',
+            'Tahoma,Geneva,sans-serif': 'Tahoma',
+            "'Times New Roman',Times,serif": 'Times New Roman',
+            'Verdana,Geneva,sans-serif': 'Verdana'
+         },
          height: 300,
          placeholderText: messages.legislativePropositionEnterConsolidatedTexAttachment,
          toolbarButtons: [ 'fullscreen', 'bold', 'italic', 'underline',
