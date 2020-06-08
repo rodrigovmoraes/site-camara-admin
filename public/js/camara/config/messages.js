@@ -125,17 +125,17 @@
    licitacaoEventRemoved: 'Evento \'<%= description %>\' removido',
    licitacaoEventCantBeRemoved: 'Este evento não pode ser removido pois a licitação está publicada e é o único evento desta licitação. Para remover este evento, antes, é necessário despublicar esta licitação.',
 
-   legislativePropositionCreated: "Propositura criada",
-   legislativePropositionChanged: "Propositura do tipo <%=type%> nº <%=number%> alterada",
-   legislativePropositionsNotFound: "Nenhuma propositura encontrada",
-   legislativePropositionRemoveDialogText: 'Deseja realmente remover esta propositura, <%=type%> nº <%=number%> ?',
-   legislativePropositionRemoved: 'Propositura do tipo <%=type%> nº <%=number%> removida',
-   legislativePropositionEnterText: 'Digite o texto original da propositura',
-   legislativePropositionEnterTexAttachment: 'Digite o texto anexo original da propositura',
-   legislativePropositionEnterConsolidatedText: 'Digite o texto consolidado da propositura',
-   legislativePropositionEnterConsolidatedTexAttachment: 'Digite o texto anexo consolidado da propositura',
+   legislativePropositionCreated: "Norma criada",
+   legislativePropositionChanged: "Norma do tipo <%=type%> nº <%=number%> alterada",
+   legislativePropositionsNotFound: "Nenhuma norma encontrada",
+   legislativePropositionRemoveDialogText: 'Deseja realmente remover esta norma, <%=type%> nº <%=number%> ?',
+   legislativePropositionRemoved: 'Norma do tipo <%=type%> nº <%=number%> removida',
+   legislativePropositionEnterText: 'Digite o texto original da norma',
+   legislativePropositionEnterTexAttachment: 'Digite o texto anexo original da norma',
+   legislativePropositionEnterConsolidatedText: 'Digite o texto consolidado da norma',
+   legislativePropositionEnterConsolidatedTexAttachment: 'Digite o texto anexo consolidado da norma',
    legislativePropositionFileAttachmentAdded: 'Arquivo anexo <%=filename%> adicionado',
-   legislativePropositionFileAttachmentRemoveDialogText: 'Deseja realmente remover este anexo (<%=filename%>) desta propositura ?',
+   legislativePropositionFileAttachmentRemoveDialogText: 'Deseja realmente remover este anexo (<%=filename%>) desta norma ?',
    legislativePropositionFileAttachmentRemoved: 'Anexo <%=filename%> removido',
 
    legislativePropositionTagRemoveDialogText: 'Deseja realmente remover esta classificação, \"<%=description%>\" ?',
@@ -166,7 +166,7 @@
    clearLogsDialogText: 'Deseja realmente limpar o log ?',
    clearLogsRequested: 'Limpeza do log solicitada.',
 
-   selectLegislativePropositionsNotFound: 'Nenhuma propositura encontrada.',
+   selectLegislativePropositionsNotFound: 'Nenhuma norma encontrada.',
    selectLegislativeProcessNotFound: 'Nenhuma matéria encontrada.',
 
    cachePurged: 'O cache do Portal foi limpo.'

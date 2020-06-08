@@ -2,7 +2,7 @@
 <div class="portlet box green portlet-in-modal">
    <div class="portlet-title">
        <div class="caption">
-           <i class="fa fa-plus"></i>Editar Propositura - {{$editLegislativePropositionCtrl.selectedType.description}} {{$editLegislativePropositionCtrl.formatLegislativePropositionNumber($editLegislativePropositionCtrl.number, $editLegislativePropositionCtrl.year)}}
+           <i class="fa fa-plus"></i>Editar Norma - {{$editLegislativePropositionCtrl.selectedType.description}} {{$editLegislativePropositionCtrl.formatLegislativePropositionNumber($editLegislativePropositionCtrl.number, $editLegislativePropositionCtrl.year)}}
         </div>
        <div class="tools">
            <a href="" class="remove" data-original-title="" title="" ng-click="$editLegislativePropositionCtrl.close()"></a>
@@ -23,7 +23,7 @@
           {{ $editLegislativePropositionCtrl.errorMessage }}
        </div>
        <!-- BEGIN FORM-->
-       <form action="#" name="$editLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+       <form action="#" name="$editLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine cms-froala-seexp ng-valid" novalidate="">
 
           <div class="form-body" ng-show="$editLegislativePropositionCtrl.isGeneralTabActive" ng-if="$editLegislativePropositionCtrl.selectedType">
               <div class="form-group">
@@ -38,7 +38,7 @@
              <label class="control-label col-md-3">Tipo</label>
              <div class="col-md-5">
                <ui-select name="type" required="true" disabled="true" ng-model="$editLegislativePropositionCtrl.selectedType" theme="bootstrap">
-                    <ui-select-match placeholder="Digite o tipo da propositura ...">{{ $select.selected.description }}</ui-select-match>
+                    <ui-select-match placeholder="Digite o tipo da norma ...">{{ $select.selected.description }}</ui-select-match>
                     <ui-select-choices repeat="legislativePropositionType in $editLegislativePropositionCtrl.legislativePropositionTypes | filter: $select.search">
                        <div ng-bind-html="legislativePropositionType.description | highlight: $select.search"></div>
                     </ui-select-choices>
@@ -54,10 +54,10 @@
                         Data inválida, preencha o dia, o mês e o ano.
                      </div>
                      <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.date.$error.required && ($editLegislativePropositionCtrl.newLegislativePropositionForm.date.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
-                        A data da propositura precisa ser preenchida.
+                        A data da norma precisa ser preenchida.
                      </div>
                      <span class="help-block">
-                        Digite a data da propositura.
+                        Digite a data da norma.
                      </span>
                </div>
            </div>
@@ -71,7 +71,7 @@
                         <div class="alert alert-danger" role="alert" ng-if="$editLegislativePropositionCtrl.newLegislativePropositionForm.description.$error.required && ($editLegislativePropositionCtrl.newLegislativePropositionForm.description.$touched || $editLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
                            A ementa precisa ser preenchida.
                         </div>
-                        <span class="help-block">Digite a ementa da propositura.</span>
+                        <span class="help-block">Digite a ementa da norma.</span>
                    </div>
                </div>
            </div>
@@ -87,7 +87,7 @@
                      </ui-select-choices>
                   </ui-select>
                   <span class="help-block">
-                     Escolha as classificações desta propositura. As classificações são utilizadas para categorizar as proposituras.
+                     Escolha as classificações desta norma. As classificações são utilizadas para categorizar as normas.
                   </span>
                </div>
              </div>
@@ -150,7 +150,7 @@
                   </table>
 
                   <div>
-                     <span class="help-block" style="margin-bottom: 10px">Selecione um arquivo abaixo para adicionar como anexo desta propositura.</span>
+                     <span class="help-block" style="margin-bottom: 10px">Selecione um arquivo abaixo para adicionar como anexo desta norma.</span>
                      <div ng-if="$editLegislativePropositionCtrl.attachmentUploader.queue.length > 0">
                           Progresso do envio:
                           <div class="progress" style="">
@@ -204,7 +204,7 @@
                    <div class="col-md-9">
                       <textarea froala="$editLegislativePropositionCtrl.consolidatedTextFroalaOptions" fn-open-select-legislative-proposition="$editLegislativePropositionCtrl.openSelectLegislativePropositionModal" name="consolidatedText" ng-model="$editLegislativePropositionCtrl.consolidatedText"></textarea>
                       <span class="help-block">
-                        Caso seja digitado algum conteúdo para o texto consolidado neste campo, durante a apresentação da propositura
+                        Caso seja digitado algum conteúdo para o texto consolidado neste campo, durante a apresentação da norma
                         para o internauta no Portal da Câmara, o texto original (na aba Geral) será substituído pelo texto digitado.
                         O mesmo ocorrerá para o texto anexo consolidado (campo abaixo).
                       </span>
@@ -249,8 +249,8 @@
 
                   <div>
                      <span class="help-block" style="margin-bottom: 10px">
-                       Selecione um arquivo abaixo para adicionar como anexo consolidado desta propositura.
-                       Caso sejam adicionados anexos consolidados aqui, durante a apresentação da propositura para
+                       Selecione um arquivo abaixo para adicionar como anexo consolidado desta norma.
+                       Caso sejam adicionados anexos consolidados aqui, durante a apresentação da norma para
                        o internauta no Portal da Câmara, a lista original de anexos (aba Anexos)
                        será substituída pelos anexos adicionados aqui.
                      </span>
@@ -388,7 +388,7 @@
                  <i class="fa fa-check"></i>Procurar Matéria
                </button>
                <span class="help-block">
-                  Selecione a Matéria Legislativa que deu origem a esta propositura.
+                  Selecione a Matéria Legislativa que deu origem a esta norma.
                </span>
              </div>
            </div>
@@ -424,7 +424,7 @@
                          <i class="fa fa-check"></i>Remover
                       </button>
                       <span class="help-block">
-                         Antes de remover esta propositura, verifique os dados em outras abas e remova somente quando tiver certeza!
+                         Antes de remover esta norma, verifique os dados em outras abas e remova somente quando tiver certeza!
                       </span>
                    </div>
                </div>

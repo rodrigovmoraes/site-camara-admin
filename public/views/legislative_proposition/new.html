@@ -2,7 +2,7 @@
 <div class="portlet box green portlet-in-modal">
    <div class="portlet-title">
        <div class="caption">
-           <i class="fa fa-plus"></i>Nova Propositura
+           <i class="fa fa-plus"></i>Nova Norma
         </div>
        <div class="tools">
            <a href="" class="remove" data-original-title="" title="" ng-click="$newLegislativePropositionCtrl.close()"></a>
@@ -20,24 +20,24 @@
           {{ $newLegislativePropositionCtrl.errorMessage }}
        </div>
        <!-- BEGIN FORM-->
-       <form action="#" name="$newLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine ng-valid" novalidate="">
+       <form action="#" name="$newLegislativePropositionCtrl.newLegislativePropositionForm" class="form-horizontal form-bordered ng-pristine ng-valid cms-froala-seexp" novalidate="">
 
           <div class="form-group" ng-show="$newLegislativePropositionCtrl.isGeneralTabActive">
              <label class="control-label col-md-3">Tipo</label>
              <div class="col-md-5">
                <ui-select name="type" required="true" ng-model="$newLegislativePropositionCtrl.selectedType" theme="bootstrap">
-                    <ui-select-match placeholder="Digite o tipo da propositura ...">{{ $select.selected.description }}</ui-select-match>
+                    <ui-select-match placeholder="Digite o tipo da norma ...">{{ $select.selected.description }}</ui-select-match>
                     <ui-select-choices repeat="legislativePropositionType in $newLegislativePropositionCtrl.legislativePropositionTypes | filter: $select.search">
                        <div ng-bind-html="legislativePropositionType.description | highlight: $select.search"></div>
                     </ui-select-choices>
                </ui-select>
 
                <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.category.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.category.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
-                  Selecione um tipo de propositura.
+                  Selecione um tipo de norma.
                </div>
 
                <span class="help-block">
-                  Selecione o tipo da propositura.
+                  Selecione o tipo da norma.
                </span>
              </div>
            </div>
@@ -48,12 +48,12 @@
                    <div class="col-md-9">
                         <input type="number" style="width: 90px" class="form-control" name="number" required="true" maxlength="6" ng-model="$newLegislativePropositionCtrl.number" ui-validate='{ uniqueNumber : $newLegislativePropositionCtrl.uniqueNumberValidator }'>
                         <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.number.$error.uniqueNumber && ($newLegislativePropositionCtrl.newLegislativePropositionForm.number.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
-                           Já foi cadastrada uma propositura deste tipo com este número.
+                           Já foi cadastrada uma norma deste tipo com este número.
                         </div>
                         <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.number.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.number.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
                            O número precisa ser preenchido.
                         </div>
-                        <span class="help-block">Digite o número da propositura.</span>
+                        <span class="help-block">Digite o número da norma.</span>
                    </div>
                </div>
            </div>
@@ -66,10 +66,10 @@
                         Data inválida, preencha o dia, o mês e o ano.
                      </div>
                      <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.date.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.date.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
-                        A data da propositura precisa ser preenchida.
+                        A data da norma precisa ser preenchida.
                      </div>
                      <span class="help-block">
-                        Digite a data da propositura.
+                        Digite a data da norma.
                      </span>
                </div>
            </div>
@@ -83,7 +83,7 @@
                         <div class="alert alert-danger" role="alert" ng-if="$newLegislativePropositionCtrl.newLegislativePropositionForm.description.$error.required && ($newLegislativePropositionCtrl.newLegislativePropositionForm.description.$touched || $newLegislativePropositionCtrl.newLegislativePropositionForm.$submitted)">
                            A ementa precisa ser preenchida.
                         </div>
-                        <span class="help-block">Digite a ementa da propositura.</span>
+                        <span class="help-block">Digite a ementa da norma.</span>
                    </div>
                </div>
            </div>
@@ -99,8 +99,8 @@
                      </ui-select-choices>
                   </ui-select>
                   <span class="help-block">
-                     Escolha as classificações desta propositura.
-                     As classificações são utilizadas para categorizar as proposituras.
+                     Escolha as classificações desta norma.
+                     As classificações são utilizadas para categorizar as normas.
                   </span>
                </div>
              </div>
@@ -133,7 +133,7 @@
                    <div class="col-md-9">
                       <textarea froala="$newLegislativePropositionCtrl.consolidatedTextFroalaOptions" fn-open-select-legislative-proposition="$newLegislativePropositionCtrl.openSelectLegislativePropositionModal" name="consolidatedText" ng-model="$newLegislativePropositionCtrl.consolidatedText"></textarea>
                       <span class="help-block">
-                        Caso seja digitado algum conteúdo para o texto consolidado neste campo, durante a apresentação da propositura
+                        Caso seja digitado algum conteúdo para o texto consolidado neste campo, durante a apresentação da norma
                         para o internauta no Portal da Câmara, o texto original (na aba Geral) será substituído pelo texto digitado.
                         O mesmo ocorrerá para o texto anexo consolidado (campo abaixo).
                       </span>
@@ -228,7 +228,7 @@
                  <i class="fa fa-check"></i>Procurar Matéria
                </button>
                <span class="help-block">
-                  Selecione a Matéria Legislativa que deu origem a esta propositura.
+                  Selecione a Matéria Legislativa que deu origem a esta norma.
                </span>
              </div>
            </div>

@@ -232,3 +232,8 @@ a.black-link:active {
 form.cms-froala-secom .fr-box.fr-basic .fr-element.fr-view {
   font-size: 18px;
 }
+
+form.cms-froala-seexp .fr-box.fr-basic .fr-element.fr-view {
+  font-family: Calibri, sans-serif;
+  font-size: 12px;
+}
