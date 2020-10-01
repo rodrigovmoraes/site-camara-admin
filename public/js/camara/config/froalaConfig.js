@@ -85,7 +85,7 @@ $(function() {
       }
     });
 
-    $.FroalaEditor.DefineIcon('camaraInsertRadio', { NAME: 'file-text-o' });
+    $.FroalaEditor.DefineIcon('camaraInsertRadio', { NAME: 'file-audio-o' });
     $.FroalaEditor.RegisterCommand('camaraInsertRadio', {
       title: 'Inserir rádio Web',
       focus: false,
