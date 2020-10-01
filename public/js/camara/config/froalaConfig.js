@@ -84,4 +84,56 @@ $(function() {
          fnOpenSelectLegislativeProposition(this);
       }
     });
+
+    $.FroalaEditor.DefineIcon('camaraInsertRadio', { NAME: 'file-text-o' });
+    $.FroalaEditor.RegisterCommand('camaraInsertRadio', {
+      title: 'Inserir rádio Web',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: true,
+      callback: function () {
+         var htmlElement = null;
+         var useScope = null;
+
+         htmlElement = this.$oel;
+         if (!htmlElement) {
+            return;
+         }
+         this.html.insert(` <div class="radioplayer">
+            <table border="0" cellspacing="0" cellpadding="0" height="150" align="center">
+            <tbody>
+            <tr>
+               <td background="/images/radio/player-bg.jpg">&nbsp;&nbsp;<img src="/images/radio/player-logo4.jpg" border="0"></td>
+            </tr>
+            <tr>
+               <td background="/images/radio/player-bg.jpg">
+                  <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
+                  <script type="text/javascript" >
+                       MRP.insert({
+                          'url':'http://suaradio1.dyndns.ws:13124/stream',
+                          'lang':'pt',
+                          'codec':'aac',
+                          'volume':65,
+                          'autoplay':true,
+                          'forceHTML5':true,
+                          'jsevents':false,
+                          'buffering':1,
+                          'title':'Rádio Câmara Sorocaba',
+                          'welcome':'Seja Bem Vindo(a)',
+                          'wmode':'transparent',
+                          'skin':'compact',
+                          'width':191,
+                          'height':48
+                       });
+                  </script></td>
+            </tr>
+            <tr>
+               <td>
+                  <a href="http://suaradio1.dyndns.ws:13124/stream.m3u">&nbsp;&nbsp;<img src="/images/radio/player-ios.jpg" border="0"></a>
+               </td>
+            </tr>
+            </tbody>
+         </table></div>`);
+      }
+    });
 });

@@ -45,6 +45,7 @@
       $editLicitacaoCtrl.description = licitacao.description;
       $editLicitacaoCtrl.categories = licitacoesCategories;
       $editLicitacaoCtrl.selectedCategory = licitacao.category;
+      $editLicitacaoCtrl.covid = licitacao.covid === undefined ? false : licitacao.covid;
 
       $editLicitacaoCtrl.isValid = function() {
          return $editLicitacaoCtrl.editLicitacaoForm.$valid
@@ -55,7 +56,8 @@
          if ($editLicitacaoCtrl.isValid()) {
             var editedLicitacao = {
                id: licitacao._id,
-               description: $editLicitacaoCtrl.description
+               description: $editLicitacaoCtrl.description,
+               covid: $editLicitacaoCtrl.covid
             }
             LicitacoesService.saveLicitacao(editedLicitacao).then(function(result) {
                  $state.go('licitacao.view', {

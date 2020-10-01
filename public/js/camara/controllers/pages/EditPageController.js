@@ -47,7 +47,9 @@
       $editPageItemCtrl.pageLink = settings.Pages.pageUrlBase + page._id;
 
       $editPageItemCtrl.froalaOptions = {
-        //toolbarButtons : ["bold", "italic", "underline", "|", "align", "formatOL", "formatUL"],
+        toolbarButtons : ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineClass', 'inlineStyle', 'paragraphStyle', 'lineHeight', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertImage', 'insertVideo', 'embedly', 'insertFile', 'insertTable', '|', 'emoticons', 'fontAwesome', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|', 'print', 'getPDF', 'spellChecker', 'help', 'html', '|', 'undo', 'redo', '|', 'camaraInsertRadio'],
+        htmlExecuteScripts: true,
+        htmlRemoveTags: ['style', 'base'],
         placeholderText: messages.enterPageText,
         imageEditButtons: ['imageReplace', 'imageAlign', 'imageCaption', 'imageRemove', '|', 'imageLink', 'linkOpen', 'linkEdit', 'linkRemove', '-', 'imageDisplay', 'imageAlt', 'imageSize'],
         fileUploadParam: 'file',
